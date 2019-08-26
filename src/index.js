@@ -1,117 +1,164 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
 const dimension = 4;
 
-function Tile(props) {
-  return (
-    <button className="tile" onClick={props.onClick}>
-      {props.value}
-    </button>
-  );
-}
+//// return True if game over
+//function gameOver() {
+//return false;
+//}
 
-// return True if game over
-function gameOver() {
-  return false;
-}
+//// generates new num in random spot and updates board
+//function newNum(tiles) {
+//let newTiles = tiles.slice();
+//let row = Math.floor(Math.random() * dimension);
+//let col = Math.floor(Math.random() * dimension);
+//if (tiles[row][col] === 0) {
+//newTiles[row][col] = 2;
+//} else {
+//newNum(tiles);
+//}
+//return newTiles;
+//}
 
-// generates new num in random spot and updates board
-function newNum(tiles) {
-  let newTiles = tiles.slice();
-  let row = Math.floor(Math.random() * dimension);
-  let col = Math.floor(Math.random() * dimension);
-  if (tiles[row][col] === 0) {
-    newTiles[row][col] = 2;
-  } else {
-    newNum(tiles);
+//function Tile(props) {
+//return (
+//<button className="tile" onClick={props.onClick}>
+//{props.value}
+//</button>
+//);
+//}
+
+//function createBoard() {
+//let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+//let newTiles = newNum(tiles);
+//return newTiles;
+//}
+
+////class Board extends React.Component {
+//function Board(props) {
+//const [tiles, setTiles]: useState([]);
+//const [gameOver, setGameOver]: useState(false);
+//// hook: on keypress, setState to change tiles
+//useEffect(() => {
+//setTiles = createBoard();
+//});
+//renderTile(i, j) {
+//return (
+//<Tile
+//value={this.state.tiles[i][j]}
+//onClick={() => this.handleClick(i, j)}
+///>
+//);
+//}
+//renderRow(i) {
+//return (
+//<div className="board-row">
+//{this.renderTile(i, 0)}
+//{this.renderTile(i, 1)}
+//{this.renderTile(i, 2)}
+//{this.renderTile(i, 3)}
+//</div>
+//);
+//}
+
+//render() {
+//let status = true; // later: replace status with timer
+////const winner = calculateWinner(this.state.tiles);
+////let status;
+////if (winner) {
+////status = 'Winner: ' + winner;
+////} else {
+////status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+////}
+
+//return (
+//<div>
+//<div className="status">{status}</div>
+//{this.renderRow(0)}
+//{this.renderRow(1)}
+//{this.renderRow(2)}
+//{this.renderRow(3)}
+//</div>
+//);
+//}
+//}
+
+// hook
+function useKeyPress() {
+  // State for keeping track of whether key is pressed
+  const [keyPressed, setKeyPressed] = useState(false);
+
+  function move({ key }) {
+    let pressed = "";
+    switch (key) {
+      case "k":
+        pressed = "up";
+        break;
+      case "j":
+        pressed = "down";
+        break;
+      case "h":
+        pressed = "left";
+        break;
+      case "l":
+        pressed = "right";
+        break;
+      default:
+        pressed = "";
+        break;
+    }
+    console.log(`pressed ${pressed}`);
+    return true;
   }
-  return newTiles;
-}
 
-class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tiles: this.createBoard(),
-      gameOver: false
+  function downHandler({ key }) {
+    console.log("key down");
+    if (move({ key })) {
+      setKeyPressed(true);
+    }
+  }
+
+  //function upHandler({key}) {
+  ////console.log("key up");
+  //if (!move()) {
+  //setKeyPressed(false);
+  //}
+  //}
+
+  // Add event listeners
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    //window.addEventListener('keyup', move);
+    // Remove event listeners on cleanup
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      //window.removeEventListener('keyup', upHandler);
     };
-  }
-  createBoard() {
-    let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-    let newTiles = newNum(tiles);
-    return newTiles;
-  }
-  handleClick(i, j) {
-    const tiles = this.state.tiles.slice();
-
-    //ignore click if game has been won
-    //if (calculateWinner(tiles) || tiles[i]) {
-    //return;
-    //}
-    //tiles[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      tiles: tiles,
-      gameOver: gameOver
-      //xIsNext: !this.state.xIsNext,
-    });
-  }
-  renderTile(i, j) {
-    return (
-      <Tile
-        value={this.state.tiles[i][j]}
-        onClick={() => this.handleClick(i, j)}
-      />
-    );
-  }
-  renderRow(i) {
-    return (
-      <div className="board-row">
-        {this.renderTile(i, 0)}
-        {this.renderTile(i, 1)}
-        {this.renderTile(i, 2)}
-        {this.renderTile(i, 3)}
-      </div>
-    );
-  }
-
-  render() {
-    let status = true; // later: replace status with timer
-    //const winner = calculateWinner(this.state.tiles);
-    //let status;
-    //if (winner) {
-    //status = 'Winner: ' + winner;
-    //} else {
-    //status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-    //}
-
-    return (
-      <div>
-        <div className="status">{status}</div>
-        {this.renderRow(0)}
-        {this.renderRow(1)}
-        {this.renderRow(2)}
-        {this.renderRow(3)}
-      </div>
-    );
-  }
+  }, []); // Empty array ensures that effect is only run on mount and unmount
 }
 
-class Game extends React.Component {
-  render() {
-    return (
-      <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
-      </div>
-    );
-  }
+function Game() {
+  //const upPress = useKeyPress('k');
+  //const downPress = useKeyPress('j');
+  //const leftPress = useKeyPress('h');
+  //const rightPress = useKeyPress('l');
+  const pressed = useKeyPress();
+
+  return (
+    <div className="game">
+      <div>{pressed}</div>
+    </div>
+  );
+
+  //<div className="game-board">
+  //<Board />
+  //</div>
+  //<div className="game-info">
+  //<div>{[> status <]}</div>
+  //<ol>{[> TODO <]}</ol>
+  //</div>
 }
 
 //function calculateWinner(tiles) {
