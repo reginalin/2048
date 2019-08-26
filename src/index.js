@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
+const dimension = 4;
+
 function Tile(props) {
   return (
     <button className="tile" onClick={props.onClick}>
@@ -15,24 +17,34 @@ function gameOver() {
   return false;
 }
 
-// create empty board
+// generates new num in random spot and updates board
+function newNum(tiles) {
+  let newTiles = tiles.slice();
+  let row = Math.floor(Math.random() * dimension);
+  let col = Math.floor(Math.random() * dimension);
+  if (tiles[row][col] === 0) {
+    newTiles[row][col] = 2;
+  } else {
+    newNum(tiles);
+  }
+  return newTiles;
+}
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dimension: 4,
       tiles: this.createBoard(),
       gameOver: false
     };
   }
   createBoard() {
-    let board = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-    return board;
+    let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+    let newTiles = newNum(tiles);
+    return newTiles;
   }
   handleClick(i, j) {
     const tiles = this.state.tiles.slice();
-    const dimension = 4;
 
     //ignore click if game has been won
     //if (calculateWinner(tiles) || tiles[i]) {
@@ -40,7 +52,6 @@ class Board extends React.Component {
     //}
     //tiles[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
-      dimension: dimension,
       tiles: tiles,
       gameOver: gameOver
       //xIsNext: !this.state.xIsNext,
