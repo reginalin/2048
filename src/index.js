@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
@@ -9,18 +9,18 @@ const dimension = 4;
 //return false;
 //}
 
-//// generates new num in random spot and updates board
-//function newNum(tiles) {
-//let newTiles = tiles.slice();
-//let row = Math.floor(Math.random() * dimension);
-//let col = Math.floor(Math.random() * dimension);
-//if (tiles[row][col] === 0) {
-//newTiles[row][col] = 2;
-//} else {
-//newNum(tiles);
-//}
-//return newTiles;
-//}
+// generates new num in random spot and updates board
+function newNum(tiles) {
+  let newTiles = tiles.slice();
+  let row = Math.floor(Math.random() * dimension);
+  let col = Math.floor(Math.random() * dimension);
+  if (tiles[row][col] === 0) {
+    newTiles[row][col] = 2;
+  } else {
+    newNum(tiles);
+  }
+  return newTiles;
+}
 
 function Tile(props) {
   return (
@@ -36,19 +36,48 @@ function Tile(props) {
 //return newTiles;
 //}
 
-function updateBoard(tiles) {
-  return [];
-}
-
 function Board() {
+  let status = true; // later: replace status with timer
   let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   var [titles, setTiles] = useState(tiles);
+
+  function renderTile(i, j) {
+    return <Tile value={tiles[i][j]} onClick={() => updateBoard()} />;
+  }
+  function renderRow(i) {
+    return (
+      <div className="board-row">
+        {renderTile(i, 0)}
+        {renderTile(i, 1)}
+        {renderTile(i, 2)}
+        {renderTile(i, 3)}
+      </div>
+    );
+  }
+  function updateBoard() {
+    setTiles(newNum(tiles));
+    console.log(tiles);
+  }
 
   useEffect(() => {
     setTiles = updateBoard();
   }, []);
 
-  return <Tile value={2} onClick={() => console.log("tile clicked")} />;
+  return (
+    <div>
+      <div className="status">{status}</div>
+      {renderRow(0)}
+      {renderRow(1)}
+      {renderRow(2)}
+      {renderRow(3)}
+    </div>
+  );
+  //return (
+  //<Tile
+  //value={2}
+  //onClick={() => console.log("tile clicked")}
+  ///>
+  //);
 }
 
 //function Board() {
@@ -78,7 +107,6 @@ function Board() {
 //}
 
 //render() {
-//let status = true; // later: replace status with timer
 ////const winner = calculateWinner(this.state.tiles);
 ////let status;
 ////if (winner) {
@@ -98,7 +126,6 @@ function Board() {
 //);
 //}
 //}
-
 // hook
 function useKeyPress() {
   // State for keeping track of whether key is pressed
@@ -131,6 +158,8 @@ function useKeyPress() {
     console.log("key down");
     if (move({ key })) {
       setKeyPressed(true);
+      //TO DO: not as expected??? always false
+      console.log(keyPressed);
     }
   }
 
