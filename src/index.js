@@ -120,30 +120,18 @@ function useKeyPress() {
     }
   }
 
-  //function upHandler({key}) {
-  ////console.log("key up");
-  //if (!move()) {
-  //setKeyPressed(false);
-  //}
-  //}
-
   // Add event listeners
   useEffect(() => {
     window.addEventListener("keydown", downHandler);
-    //window.addEventListener('keyup', move);
+
     // Remove event listeners on cleanup
     return () => {
       window.removeEventListener("keydown", downHandler);
-      //window.removeEventListener('keyup', upHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 }
 
 function Game() {
-  //const upPress = useKeyPress('k');
-  //const downPress = useKeyPress('j');
-  //const leftPress = useKeyPress('h');
-  //const rightPress = useKeyPress('l');
   const pressed = useKeyPress();
 
   return (
