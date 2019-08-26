@@ -3,7 +3,8 @@ body {
   margin: 20px;
 }
 
-ol, ul {
+ol,
+ul {
   padding-left: 30px;
 }
 
@@ -17,7 +18,7 @@ ol, ul {
   margin-bottom: 10px;
 }
 
-.square {
+.tile {
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -32,11 +33,11 @@ ol, ul {
   width: 34px;
 }
 
-.square:focus {
+.tile:focus {
   outline: none;
 }
 
-.kbd-navigation .square:focus {
+.kbd-navigation .tile:focus {
   background: #ddd;
 }
 
@@ -48,4 +49,3 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
-
