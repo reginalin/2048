@@ -4,10 +4,10 @@ import "./index.css";
 
 const dimension = 4;
 
-//// return True if game over
-//function gameOver() {
-//return false;
-//}
+// return True if game over
+function gameOver() {
+  return false;
+}
 
 // generates new num in random spot and updates board
 function newNum(tiles) {
@@ -30,16 +30,11 @@ function Tile(props) {
   );
 }
 
-//function createBoard() {
-//let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-//let newTiles = newNum(tiles);
-//return newTiles;
-//}
-
 function Board() {
   let status = true; // later: replace status with timer
   let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   var [titles, setTiles] = useState(tiles);
+  const [gameOver, setGameOver] = useState(false);
 
   function renderTile(i, j) {
     return <Tile value={tiles[i][j]} onClick={() => updateBoard()} />;
@@ -72,60 +67,8 @@ function Board() {
       {renderRow(3)}
     </div>
   );
-  //return (
-  //<Tile
-  //value={2}
-  //onClick={() => console.log("tile clicked")}
-  ///>
-  //);
 }
 
-//function Board() {
-//const [tiles, setTiles]: useState([]);
-//const [gameOver, setGameOver]: useState(false);
-//// hook: on keypress, setState to change tiles
-//useEffect(() => {
-//setTiles = createBoard();
-//});
-//renderTile(i, j) {
-//return (
-//<Tile
-//value={this.state.tiles[i][j]}
-//onClick={() => this.handleClick(i, j)}
-///>
-//);
-//}
-//renderRow(i) {
-//return (
-//<div className="board-row">
-//{this.renderTile(i, 0)}
-//{this.renderTile(i, 1)}
-//{this.renderTile(i, 2)}
-//{this.renderTile(i, 3)}
-//</div>
-//);
-//}
-
-//render() {
-////const winner = calculateWinner(this.state.tiles);
-////let status;
-////if (winner) {
-////status = 'Winner: ' + winner;
-////} else {
-////status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-////}
-
-//return (
-//<div>
-//<div className="status">{status}</div>
-//{this.renderRow(0)}
-//{this.renderRow(1)}
-//{this.renderRow(2)}
-//{this.renderRow(3)}
-//</div>
-//);
-//}
-//}
 // hook
 function useKeyPress() {
   // State for keeping track of whether key is pressed
@@ -179,20 +122,12 @@ function Game() {
 
   return (
     <div className="game">
+      <div>{pressed}</div>
       <div className="game-board">
         <Board />
       </div>
-      <div>{pressed}</div>
     </div>
   );
-
-  //<div className="game-board">
-  //<Board />
-  //</div>
-  //<div className="game-info">
-  //<div>{[> status <]}</div>
-  //<ol>{[> TODO <]}</ol>
-  //</div>
 }
 
 //function calculateWinner(tiles) {
