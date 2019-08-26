@@ -22,13 +22,13 @@ const dimension = 4;
 //return newTiles;
 //}
 
-//function Tile(props) {
-//return (
-//<button className="tile" onClick={props.onClick}>
-//{props.value}
-//</button>
-//);
-//}
+function Tile(props) {
+  return (
+    <button className="tile" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
+}
 
 //function createBoard() {
 //let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
@@ -36,8 +36,22 @@ const dimension = 4;
 //return newTiles;
 //}
 
-////class Board extends React.Component {
-//function Board(props) {
+function updateBoard(tiles) {
+  return [];
+}
+
+function Board() {
+  let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+  var [titles, setTiles] = useState(tiles);
+
+  useEffect(() => {
+    setTiles = updateBoard();
+  }, []);
+
+  return <Tile value={2} onClick={() => console.log("tile clicked")} />;
+}
+
+//function Board() {
 //const [tiles, setTiles]: useState([]);
 //const [gameOver, setGameOver]: useState(false);
 //// hook: on keypress, setState to change tiles
@@ -136,6 +150,9 @@ function Game() {
 
   return (
     <div className="game">
+      <div className="game-board">
+        <Board />
+      </div>
       <div>{pressed}</div>
     </div>
   );
