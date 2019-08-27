@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import { dimension } from "./constants.js";
 
-const dimension = 4;
+//const dimension = 4;
 
 // return True if game over
 function gameOver() {
@@ -32,9 +33,10 @@ function Tile(props) {
 
 function Board() {
   let status = true; // later: replace status with timer
-  let tiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-  var [titles, setTiles] = useState(tiles);
+  let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+  var [tiles, setTiles] = useState(initialTiles);
   const [gameOver, setGameOver] = useState(false);
+  const pressed = useKeyPress();
 
   function renderTile(i, j) {
     return <Tile value={tiles[i][j]} onClick={() => updateBoard()} />;
@@ -53,13 +55,13 @@ function Board() {
     setTiles(newNum(tiles));
     console.log(tiles);
   }
-
   useEffect(() => {
-    setTiles = updateBoard();
-  }, []);
+    updateBoard();
+  }, [pressed]);
 
   return (
     <div>
+      <div>{pressed}</div>
       <div className="status">{status}</div>
       {renderRow(0)}
       {renderRow(1)}
@@ -69,10 +71,9 @@ function Board() {
   );
 }
 
-// hook
+// key press handler using vim keys
 function useKeyPress() {
-  // State for keeping track of whether key is pressed
-  const [keyPressed, setKeyPressed] = useState(false);
+  const [keyPressed, setKeyPressed] = useState(null);
 
   function move({ key }) {
     let pressed = "";
@@ -90,39 +91,35 @@ function useKeyPress() {
         pressed = "right";
         break;
       default:
-        pressed = "";
+        pressed = null;
         break;
     }
+    setKeyPressed(pressed);
     console.log(`pressed ${pressed}`);
-    return true;
-  }
-
-  function downHandler({ key }) {
-    console.log("key down");
-    if (move({ key })) {
-      setKeyPressed(true);
-      //TO DO: not as expected??? always false
-      console.log(keyPressed);
-    }
   }
 
   // Add event listeners
   useEffect(() => {
-    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keydown", move);
 
-    // Remove event listeners on cleanup
     return () => {
-      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keydown", move);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  return keyPressed;
 }
 
 function Game() {
-  const pressed = useKeyPress();
+  //const initialTiles = [
+  //[0, 0, 0, 2],
+  //[0, 0, 0, 2],
+  //[0, 0, 0, 2],
+  //[0, 0, 0, 2],
+  //];
 
   return (
     <div className="game">
-      <div>{pressed}</div>
       <div className="game-board">
         <Board />
       </div>
