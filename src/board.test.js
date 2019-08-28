@@ -525,6 +525,24 @@ test('slideWholeBoard up full board', () => {
 	slideWholeBoard(tiles, DIRECTION.UP);
 	expect(tiles).toEqual(newTiles);
 });
+test('slideWholeBoard up with space', () => {
+	var tiles = 
+		[
+			[8, 8, 16, 2],
+			[2, 0, 4, 0],
+			[0, 0, 0, 0],
+			[2, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[8, 8, 16, 2],
+			[2, 0, 4, 0],
+			[2, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	slideWholeBoard(tiles, DIRECTION.UP);
+	expect(tiles).toEqual(newTiles);
+});
 test('slideWholeBoard down', () => {
 	var tiles = 
 		[
@@ -662,6 +680,42 @@ test('fullShift Up with merge', () => {
 	expect(modified).toEqual(newTiles);
 });
 
+test('fullShift Up empty space middle', () => {
+	var tiles = [
+			[16, 4, 8, 4],
+			[2, 0, 0, 0],
+			[0, 0, 0, 2],
+			[0, 0, 0, 2],
+		];
+	var newTiles = 
+		[
+			[16, 4, 8, 4],
+			[2, 0, 0, 4],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var modified = fullShift(tiles, DIRECTION.UP);
+	expect(modified).toEqual(newTiles);
+});
+
+test('fullShift up empty space middle on left', () => {
+	var tiles = 
+		[
+			[8, 8, 16, 2],
+			[2, 0, 4, 0],
+			[0, 0, 0, 0],
+			[2, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[8, 8, 16, 2],
+			[4, 0, 4, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var modified = fullShift(tiles, DIRECTION.UP);
+	expect(modified).toEqual(newTiles);
+});
 test('fullShift left with merge', () => {
 	var tiles = [
 			[0, 0, 0, 0],
@@ -713,5 +767,60 @@ test('fullShift right with merge', () => {
 			[0, 0, 0, 2],
 		];
 	var modified = fullShift(tiles, DIRECTION.RIGHT);
+	expect(modified).toEqual(newTiles);
+});
+
+test('fullShift right two merges', () => {
+	var tiles = [
+			[0, 2, 4, 4],
+			[0, 0, 2, 2],
+			[0, 0, 0, 2],
+			[0, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 2, 8],
+			[0, 0, 0, 4],
+			[0, 0, 0, 2],
+			[0, 0, 0, 0],
+		];
+	var modified = fullShift(tiles, DIRECTION.RIGHT);
+	expect(modified).toEqual(newTiles);
+});
+
+test('fullShift left one merge', () => {
+	var tiles = [
+			[2, 2, 0, 0],
+			[0, 0, 0, 0],
+			[2, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[4, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var modified = fullShift(tiles, DIRECTION.LEFT);
+	expect(modified).toEqual(newTiles);
+});
+test('fullShift left two merges', () => {
+	var tiles = [
+			[0, 2, 4, 4],
+			[0, 0, 2, 2],
+			[0, 0, 0, 2],
+			[0, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[2, 8, 0, 0],
+			[4, 0, 0, 0],
+			[2, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var modified = fullShift(tiles, DIRECTION.LEFT);
+	console.log(modified);
+	console.log(newTiles);
 	expect(modified).toEqual(newTiles);
 });

@@ -17,17 +17,6 @@ function Tile(props) {
   );
 }
 
-function shiftUp(tiles) {
-	for (let row = 0; row < dimension - 1; row++) {
-		for (let col = 0; col < dimension; col++) {
-			tiles[row][col]	+= tiles[row + 1][col];
-		}
-	}
-}
-
-function shiftDown(tiles) {
-}
-
 function Board() {
   let status = true; // later: replace status with timer
   let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
@@ -68,8 +57,9 @@ function Board() {
 				break;
 		} 
 		//pressed is the direction
-		setTiles(updateTiles(tiles, direction))	
-    console.log(tiles);
+		var newTiles = updateTiles(tiles, direction);
+		setTiles(newTiles);	
+    console.log(newTiles);
   }
   useEffect(() => {
 		updateBoard();

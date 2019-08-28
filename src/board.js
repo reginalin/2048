@@ -96,8 +96,8 @@ function shiftUp(newTiles) {
 }
 
 function shiftLeft(newTiles) {
-	for (let col = 0; col < dimension - 1; col++) {
-		for (let row = 0; row < dimension; row++) {
+	for (let row = 0; row < dimension; row++) {
+		for (let col = 0; col < dimension - 1; col++) {
 			let nextCol = col + 1;
 			if (newTiles[row][col] === newTiles[row][nextCol]) {
 				merge(newTiles, row, col, row, nextCol)
@@ -118,8 +118,8 @@ function shiftDown(newTiles) {
 }
 
 function shiftRight(newTiles) {
-	for (let col = dimension - 1; col > 0; col--) {
-		for (let row = dimension - 1; row > 0; row--) {
+	for (let row = 0; row < dimension; row++) {
+		for (let col = dimension - 1; col > 0; col--) {
 			let nextCol = col - 1;
 			if (newTiles[row][col] === newTiles[row][nextCol]) {
 				merge(newTiles, row, col, row, nextCol)
@@ -170,6 +170,7 @@ function generateNewNum(newTiles) {
 export function fullShift(newTiles, direction) {
 	slideWholeBoard(newTiles, direction);
 	fullMerge(newTiles, direction);
+	slideWholeBoard(newTiles, direction);
 	return newTiles;
 }
 
