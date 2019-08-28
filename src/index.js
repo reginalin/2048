@@ -1,31 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { dimension } from "./constants.js";
-//const dimension = 4;
+import { dimension, DIRECTION } from "./constants.js";
+import { updateTiles } from "./board.js";
 
 // return True if game over
 function gameOver() {
   return false;
-}
-
-// TO DO: detect if no empty tiles left
-// generates new num in random spot and updates board
-function newNum(tiles) {
-  let newTiles = tiles.slice();
-  let row = Math.floor(Math.random() * dimension);
-  let col = Math.floor(Math.random() * dimension);
-  if (tiles[row][col] === 0) {
-    newTiles[row][col] = 2;
-  } else {
-    newNum(tiles);
-  }
-  return newTiles;
-}
-
-// return random row or col index
-function getIndex() {
-  return Math.floor(Math.random() * dimension);
 }
 
 function Tile(props) {
@@ -68,11 +49,26 @@ function Board() {
     );
   }
   function updateBoard() {
-    setTiles(newNum(tiles));
-		if (pressed === 'up')	{
-
-		}		
-
+		var direction = 'up';
+		switch(pressed) {
+			case 'up':
+				direction = DIRECTION.UP;
+				break;
+			case 'down':
+				direction = DIRECTION.DOWN;
+				break;
+			case 'left':
+				direction = DIRECTION.LEFT;
+				break;
+			case 'right':
+				direction = DIRECTION.RIGHT;
+				break;
+			default:
+				//idk
+				break;
+		} 
+		//pressed is the direction
+		setTiles(updateTiles(tiles, direction))	
     console.log(tiles);
   }
   useEffect(() => {

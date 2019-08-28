@@ -11,7 +11,7 @@ export function merge(newTiles, row1, col1, row2, col2) {
 // do "sliding all the way" when shift
 export function slideUp(newTiles, col){
 	for (let row = 0; row < dimension - 1; row++) {
-		if (newTiles[row][col] == 0) {
+		if (newTiles[row][col] === 0) {
 			let row2 = row + 1;
 			while (row2 < dimension - 1 && newTiles[row2][col] === 0) {
 				row2 += 1;
@@ -24,7 +24,7 @@ export function slideUp(newTiles, col){
 
 function slideLeft(newTiles, row) {
 	for (let col = 0; col < dimension - 1; col ++) {
-		if (newTiles[row][col] == 0) {
+		if (newTiles[row][col] === 0) {
 			let col2 = col + 1;
 			while (col2 < dimension - 1 && newTiles[row][col2] === 0) {
 				col2 += 1;
@@ -37,7 +37,7 @@ function slideLeft(newTiles, row) {
 
 export function slideDown(newTiles, col){
 	for (let row = dimension - 1; row > 0; row--) {
-		if (newTiles[row][col] == 0) {
+		if (newTiles[row][col] === 0) {
 			let row2 = row - 1;
 			while (row2 > 0 && newTiles[row2][col] === 0) {
 				row2 -= 1;
@@ -50,7 +50,7 @@ export function slideDown(newTiles, col){
 
 function slideRight(newTiles, row){
 	for (let col = dimension - 1; col > 0; col--) {
-		if (newTiles[row][col] == 0) {
+		if (newTiles[row][col] === 0) {
 			let col2 = col - 1;
 			while (col2 > 0 && newTiles[row][col2] === 0) {
 				col2 -= 1;
@@ -165,17 +165,19 @@ function generateNewNum(newTiles) {
   }
 }
 
+// keep for testing
 // happens in one board update when key pressed
-export function fullShift(tiles, direction) {
+export function fullShift(newTiles, direction) {
 	slideWholeBoard(newTiles, direction);
 	fullMerge(newTiles, direction);
 	return newTiles;
 }
 
-export function updateBoard(tiles, direction) {
+export function updateTiles(tiles, direction) {
 	var newTiles = [...tiles];
 	fullShift(newTiles, direction)
 	generateNewNum(newTiles);
+	return newTiles;
 }
 
 export default { 
@@ -184,5 +186,6 @@ export default {
 	slideDown, 
 	slideWholeBoard, 
 	fullMerge,
-	fullShift 
+	fullShift, 
+	updateTiles,
 };
