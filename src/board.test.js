@@ -640,8 +640,8 @@ test('fullShift up no merge', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	fullShift(tiles, DIRECTION.UP); 
-	expect(tiles).toEqual(newTiles);
+	var modified = fullShift(tiles, DIRECTION.UP); 
+	expect(modified).toEqual(newTiles);
 });
 
 test('fullShift Up with merge', () => {
@@ -658,8 +658,8 @@ test('fullShift Up with merge', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	fullShift(tiles, DIRECTION.UP);
-	expect(tiles).toEqual(newTiles);
+	var modified = fullShift(tiles, DIRECTION.UP);
+	expect(modified).toEqual(newTiles);
 });
 
 test('fullShift left with merge', () => {
@@ -676,8 +676,8 @@ test('fullShift left with merge', () => {
 			[4, 0, 0, 0],
 			[2, 0, 0, 0],
 		];
-	fullShift(tiles, DIRECTION.LEFT); 
-	expect(tiles).toEqual(newTiles);
+	var modified = fullShift(tiles, DIRECTION.LEFT); 
+	expect(modified).toEqual(newTiles);
 });
 
 test('fullShift down with merge', () => {
@@ -694,8 +694,8 @@ test('fullShift down with merge', () => {
 			[0, 0, 0, 0],
 			[0, 2, 4, 2],
 		];
-	fullShift(tiles, DIRECTION.DOWN);
-	expect(tiles).toEqual(newTiles);
+	var modified = fullShift(tiles, DIRECTION.DOWN);
+	expect(modified).toEqual(newTiles);
 });
 
 test('fullShift right with merge', () => {
@@ -712,7 +712,6 @@ test('fullShift right with merge', () => {
 			[0, 0, 0, 4],
 			[0, 0, 0, 2],
 		];
-	fullShift(tiles, DIRECTION.RIGHT);
-	expect(tiles).toEqual(newTiles);
+	var modified = fullShift(tiles, DIRECTION.RIGHT);
+	expect(modified).toEqual(newTiles);
 });
-
