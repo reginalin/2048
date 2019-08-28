@@ -1,7 +1,6 @@
 import { dimension } from "./constants.js";
 
 // side effect: modify shifted
-// merge if adjacent is the same or current tile empty
 export function merge(shifted, row1, col1, row2, col2) {
 	let currentVal = shifted[row1][col1];
 	let adjacentVal = shifted[row2][col2];
@@ -11,16 +10,22 @@ export function merge(shifted, row1, col1, row2, col2) {
 
 // do "sliding all the way" when shift
 export function slideUp(shifted, col){
-	for (let row = 0; row < dimension - 1; i++) {
+	for (let row = 0; row < dimension - 1; row++) {
 		if (shifted[row][col] == 0) {
 			let row2 = row + 1;
-			while (row2 < dimension && shifted[row2][col] === 0) {
+			while (row2 < dimension - 1 && shifted[row2][col] === 0) {
 				row2 += 1;
 			}
 			merge(shifted, row, col, row2, col);
 		}	
 	}
 	return shifted;
+}
+
+export function slideUpWholeBoard(shifted) {
+	for (let col = 0; col < dimension; col++) {
+		slideUp(shifted, col);
+	}
 }
 
 // modify board with merged tiles shifted up one
@@ -38,13 +43,9 @@ export function shiftUp(shifted) {
 // return new board with fully shifted tiles
 export function fullShiftUp(tiles) {
 	var shifted = [...tiles];
-	//slide all the way
-	for (let col = 0; col < dimension; col++) {
-		slideUp(shifted, col);
-	}
-	// handle shift and merge
-	shiftUp(shifted);
+	slideUpWholeBoard(shifted); //slide all the way
+	shiftUp(shifted); // handle shift and merge
 	return shifted;
 }
 
-export default { merge, slideUp, shiftUp, fullShiftUp };
+export default { merge, slideUp, slideUpWholeBoard, shiftUp, fullShiftUp };
