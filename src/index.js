@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { dimension } from "./constants.js";
-
 //const dimension = 4;
 
 // return True if game over
@@ -10,6 +9,7 @@ function gameOver() {
   return false;
 }
 
+// TO DO: detect if no empty tiles left
 // generates new num in random spot and updates board
 function newNum(tiles) {
   let newTiles = tiles.slice();
@@ -23,12 +23,28 @@ function newNum(tiles) {
   return newTiles;
 }
 
+// return random row or col index
+function getIndex() {
+  return Math.floor(Math.random() * dimension);
+}
+
 function Tile(props) {
   return (
     <button className="tile" onClick={props.onClick}>
       {props.value}
     </button>
   );
+}
+
+function shiftUp(tiles) {
+	for (let row = 0; row < dimension - 1; row++) {
+		for (let col = 0; col < dimension; col++) {
+			tiles[row][col]	+= tiles[row + 1][col];
+		}
+	}
+}
+
+function shiftDown(tiles) {
 }
 
 function Board() {
@@ -39,7 +55,7 @@ function Board() {
   const pressed = useKeyPress();
 
   function renderTile(i, j) {
-    return <Tile value={tiles[i][j]} onClick={() => updateBoard()} />;
+    return <Tile value={tiles[i][j]}/>;
   }
   function renderRow(i) {
     return (
@@ -53,10 +69,14 @@ function Board() {
   }
   function updateBoard() {
     setTiles(newNum(tiles));
+		if (pressed === 'up')	{
+
+		}		
+
     console.log(tiles);
   }
   useEffect(() => {
-    updateBoard();
+		updateBoard();
   }, [pressed]);
 
   return (
