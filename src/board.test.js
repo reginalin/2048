@@ -1,12 +1,28 @@
-import { merge, slideUp, slideUpWholeBoard, shiftUp, fullShiftUp } from './board.js';
+import { dimension, DIRECTION } from "./constants.js";
+
+import { 
+	merge, 
+	slideUp, 
+	slideDown,
+	slideWholeBoard,
+	fullMerge,
+	fullShift
+} from './board.js';
 
 test('simple test', () => {
 	expect(1).toBe(1);
 });
 
+test('directions enum', () => {
+	expect('up').toBe(DIRECTION.UP);
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// merge TESTS
+
 test('merge both empty', () => {
 	var tiles = 
-		[
+		[ 
 			[0, 0, 2, 2],
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
@@ -41,6 +57,9 @@ test('merge into empty', () => {
 	merge(tiles, 0 , 2, 1, 2);
 	expect(tiles).toEqual(newTiles);
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// slideUp TESTS 
 
 test('slideUp, no change nonzero col', () => {
 	var tiles = 
@@ -194,7 +213,29 @@ test('slideUp, two at end', () => {
 	expect(tiles).toEqual(newTiles);
 });
 
-test('shift up, same result', () => {
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+// shiftDown TESTS
+
+test('slideDown, no change nonzero col', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideDown, no change zero col', () => {
 	var tiles = 
 		[
 			[0, 0, 2, 2],
@@ -209,11 +250,147 @@ test('shift up, same result', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	shiftUp(tiles);
+	slideDown(tiles, 1);
 	expect(tiles).toEqual(newTiles);
 });
 
-test('shift up, adjacent, beginning rows, same num', () => {
+test('slideDown, no change multiple items in row', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 2],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideDown, one space to end', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 2],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideDown, from center', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 0, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideDown, two in center', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 0],
+			[0, 0, 0, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 2],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideDown, from end', () => {
+	var tiles = 
+		[
+			[0, 0, 2, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideDown, two at end', () => {
+	var tiles = 
+		[
+			[0, 0, 2, 2],
+			[0, 0, 2, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 2],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[0, 0, 2, 0],
+		];
+	slideDown(tiles, 2);
+	expect(tiles).toEqual(newTiles);
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// fullMerge TESTS
+
+test('fullMerge up, same result', () => {
+	var tiles = 
+		[
+			[0, 0, 2, 2],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 2, 2],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	fullMerge(tiles, DIRECTION.UP);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('fullMerge up, adjacent, beginning rows, same num', () => {
 	let tiles = 
 		[
 			[0, 0, 2, 2],
@@ -228,11 +405,11 @@ test('shift up, adjacent, beginning rows, same num', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	shiftUp(tiles);
+	fullMerge(tiles, DIRECTION.UP);
 	expect(tiles).toEqual(newTiles);
 });
 
-test('shift up, end, same num', () => {
+test('fullMerge up, end, same num', () => {
 	let tiles = 
 		[
 			[0, 2, 0, 2],
@@ -247,11 +424,11 @@ test('shift up, end, same num', () => {
 			[0, 0, 4, 0],
 			[0, 0, 0, 0],
 		];
-	shiftUp(tiles);
+	fullMerge(tiles, DIRECTION.UP);
 	expect(tiles).toEqual(newTiles);
 });
 
-test('shift up, no shift different num', () => {
+test('fullMerge up, no shift different num', () => {
 	let tiles = 
 		[
 			[0, 2, 4, 2],
@@ -266,11 +443,33 @@ test('shift up, no shift different num', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	shiftUp(tiles);
+	fullMerge(tiles, DIRECTION.UP);
 	expect(tiles).toEqual(newTiles);
 });
 
-test('slideUpWholeBoard', () => {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// slideWholeBoard TESTS
+
+test('slideWholeBoard, no change', () => {
+	var tiles = 
+		[
+			[0, 2, 2, 2],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	var newTiles = 
+		[
+			[0, 2, 2, 2],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+		];
+	slideWholeBoard(tiles, ''); 
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideWholeBoard up', () => {
 	var tiles = 
 		[
 			[0, 0, 0, 0],
@@ -285,11 +484,11 @@ test('slideUpWholeBoard', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	slideUpWholeBoard(tiles);
+	slideWholeBoard(tiles, DIRECTION.UP);
 	expect(tiles).toEqual(newTiles);
 });
 
-test('slideUpWholeBoard, no change', () => {
+test('slideWholeBoard, up no change', () => {
 	var tiles = 
 		[
 			[0, 2, 2, 2],
@@ -304,11 +503,129 @@ test('slideUpWholeBoard, no change', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	slideUpWholeBoard(tiles);
+	slideWholeBoard(tiles, DIRECTION.UP); 
 	expect(tiles).toEqual(newTiles);
 });
 
-test('fullShiftUp no merge', () => {
+test('slideWholeBoard up full board', () => {
+	var tiles = 
+		[
+			[2, 2, 2, 2],
+			[2, 2, 2, 2],
+			[2, 2, 2, 2],
+			[2, 2, 2, 2],
+		];
+	var newTiles = 
+		[
+			[2, 2, 2, 2],
+			[2, 2, 2, 2],
+			[2, 2, 2, 2],
+			[2, 2, 2, 2],
+		];
+	slideWholeBoard(tiles, DIRECTION.UP);
+	expect(tiles).toEqual(newTiles);
+});
+test('slideWholeBoard down', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[2, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[2, 2, 2, 2],
+		];
+	slideWholeBoard(tiles, DIRECTION.DOWN);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideWholeBoard down no change', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[2, 2, 2, 2],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 2, 0],
+			[2, 2, 2, 2],
+		];
+	slideWholeBoard(tiles, DIRECTION.DOWN);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideWholeBoard left', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[2, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[2, 2, 0, 0],
+			[2, 2, 0, 0],
+			[2, 0, 0, 0],
+		];
+	slideWholeBoard(tiles, DIRECTION.LEFT);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideWholeBoard right', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[2, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+			[0, 0, 2, 2],
+			[0, 0, 0, 2],
+		];
+	slideWholeBoard(tiles, DIRECTION.RIGHT);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('slideWholeBoard left right', () => {
+	var tiles = 
+		[
+			[0, 0, 0, 0],
+			[2, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 2, 2],
+			[0, 0, 2, 2],
+			[0, 0, 0, 2],
+		];
+	slideWholeBoard(tiles, DIRECTION.LEFT);
+	slideWholeBoard(tiles, DIRECTION.RIGHT); 
+	expect(tiles).toEqual(newTiles);
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// fullShift TESTS 
+
+test('fullShift up no merge', () => {
 	var tiles = 
 		[
 			[0, 0, 0, 0],
@@ -323,13 +640,12 @@ test('fullShiftUp no merge', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	fullShiftUp(tiles);
+	fullShift(tiles, DIRECTION.UP); 
 	expect(tiles).toEqual(newTiles);
 });
 
-test('fullShiftUp with merge', () => {
-	var tiles = 
-		[
+test('fullShift Up with merge', () => {
+	var tiles = [
 			[0, 0, 0, 0],
 			[0, 0, 0, 2],
 			[0, 2, 2, 0],
@@ -342,6 +658,61 @@ test('fullShiftUp with merge', () => {
 			[0, 0, 0, 0],
 			[0, 0, 0, 0],
 		];
-	fullShiftUp(tiles);
+	fullShift(tiles, DIRECTION.UP);
 	expect(tiles).toEqual(newTiles);
 });
+
+test('fullShift left with merge', () => {
+	var tiles = [
+			[0, 0, 0, 0],
+			[0, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[2, 0, 0, 0],
+			[4, 0, 0, 0],
+			[2, 0, 0, 0],
+		];
+	fullShift(tiles, DIRECTION.LEFT); 
+	expect(tiles).toEqual(newTiles);
+});
+
+test('fullShift down with merge', () => {
+	var tiles = [
+			[0, 0, 0, 0],
+			[0, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 2, 4, 2],
+		];
+	fullShift(tiles, DIRECTION.DOWN);
+	expect(tiles).toEqual(newTiles);
+});
+
+test('fullShift right with merge', () => {
+	var tiles = [
+			[0, 0, 0, 0],
+			[0, 0, 0, 2],
+			[0, 2, 2, 0],
+			[0, 0, 2, 0],
+		];
+	var newTiles = 
+		[
+			[0, 0, 0, 0],
+			[0, 0, 0, 2],
+			[0, 0, 0, 4],
+			[0, 0, 0, 2],
+		];
+	fullShift(tiles, DIRECTION.RIGHT);
+	expect(tiles).toEqual(newTiles);
+});
+
