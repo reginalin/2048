@@ -81,7 +81,7 @@ function Board() {
 function useKeyPress() {
   const [keyPressed, setKeyPressed] = useState(null);
 
-  function move({ key }) {
+  function downHandler({ key }) {
     let pressed = "";
     switch (key) {
       case "k":
@@ -104,12 +104,19 @@ function useKeyPress() {
     console.log(`pressed ${pressed}`);
   }
 
+	function upHandler({ key }) {
+		setKeyPressed("");
+		console.log('lifted key');
+	}
+
   // Add event listeners
   useEffect(() => {
-    window.addEventListener("keydown", move);
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
 
     return () => {
-      window.removeEventListener("keydown", move);
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
