@@ -1,13 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { dimension, DIRECTION } from "./constants.js";
-import { updateTiles } from "./board.js";
-
-// return True if game over
-function gameOver() {
-  return false;
-}
+import { dimension, DIRECTION, winningTile } from "./constants.js";
+import { updateTiles, gameOver } from "./board.js";
 
 function Tile(props) {
   return (
@@ -18,15 +13,22 @@ function Tile(props) {
 }
 
 function Board() {
-  let status = true; // later: replace status with timer
   let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   var [tiles, setTiles] = useState(initialTiles);
-  const [gameOver, setGameOver] = useState(false);
   const pressed = useKeyPress();
 
   function renderTile(i, j) {
     return <Tile value={tiles[i][j]}/>;
   }
+	function renderStatus() {
+		var status = "to do: timer"
+		if (gameOver(tiles)) {
+			status = "You won!"
+		}
+		return (
+			<p> { status } </p>
+		);
+	}
   function renderRow(i) {
     return (
       <div className="board-row">
@@ -38,11 +40,9 @@ function Board() {
     );
   }
   function updateBoard() {
-		//pressed is the direction
 		var direction = pressed.direction;
 		var newTiles = updateTiles(tiles, direction);
 		setTiles(newTiles);	
-    console.log(newTiles);
   }
   useEffect(() => {
 		updateBoard();
@@ -50,7 +50,7 @@ function Board() {
 
   return (
     <div>
-      <div className="status">{status}</div>
+			{renderStatus()}
       {renderRow(0)}
       {renderRow(1)}
       {renderRow(2)}

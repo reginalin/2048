@@ -5,3 +5,4 @@ export const DIRECTION = {
 	LEFT: 'left',
 	RIGHT: 'right'
 };
+export const winningTile = 32;

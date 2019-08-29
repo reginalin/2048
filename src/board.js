@@ -1,18 +1,33 @@
-import { dimension, DIRECTION} from "./constants.js"; 
+import { dimension, DIRECTION, winningTile} from "./constants.js"; 
+
+//is there a better way of doing this
+export function gameOver(newTiles) {
+	for (let i = 0; i < dimension; i++)	{
+		for (let j = 0; j < dimension; j++) {
+			if (newTiles[i][j] === winningTile) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 // side effect: modify newTiles
 export function merge(newTiles, row1, col1, row2, col2) {
 	let currentVal = newTiles[row1][col1];
 	let adjacentVal = newTiles[row2][col2];
+	let newVal = currentVal + adjacentVal
 	newTiles[row1][col1] = currentVal + adjacentVal; 
 	newTiles[row2][col2] = 0;
 }
 
 // do "sliding all the way" when shift
 export function slideUp(newTiles, col){
+	//slide incrementally
 	for (let row = 0; row < dimension - 1; row++) {
 		if (newTiles[row][col] === 0) {
 			let row2 = row + 1;
+			//slide next available non blank tile
 			while (row2 < dimension - 1 && newTiles[row2][col] === 0) {
 				row2 += 1;
 			}
@@ -189,4 +204,5 @@ export default {
 	fullMerge,
 	fullShift, 
 	updateTiles,
+	gameOver,
 };
