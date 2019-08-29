@@ -4,6 +4,28 @@ import "./index.css";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { updateTiles, gameOver } from "./board.js";
 
+function Timer() {
+	return (<p>timer thing</p>);
+}
+
+function GameEndStatus() {
+	return (<p>You won!</p>);
+}
+
+// props value is whether game is over
+function StatusBar(props) {
+	const gameEnd = props.gameEnd;
+	if (gameEnd) {
+		return <GameEndStatus />;
+	}
+	return <Timer />;
+}
+
+//replaces board
+function GameEndDisplay() {
+	return (<p> whooo </p>);	
+}
+
 function Tile(props) {
   return (
     <button className="tile" onClick={props.onClick}>
@@ -15,19 +37,14 @@ function Tile(props) {
 function Board() {
   let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   var [tiles, setTiles] = useState(initialTiles);
+	var [gameEnd, setGameEnd] = useState(false);
   const pressed = useKeyPress();
 
   function renderTile(i, j) {
     return <Tile value={tiles[i][j]}/>;
   }
 	function renderStatus() {
-		var status = "to do: timer"
-		if (gameOver(tiles)) {
-			status = "You won!"
-		}
-		return (
-			<p> { status } </p>
-		);
+		return <StatusBar gameEnd={gameEnd}/>
 	}
   function renderRow(i) {
     return (
@@ -39,10 +56,24 @@ function Board() {
       </div>
     );
   }
+	function renderDisplay() {
+		if (gameEnd) {
+			return <GameEndDisplay />;
+		}
+		return (
+			<div>
+				{renderRow(0)}
+				{renderRow(1)}
+				{renderRow(2)}
+				{renderRow(3)}
+			</div>
+		);
+	}
   function updateBoard() {
 		var direction = pressed.direction;
 		var newTiles = updateTiles(tiles, direction);
 		setTiles(newTiles);	
+		setGameEnd(gameOver(tiles));
   }
   useEffect(() => {
 		updateBoard();
@@ -51,10 +82,7 @@ function Board() {
   return (
     <div>
 			{renderStatus()}
-      {renderRow(0)}
-      {renderRow(1)}
-      {renderRow(2)}
-      {renderRow(3)}
+			{renderDisplay()}
     </div>
   );
 }
