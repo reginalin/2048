@@ -39,7 +39,7 @@ function Board() {
   }
   function updateBoard() {
 		//pressed is the direction
-		var direction = pressed[0];
+		var direction = pressed.direction;
 		var newTiles = updateTiles(tiles, direction);
 		setTiles(newTiles);	
     console.log(newTiles);
@@ -61,10 +61,10 @@ function Board() {
 
 // key press handler using vim keys
 function useKeyPress() {
-  const [keyPressed, setKeyPressed] = useState([null]);
+  const [keyPressed, setKeyPressed] = useState({direction: null});
 
   function downHandler({ key }) {
-    let pressed = "";
+    let pressed = null;
     switch (key) {
       case "k":
         pressed = DIRECTION.UP;
@@ -82,26 +82,16 @@ function useKeyPress() {
         pressed = null;
         break;
     }
-    setKeyPressed([pressed]);
+    setKeyPressed({direction: pressed});
     console.log(`pressed ${pressed}`);
   }
-
-	function upHandler({ key }) {
-		if (key === keyPressed) {
-			setKeyPressed("");
-			//setKeyPressed(key);
-		}
-		console.log('lifted key');
-	}
 
   // Add event listeners
   useEffect(() => {
     window.addEventListener("keydown", downHandler);
-    //window.addEventListener("keyup", upHandler);
 
     return () => {
       window.removeEventListener("keydown", downHandler);
-			//window.removeEventListener("keyup", upHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
