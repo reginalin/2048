@@ -38,25 +38,8 @@ function Board() {
     );
   }
   function updateBoard() {
-		var direction = 'up';
-		switch(pressed) {
-			case 'up':
-				direction = DIRECTION.UP;
-				break;
-			case 'down':
-				direction = DIRECTION.DOWN;
-				break;
-			case 'left':
-				direction = DIRECTION.LEFT;
-				break;
-			case 'right':
-				direction = DIRECTION.RIGHT;
-				break;
-			default:
-				//idk
-				break;
-		} 
 		//pressed is the direction
+		var direction = pressed[0];
 		var newTiles = updateTiles(tiles, direction);
 		setTiles(newTiles);	
     console.log(newTiles);
@@ -67,7 +50,6 @@ function Board() {
 
   return (
     <div>
-      <div>{pressed}</div>
       <div className="status">{status}</div>
       {renderRow(0)}
       {renderRow(1)}
@@ -79,44 +61,47 @@ function Board() {
 
 // key press handler using vim keys
 function useKeyPress() {
-  const [keyPressed, setKeyPressed] = useState(null);
+  const [keyPressed, setKeyPressed] = useState([null]);
 
   function downHandler({ key }) {
     let pressed = "";
     switch (key) {
       case "k":
-        pressed = "up";
+        pressed = DIRECTION.UP;
         break;
       case "j":
-        pressed = "down";
+        pressed = DIRECTION.DOWN;
         break;
       case "h":
-        pressed = "left";
+        pressed = DIRECTION.LEFT;
         break;
       case "l":
-        pressed = "right";
+        pressed = DIRECTION.RIGHT;
         break;
       default:
         pressed = null;
         break;
     }
-    setKeyPressed(pressed);
+    setKeyPressed([pressed]);
     console.log(`pressed ${pressed}`);
   }
 
 	function upHandler({ key }) {
-		setKeyPressed("");
+		if (key === keyPressed) {
+			setKeyPressed("");
+			//setKeyPressed(key);
+		}
 		console.log('lifted key');
 	}
 
   // Add event listeners
   useEffect(() => {
     window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
+    //window.addEventListener("keyup", upHandler);
 
     return () => {
       window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
+			//window.removeEventListener("keyup", upHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
