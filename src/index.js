@@ -3,9 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { updateTiles, gameOver } from "./board.js";
+import { Timer } from "./Timer.js";
 
-function Timer() {
-	return (<p>timer thing</p>);
+function startButton() {
+	return (
+		<button className="startButton">
+		</button>
+	);	
 }
 
 function GameEndStatus() {
@@ -18,7 +22,8 @@ function StatusBar(props) {
 	if (gameEnd) {
 		return <GameEndStatus />;
 	}
-	return <Timer />;
+	return <p></p>;
+	//return <Timer />;
 }
 
 //replaces board
@@ -71,9 +76,11 @@ function Board() {
 	}
   function updateBoard() {
 		var direction = pressed.direction;
-		var newTiles = updateTiles(tiles, direction);
-		setTiles(newTiles);	
-		setGameEnd(gameOver(tiles));
+		if (direction != null) { // if valid key pressed
+			var newTiles = updateTiles(tiles, direction);
+			setTiles(newTiles);	
+			setGameEnd(gameOver(tiles));
+		}
   }
   useEffect(() => {
 		updateBoard();
@@ -127,13 +134,6 @@ function useKeyPress() {
 }
 
 function Game() {
-  //const initialTiles = [
-  //[0, 0, 0, 2],
-  //[0, 0, 0, 2],
-  //[0, 0, 0, 2],
-  //[0, 0, 0, 2],
-  //];
-
   return (
     <div className="game">
       <div className="game-board">
