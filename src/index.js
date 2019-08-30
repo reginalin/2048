@@ -3,51 +3,51 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { updateTiles, gameOver } from "./board.js";
-import { Stopwatch } from "./stopwatch.js";
+import { Stopwatch } from "./Stopwatch.js";
 
-function startButton() {
+const startButton = () => {
   return <button className="startButton"></button>;
-}
+};
 
-function GameEndStatus() {
+const GameEndStatus = () => {
   return <p>You won!</p>;
-}
+};
 
 // props value is whether game is over
-function StatusBar(props) {
+const StatusBar = props => {
   const gameEnd = props.gameEnd;
   if (gameEnd) {
     return <GameEndStatus />;
   }
   return <Stopwatch />;
-}
+};
 
 //replaces board
-function GameEndDisplay() {
+const GameEndDisplay = () => {
   return <p> whooo </p>;
-}
+};
 
-function Tile(props) {
+const Tile = props => {
   return (
     <button className="tile" onClick={props.onClick}>
       {props.value}
     </button>
   );
-}
+};
 
-function Board() {
+const Board = () => {
   let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   var [tiles, setTiles] = useState(initialTiles);
   var [gameEnd, setGameEnd] = useState(false);
   const pressed = useKeyPress();
 
-  function renderTile(i, j) {
+  const renderTile = (i, j) => {
     return <Tile value={tiles[i][j]} />;
-  }
-  function renderStatus() {
+  };
+  const renderStatus = () => {
     return <StatusBar gameEnd={gameEnd} />;
-  }
-  function renderRow(i) {
+  };
+  const renderRow = i => {
     return (
       <div className="board-row">
         {renderTile(i, 0)}
@@ -56,8 +56,8 @@ function Board() {
         {renderTile(i, 3)}
       </div>
     );
-  }
-  function renderDisplay() {
+  };
+  const renderDisplay = () => {
     if (gameEnd) {
       return <GameEndDisplay />;
     }
@@ -69,8 +69,8 @@ function Board() {
         {renderRow(3)}
       </div>
     );
-  }
-  function updateBoard() {
+  };
+  const updateBoard = () => {
     var direction = pressed.direction;
     if (direction != null) {
       // if valid key pressed
@@ -78,7 +78,7 @@ function Board() {
       setTiles(newTiles);
       setGameEnd(gameOver(tiles));
     }
-  }
+  };
   useEffect(() => {
     updateBoard();
   }, [pressed]);
@@ -89,13 +89,13 @@ function Board() {
       {renderDisplay()}
     </div>
   );
-}
+};
 
 // key press handler using vim keys
-function useKeyPress() {
+const useKeyPress = () => {
   const [keyPressed, setKeyPressed] = useState({ direction: null });
 
-  function downHandler({ key }) {
+  const downHandler = ({ key }) => {
     let pressed = null;
     switch (key) {
       case "k":
@@ -116,7 +116,7 @@ function useKeyPress() {
     }
     setKeyPressed({ direction: pressed });
     console.log(`pressed ${pressed}`);
-  }
+  };
 
   // Add event listeners
   useEffect(() => {
@@ -128,9 +128,9 @@ function useKeyPress() {
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return keyPressed;
-}
+};
 
-function Game() {
+const Game = () => {
   return (
     <div className="game">
       <div className="game-board">
@@ -138,27 +138,7 @@ function Game() {
       </div>
     </div>
   );
-}
-
-//function calculateWinner(tiles) {
-//const lines = [
-//[0, 1, 2],
-//[3, 4, 5],
-//[6, 7, 8],
-//[0, 3, 6],
-//[1, 4, 7],
-//[2, 5, 8],
-//[0, 4, 8],
-//[2, 4, 6],
-//];
-//for (let i = 0; i < lines.length; i++) {
-//const [a, b, c] = lines[i];
-//if (tiles[a] && tiles[a] === tiles[b] && tiles[a] === tiles[c]) {
-//return tiles[a];
-//}
-//}
-//return null;
-//}
+};
 
 // ========================================
 
