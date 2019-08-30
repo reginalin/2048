@@ -8,7 +8,6 @@ const Board = props => {
   const [tiles, setTiles] = useState(initialTiles);
   const [gameEnd, setGameEnd] = useState(false);
   const pressed = props.keyPressed;
-  //const pressed = useKeyPress();
 
   const renderTile = (i, j) => {
     return <Tile value={tiles[i][j]} />;

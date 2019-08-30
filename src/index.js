@@ -1,9 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
-import { Board, updateTiles, gameOver } from "./components/Board.js";
-import Tile from "./components/Tile.js";
-import Stopwatch from "./components/Stopwatch.js";
+import { Board } from "./components/Board.js";
+import GameContext from "./gameContext.js";
 
 // key press handler using vim keys
 const useKeyPress = () => {
@@ -40,15 +39,16 @@ const useKeyPress = () => {
       window.removeEventListener("keydown", downHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
-
   return keyPressed;
 };
+
 const Game = () => {
   return (
     <div className="game">
       <div className="game-board">
         <Board keyPressed={useKeyPress()} />
       </div>
+      <GameContext.Provider></GameContext.Provider>
     </div>
   );
 };
