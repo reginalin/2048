@@ -1,4 +1,64 @@
+import React, { createContext, useState, useEffect } from "react";
 import { dimension, DIRECTION, winningTile } from "../constants.js";
+import Tile from "./Tile.js";
+import { StatusBar, GameEndStatus, GameEndDisplay } from "./GameStatus.js";
+
+const Board = props => {
+  let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+  const [tiles, setTiles] = useState(initialTiles);
+  const [gameEnd, setGameEnd] = useState(false);
+  const pressed = props.keyPressed;
+  //const pressed = useKeyPress();
+
+  const renderTile = (i, j) => {
+    return <Tile value={tiles[i][j]} />;
+  };
+  const renderStatus = () => {
+    return <StatusBar gameEnd={gameEnd} />;
+  };
+  const renderRow = i => {
+    return (
+      <div className="board-row">
+        {renderTile(i, 0)}
+        {renderTile(i, 1)}
+        {renderTile(i, 2)}
+        {renderTile(i, 3)}
+      </div>
+    );
+  };
+  const renderDisplay = () => {
+    if (gameEnd) {
+      return <GameEndDisplay />;
+    }
+    return (
+      <div>
+        {renderRow(0)}
+        {renderRow(1)}
+        {renderRow(2)}
+        {renderRow(3)}
+      </div>
+    );
+  };
+  const updateBoard = () => {
+    var direction = pressed.direction;
+    if (direction != null) {
+      // if valid key pressed
+      var newTiles = updateTiles(tiles, direction);
+      setTiles(newTiles);
+      setGameEnd(gameOver(tiles));
+    }
+  };
+  useEffect(() => {
+    updateBoard();
+  }, [pressed]);
+
+  return (
+    <div>
+      {renderStatus()}
+      {renderDisplay()}
+    </div>
+  );
+};
 
 //is there a better way of doing this
 const gameOver = newTiles => {
@@ -197,6 +257,7 @@ const updateTiles = (tiles, direction) => {
 };
 
 export {
+  Board,
   merge,
   slideUp,
   slideDown,
