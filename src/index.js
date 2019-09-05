@@ -43,16 +43,22 @@ const useKeyPress = () => {
 };
 
 const Game = () => {
+  //const [gameOver, setGameOver] = useState(false);
+
   return (
     <div className="game">
       <div className="game-board">
         <Board keyPressed={useKeyPress()} />
       </div>
-      <GameContext.Provider></GameContext.Provider>
     </div>
   );
 };
 
+//<Board
+//keyPressed={useKeyPress()}
+//over={(isEnd) => {setGameOver(isEnd) }}
+///>
+//<GameContext.Provider value={{gameOver: true}}></GameContext.Provider>
 // ========================================
 
 ReactDOM.render(<Game />, document.getElementById("root"));

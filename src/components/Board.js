@@ -1,19 +1,36 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { dimension, DIRECTION, winningTile } from "../constants.js";
 import Tile from "./Tile.js";
-import { StatusBar, GameEndStatus, GameEndDisplay } from "./GameStatus.js";
+import { GameEndStatus, GameEndDisplay } from "./GameStatus.js";
+import Stopwatch from "./Stopwatch.js";
+import GameContext from "../gameContext.js";
 
 const Board = props => {
   let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   const [tiles, setTiles] = useState(initialTiles);
-  const [gameEnd, setGameEnd] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
   const pressed = props.keyPressed;
+  const context = useContext(GameContext);
+  const [time, setTime] = useState("00:00:00");
+  var endTime = null;
 
   const renderTile = (i, j) => {
     return <Tile value={tiles[i][j]} />;
   };
   const renderStatus = () => {
-    return <StatusBar gameEnd={gameEnd} />;
+    if (gameOver) {
+      endTime = time;
+      return <p> You won! Your time is {endTime} </p>;
+      //return <GameEndStatus/>;
+    }
+    return (
+      <Stopwatch
+        setGameTime={stopwatchTime => {
+          setTime(stopwatchTime);
+        }}
+      />
+    );
+    //return <StatusBar gameOver={gameOver} />;
   };
   const renderRow = i => {
     return (
@@ -26,9 +43,21 @@ const Board = props => {
     );
   };
   const renderDisplay = () => {
-    if (gameEnd) {
-      return <GameEndDisplay />;
+    if (gameOver) {
+      return (
+        <div>
+          <GameEndDisplay />
+        </div>
+      );
     }
+    //if (gameOver) {
+    //return (
+    //<div>
+    //<GameOverDisplay />
+    //<p>End time: {time}</p>
+    //</div>
+    //);
+    //}
     return (
       <div>
         {renderRow(0)}
@@ -44,7 +73,7 @@ const Board = props => {
       // if valid key pressed
       var newTiles = updateTiles(tiles, direction);
       setTiles(newTiles);
-      setGameEnd(gameOver(tiles));
+      setGameOver(isGameOver(tiles));
     }
   };
   useEffect(() => {
@@ -60,7 +89,7 @@ const Board = props => {
 };
 
 //is there a better way of doing this
-const gameOver = newTiles => {
+const isGameOver = newTiles => {
   for (let i = 0; i < dimension; i++) {
     for (let j = 0; j < dimension; j++) {
       if (newTiles[i][j] === winningTile) {
@@ -263,6 +292,5 @@ export {
   slideWholeBoard,
   fullMerge,
   fullShift,
-  updateTiles,
-  gameOver
+  updateTiles
 };

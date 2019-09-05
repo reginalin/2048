@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
+import GameContext from "../gameContext.js";
 
-const Stopwatch = () => {
+const Stopwatch = props => {
   var [paused, setPaused] = useState(false);
   var [time, setTime] = useState({
     hours: 0,
@@ -56,7 +57,9 @@ const Stopwatch = () => {
     var formattedHours = padTime(time.hours);
     var formattedMinutes = padTime(time.minutes);
     var formattedSeconds = padTime(time.seconds);
-    return `${formattedHours}: ${formattedMinutes}: ${formattedSeconds}`;
+    var timeString = `${formattedHours}: ${formattedMinutes}: ${formattedSeconds}`;
+    props.setGameTime(timeString);
+    return timeString;
   };
 
   useEffect(() => {
