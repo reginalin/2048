@@ -1,7 +1,3 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import Stopwatch from "./Stopwatch.js";
-import GameContext from "../gameContext.js";
-
 const startButton = () => {
   return <button className="startButton"></button>;
 };

@@ -1,8 +1,11 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import ReactDOM from "react-dom";
-import GameContext from "../gameContext.js";
+import React, { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 
 const Stopwatch = props => {
+	Stopwatch.propTypes = {
+		setGameTime: PropTypes.func,
+	}
+
   var [paused, setPaused] = useState(false);
   var [time, setTime] = useState({
     hours: 0,
@@ -19,7 +22,7 @@ const Stopwatch = props => {
     var newHours = time.hours;
     var newMinutes = time.minutes;
     var newSeconds = time.seconds + 1;
-    if (newSeconds == 60) {
+    if (newSeconds === 60) {
       setTime({
         hours: time.hours,
         minutes: time.minutes + 1,
@@ -28,7 +31,7 @@ const Stopwatch = props => {
       newSeconds = 0;
       newMinutes += 1;
     }
-    if (newMinutes == 60) {
+    if (newMinutes === 60) {
       newMinutes = 0;
       newHours += 1;
     }
@@ -37,15 +40,6 @@ const Stopwatch = props => {
       minutes: newMinutes,
       seconds: newSeconds
     });
-  };
-
-  const reset = () => {
-    setTime({
-      hours: 0,
-      minutes: 0,
-      seconds: 0
-    });
-    setPaused(false);
   };
 
   // takes in int time component

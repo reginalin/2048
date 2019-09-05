@@ -1,16 +1,22 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { dimension, DIRECTION, winningTile } from "../constants.js";
 import Tile from "./Tile.js";
-import { GameEndStatus, GameEndDisplay } from "./GameStatus.js";
 import Stopwatch from "./Stopwatch.js";
-import GameContext from "../gameContext.js";
+import ScoreForm from "./ScoreForm.js";
 
 const Board = props => {
+	Board.propTypes = {
+		keyPressed: DIRECTION.isRequired,
+	}
+	
+	Board.defaultProps = {
+		keyPressed: DIRECTION.UP,
+	}
+
   let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
   const [tiles, setTiles] = useState(initialTiles);
   const [gameOver, setGameOver] = useState(false);
   const pressed = props.keyPressed;
-  const context = useContext(GameContext);
   const [time, setTime] = useState("00:00:00");
   var endTime = null;
 
@@ -20,8 +26,12 @@ const Board = props => {
   const renderStatus = () => {
     if (gameOver) {
       endTime = time;
-      return <p> You won! Your time is {endTime} </p>;
-      //return <GameEndStatus/>;
+      return (
+				<div>
+					<p> You won! Your time is {endTime} </p>
+					<ScoreForm score={endTime}/>
+				</div>
+			);
     }
     return (
       <Stopwatch
@@ -45,7 +55,7 @@ const Board = props => {
     if (gameOver) {
       return (
         <div>
-          <GameEndDisplay />
+					<p>Whoo!</p>
         </div>
       );
     }
@@ -103,7 +113,6 @@ const isGameOver = newTiles => {
 const merge = (newTiles, row1, col1, row2, col2) => {
   let currentVal = newTiles[row1][col1];
   let adjacentVal = newTiles[row2][col2];
-  let newVal = currentVal + adjacentVal;
   newTiles[row1][col1] = currentVal + adjacentVal;
   newTiles[row2][col2] = 0;
 };
