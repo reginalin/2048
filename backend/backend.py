@@ -26,7 +26,7 @@ def home():
         db.session.commit()
     # scores = Score.query.order_by(Score.scoreValue.desc())
     scores = topScores(10)
-    return render_template("index.html", scores=scores)
+    return render_template("index.html", scores=scores, token="flask+react!")
 
 # get top 10 scores
 def topScores(n): 
