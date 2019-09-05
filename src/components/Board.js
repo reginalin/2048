@@ -30,7 +30,6 @@ const Board = props => {
         }}
       />
     );
-    //return <StatusBar gameOver={gameOver} />;
   };
   const renderRow = i => {
     return (
