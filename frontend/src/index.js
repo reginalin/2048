@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { DIRECTION } from "./constants.js";
 import { Board } from "./components/Board.js";
+//import Stopwatch from "./components/Stopwatch.js"
 
 // key press handler using vim keys
 const useKeyPress = () => {

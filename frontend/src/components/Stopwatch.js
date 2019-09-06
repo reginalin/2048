@@ -62,7 +62,7 @@ const Stopwatch = props => {
     return () => {
       clearInterval(timerId);
     };
-  });
+  }, [time]);
 
   return (
     <div>
