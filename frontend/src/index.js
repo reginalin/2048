@@ -1,8 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { dimension, DIRECTION, winningTile } from "./constants.js";
+import { DIRECTION } from "./constants.js";
 import { Board } from "./components/Board.js";
-import GameContext from "./gameContext.js";
 
 // key press handler using vim keys
 const useKeyPress = () => {
@@ -28,7 +27,6 @@ const useKeyPress = () => {
         break;
     }
     setKeyPressed({ direction: pressed });
-    console.log(`pressed ${pressed}`);
   };
 
   // Add event listeners
@@ -42,14 +40,31 @@ const useKeyPress = () => {
   return keyPressed;
 };
 
+
+
 const Game = () => {
   //const [gameOver, setGameOver] = useState(false);
+	var topScores = window.token;
+
+	const displayScores = () => {
+		return (
+			<div>
+				{ topScores.map(score => 
+					<div key={score.name}>
+						<p>{score.name}: {score.scoreValue} </p> 
+					</div>
+				)}
+			</div>
+		);
+	}
 
   return (
     <div className="game">
       <div className="game-board">
         <Board keyPressed={useKeyPress()} />
       </div>
+			<h2>High Scores</h2>
+			{ displayScores()}
     </div>
   );
 };

@@ -2,6 +2,7 @@
   "name": "2048",
   "version": "0.1.0",
   "private": true,
+	"homepage": "/static/react",
   "dependencies": {
     "@babel/core": "7.5.5",
     "@svgr/webpack": "4.3.2",

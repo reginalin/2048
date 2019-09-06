@@ -30,7 +30,6 @@ const Board = props => {
 				<div>
 					<p> You won! Your time is {endTime} </p>
 					<ScoreForm score={endTime}/>
-					<p>Token is: {window.token}</p>
 				</div>
 			);
     }
