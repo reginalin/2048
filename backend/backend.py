@@ -21,16 +21,20 @@ class Score(db.Model):
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    if request.form:
-        userscore = Score(name=request.form.get("name"), 
+    if request.form: 
+        form_name = request.form.get("name") 
+        if form_name == None:
+            form_name = "someone"
+        userscore = Score(name=form_name, 
                 scoreValue=request.form.get("scoreValue"))
+        # userscore = Score(name=request.form.get("name"), 
+                # scoreValue=request.form.get("scoreValue"))
         db.session.add(userscore)
         db.session.commit()
     scores = top_scores(10)
     top_scores_json = query_as_json(scores)
     print("NOW SCORES")
     print(top_scores_json)
-    # return render_template("index.html", scores=scores, token="flask+react!")
     return render_template("index.html", token=top_scores_json)
 
 def query_as_json(scores):
