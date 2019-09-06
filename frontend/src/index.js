@@ -44,13 +44,13 @@ const useKeyPress = () => {
 
 const Game = () => {
   //const [gameOver, setGameOver] = useState(false);
-	var topScores = window.token;
+	var topScores = window.token; //list of json name, score objects
 
 	const displayScores = () => {
 		return (
 			<div>
 				{ topScores.map(score => 
-					<div key={score.name}>
+					<div key={score.id}>
 						<p>{score.name}: {score.scoreValue} </p> 
 					</div>
 				)}

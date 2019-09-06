@@ -38,7 +38,11 @@ def home():
     return render_template("index.html", token=top_scores_json)
 
 def query_as_json(scores):
-    scores_array = [ {"name": score.name, "scoreValue": score.scoreValue} 
+    scores_array = [ {
+                        "id": score.id,
+                        "name": score.name, 
+                        "scoreValue": score.scoreValue
+                    } 
             for score in scores ]
     return scores_array
 
