@@ -22,6 +22,7 @@ const Stopwatch = props => {
     var newHours = time.hours;
     var newMinutes = time.minutes;
     var newSeconds = time.seconds + 1;
+
     if (newSeconds === 60) {
       setTime({
         hours: time.hours,
@@ -42,7 +43,6 @@ const Stopwatch = props => {
     });
   };
 
-  // takes in int time component
   const padTime = timeComponent => {
     return timeComponent.toString().padStart(2, "0");
   };
@@ -51,32 +51,25 @@ const Stopwatch = props => {
     var formattedHours = padTime(time.hours);
     var formattedMinutes = padTime(time.minutes);
     var formattedSeconds = padTime(time.seconds);
-    var timeString = `${formattedHours}: ${formattedMinutes}: ${formattedSeconds}`;
+    var timeString = 
+			`${formattedHours}: ${formattedMinutes}: ${formattedSeconds}`;
     props.setGameTime(timeString);
     return timeString;
   };
 
   useEffect(() => {
-    let timerId = setInterval(tick, 1000); // tick every 1000ms
+    let timerId = setInterval(tick, 1000); // tick every sec 
     return () => {
       clearInterval(timerId);
     };
   });
 
-  const renderStopwatch = () => {
-    return (
-      <div>
-        <p>{formattedTime()}</p>
-        <button onClick={() => setPaused(!paused)}>
-          {paused ? "Resume" : "Pause"}
-        </button>
-      </div>
-    );
-  };
   return (
     <div>
-      <p>Time </p>
-      {renderStopwatch()}
+      <p>Time: {formattedTime()}</p>
+			<button onClick={() => setPaused(!paused)}>
+				{paused ? "Resume" : "Pause"}
+			</button>
     </div>
   );
 };
