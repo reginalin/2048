@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -21,16 +22,25 @@ class Score(db.Model):
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.form:
-        userscore = Score(name=request.form.get("name"), scoreValue=request.form.get("scoreValue"))
+        userscore = Score(name=request.form.get("name"), 
+                scoreValue=request.form.get("scoreValue"))
         db.session.add(userscore)
         db.session.commit()
-    # scores = Score.query.order_by(Score.scoreValue.desc())
-    scores = topScores(10)
-    return render_template("index.html", scores=scores, token="flask+react!")
+    scores = top_scores(10)
+    top_scores_json = query_as_json(scores)
+    print("NOW SCORES")
+    print(top_scores_json)
+    # return render_template("index.html", scores=scores, token="flask+react!")
+    return render_template("index.html", token=top_scores_json)
+
+def query_as_json(scores):
+    scores_array = [ {"name": score.name, "scoreValue": score.scoreValue} 
+            for score in scores ]
+    return scores_array
 
 # get top 10 scores
-def topScores(n): 
-    return Score.query.order_by(Score.scoreValue.desc()).limit(n)
+def top_scores(n): 
+    return Score.query.order_by(Score.scoreValue.asc()).limit(n)
 
 if __name__ == "__main__":
     app.run(debug=True)
