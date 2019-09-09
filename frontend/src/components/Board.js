@@ -3,26 +3,59 @@ import { dimension, DIRECTION, winningTile } from "../constants.js";
 import Tile from "./Tile.js";
 import Stopwatch from "./Stopwatch.js";
 import ScoreForm from "./ScoreForm.js";
+import '../style.css'
 
 const Board = props => {
 	Board.propTypes = {
 		keyPressed: DIRECTION.isRequired,
 	}
-	
 	Board.defaultProps = {
 		keyPressed: DIRECTION.UP,
 	}
 
-  let initialTiles = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+  let initialTiles = [
+												[0, 0, 0, 0], 
+												[0, 0, 0, 0], 
+												[0, 0, 0, 0], 
+												[0, 0, 0, 0]
+											];
+  const pressed = props.keyPressed;
   const [tiles, setTiles] = useState(initialTiles);
   const [gameOver, setGameOver] = useState(false);
-  const pressed = props.keyPressed;
   const [time, setTime] = useState("00:00:00");
   var endTime = null;
 
   const renderTile = (i, j) => {
     return <Tile value={tiles[i][j]} />;
   };
+	const renderRow = i => {
+		return (
+			<div className="board-row">
+				{renderTile(i, 0)}
+				{renderTile(i, 1)}
+				{renderTile(i, 2)}
+				{renderTile(i, 3)}
+			</div>
+		);
+	};
+  const renderBoardDisplay = () => {
+    if (gameOver) {
+      return (
+        <div>
+					<p>Whoo!</p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        {renderRow(0)}
+        {renderRow(1)}
+        {renderRow(2)}
+        {renderRow(3)}
+      </div>
+    );
+  };
+
   const renderStatus = () => {
     if (gameOver) {
       endTime = time;
@@ -41,41 +74,6 @@ const Board = props => {
       />
     );
   };
-  const renderRow = i => {
-    return (
-      <div className="board-row">
-        {renderTile(i, 0)}
-        {renderTile(i, 1)}
-        {renderTile(i, 2)}
-        {renderTile(i, 3)}
-      </div>
-    );
-  };
-  const renderDisplay = () => {
-    if (gameOver) {
-      return (
-        <div>
-					<p>Whoo!</p>
-        </div>
-      );
-    }
-    //if (gameOver) {
-    //return (
-    //<div>
-    //<GameOverDisplay />
-    //<p>End time: {time}</p>
-    //</div>
-    //);
-    //}
-    return (
-      <div>
-        {renderRow(0)}
-        {renderRow(1)}
-        {renderRow(2)}
-        {renderRow(3)}
-      </div>
-    );
-  };
   const updateBoard = () => {
     var direction = pressed.direction;
     if (direction != null) {
@@ -92,7 +90,7 @@ const Board = props => {
   return (
     <div>
       {renderStatus()}
-      {renderDisplay()}
+      {renderBoardDisplay()}
     </div>
   );
 };

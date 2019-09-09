@@ -6,12 +6,7 @@ const ScoreForm = props => {
 		score: PropTypes.number, 
 	}
 
-	//const handleSubmit = (event) => {
-		//alert("submitted");
-	//}
-
 	return (
-		//<form onSubmit={handleSubmit}>
 		<form method='POST' action='/'>
 			<input type="text" name="name" placeholder="Enter name"/>
 			<input type="text" name="scoreValue" value={props.score}/>
