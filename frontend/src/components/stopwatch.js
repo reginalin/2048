@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import React, { useContext, useState, useEffect } from "react";
+import { TimeContext } from '../index.js'
 
-const Stopwatch = props => {
-	Stopwatch.propTypes = {
-		setGameTime: PropTypes.func,
-	}
+const Stopwatch = () => {
+	const { setGameTime } = useContext(TimeContext);
 
   var [paused, setPaused] = useState(false);
   var [time, setTime] = useState({
@@ -16,7 +14,6 @@ const Stopwatch = props => {
   // let one second pass
   const tick = () => {
     if (paused) {
-      // do nothing if paused
       return;
     }
     var newHours = time.hours;
@@ -53,7 +50,7 @@ const Stopwatch = props => {
     var formattedSeconds = padTime(time.seconds);
     var timeString = 
 			`${formattedHours}: ${formattedMinutes}: ${formattedSeconds}`;
-    props.setGameTime(timeString);
+		setGameTime(timeString);
     return timeString;
   };
 
