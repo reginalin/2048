@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import { dimension, DIRECTION, winningTile } from "../constants.js";
-import Tile from "./Tile.js";
-import Stopwatch from "./Stopwatch.js";
-import ScoreForm from "./ScoreForm.js";
+import Stopwatch from "./stopwatch.js";
+import ScoreForm from "./scoreForm.js";
 import '../style.css'
+
+const Tile = props => {
+	Tile.propTypes = {
+		value: PropTypes.number,
+	}
+  return (
+    <button className="tile">
+      {props.value}
+    </button>
+  );
+};
 
 const Board = props => {
 	Board.propTypes = {
@@ -13,7 +24,7 @@ const Board = props => {
 		keyPressed: DIRECTION.UP,
 	}
 
-  let initialTiles = [
+  const initialTiles = [
 												[0, 0, 0, 0], 
 												[0, 0, 0, 0], 
 												[0, 0, 0, 0], 
@@ -78,7 +89,7 @@ const Board = props => {
     var direction = pressed.direction;
     if (direction != null) {
       // if valid key pressed
-      var newTiles = updateTiles(tiles, direction);
+      var newTiles = move(tiles, direction);
       setTiles(newTiles);
       setGameOver(isGameOver(tiles));
     }
@@ -107,7 +118,12 @@ const isGameOver = newTiles => {
   return false;
 };
 
-// side effect: modify newTiles
+/**
+ * @param {number} row1 row in which new total resides 
+ * @param {number} col1 col in which new total resides
+ * @param {number} row2 row to be cleared upon merge
+ * @param {number} col2 col to be cleared upon merge
+ */
 const merge = (newTiles, row1, col1, row2, col2) => {
   let currentVal = newTiles[row1][col1];
   let adjacentVal = newTiles[row2][col2];
@@ -170,7 +186,7 @@ const slideRight = (newTiles, row) => {
   return newTiles;
 };
 
-const slideWholeBoard = (newTiles, direction) => {
+const slide = (newTiles, direction) => {
   for (let col = 0; col < dimension; col++) {
     switch (direction) {
       case DIRECTION.UP:
@@ -185,9 +201,8 @@ const slideWholeBoard = (newTiles, direction) => {
       case DIRECTION.RIGHT:
         slideRight(newTiles, col);
         break;
-      default:
+			default: // do nothing
         console.log("not a direction");
-      //do nothing
     }
   }
 };
@@ -217,7 +232,7 @@ const shiftLeft = newTiles => {
 
 const shiftDown = newTiles => {
   for (let row = dimension - 1; row > 0; row--) {
-    for (let col = dimension - 1; col > 0; col--) {
+    for (let col = 0; col < dimension; col++) {
       let nextRow = row - 1;
       if (newTiles[row][col] === newTiles[nextRow][col]) {
         merge(newTiles, row, col, nextRow, col);
@@ -237,7 +252,7 @@ const shiftRight = newTiles => {
   }
 };
 
-const fullMerge = (newTiles, direction) => {
+const shift = (newTiles, direction) => {
   switch (direction) {
     case DIRECTION.UP:
       shiftUp(newTiles);
@@ -257,13 +272,16 @@ const fullMerge = (newTiles, direction) => {
   }
 };
 
-// return random row or col index
+/** 
+ * return random row or col index
+ */
 const getRandomIndex = () => {
   return Math.floor(Math.random() * dimension);
 };
 
-// TO DO: detect if no empty tiles left or it will infinitely loop
-// generates new num in random spot and updates board
+/**
+ * Generates new num in random spot and updates board
+ */
 const generateNewNum = newTiles => {
   let row = getRandomIndex();
   let col = getRandomIndex();
@@ -274,18 +292,23 @@ const generateNewNum = newTiles => {
   }
 };
 
-// keep for testing
-// happens in one board update when key pressed
-const fullShift = (newTiles, direction) => {
-  slideWholeBoard(newTiles, direction);
-  fullMerge(newTiles, direction);
-  slideWholeBoard(newTiles, direction);
+/**
+ * Update board tiles in specified direction
+ * @param {DIRECTION} direction to shift board
+ */
+const updateBoard = (newTiles, direction) => {
+  slide(newTiles, direction);
+  shift(newTiles, direction);
+  slide(newTiles, direction);
   return newTiles;
 };
 
-const updateTiles = (tiles, direction) => {
+/**
+ * Handle changes when one key is pressed
+ */
+const move = (tiles, direction) => {
   var newTiles = [...tiles];
-  fullShift(newTiles, direction);
+  updateBoard(newTiles, direction);
   generateNewNum(newTiles);
   return newTiles;
 };
@@ -295,8 +318,8 @@ export {
   merge,
   slideUp,
   slideDown,
-  slideWholeBoard,
-  fullMerge,
-  fullShift,
-  updateTiles
+  slide,
+  shift,
+  updateBoard,
+  move
 };
