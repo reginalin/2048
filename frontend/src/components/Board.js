@@ -3,6 +3,7 @@ import { dimension, DIRECTION, winningTile } from "../constants.js";
 import Tile from "./Tile.js";
 import Stopwatch from "./Stopwatch.js";
 import ScoreForm from "./ScoreForm.js";
+import '../style.css'
 
 const Board = props => {
 	Board.propTypes = {

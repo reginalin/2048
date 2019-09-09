@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import { DIRECTION } from "./constants.js";
-import { Board } from "./components/Board.js";
-//import Stopwatch from "./components/Stopwatch.js"
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { DIRECTION } from './constants.js';
+import { Board } from './components/Board.js';
+import './style.css'
+//import Stopwatch from './components/Stopwatch.js'
 
 // key press handler using vim keys
 const useKeyPress = () => {
@@ -11,16 +12,16 @@ const useKeyPress = () => {
   const downHandler = ({ key }) => {
     let pressed = null;
     switch (key) {
-      case "k":
+      case 'k':
         pressed = DIRECTION.UP;
         break;
-      case "j":
+      case 'j':
         pressed = DIRECTION.DOWN;
         break;
-      case "h":
+      case 'h':
         pressed = DIRECTION.LEFT;
         break;
-      case "l":
+      case 'l':
         pressed = DIRECTION.RIGHT;
         break;
       default:
@@ -32,10 +33,10 @@ const useKeyPress = () => {
 
   // Add event listeners
   useEffect(() => {
-    window.addEventListener("keydown", downHandler);
+    window.addEventListener('keydown', downHandler);
 
     return () => {
-      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener('keydown', downHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
   return keyPressed;
@@ -60,8 +61,8 @@ const Game = () => {
 	}
 
   return (
-    <div className="game">
-      <div className="game-board">
+    <div className='game'>
+      <div className='game-board'>
         <Board keyPressed={useKeyPress()} />
       </div>
 			<h2>High Scores</h2>
@@ -77,4 +78,4 @@ const Game = () => {
 //<GameContext.Provider value={{gameOver: true}}></GameContext.Provider>
 // ========================================
 
-ReactDOM.render(<Game />, document.getElementById("root"));
+ReactDOM.render(<Game />, document.getElementById('root'));
