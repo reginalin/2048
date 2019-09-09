@@ -4,8 +4,84 @@ import { DIRECTION, initialTime, initialTiles } from './constants.js';
 import { Board } from './components/board.js';
 import Stopwatch from "./components/stopwatch.js";
 import ScoreForm from "./components/scoreForm.js";
-import './style.css';
+import { GameLogic } from "./gameLogic.js";
 import * as serviceWorker from './serviceWorker'; 
+import './style.css';
+
+export const GameContext = React.createContext();
+export const TimeContext = React.createContext();
+export const BoardContext = React.createContext();
+
+const Game = () => {
+  const [gameOver, setGameOver] = useState(false); //GameContext
+	const pressed = useKeyPress(); //GameContext
+	const [gameTime, setGameTime] = useState(initialTime); //TimeContext
+	const [tiles, setTiles] = useState(initialTiles); //BoardContext
+
+  var endTime = null;
+
+	// High scores
+	// retrieve list of json name, score objects
+	var topScores = window.token; 
+	const displayScores = () => {
+		return (
+			<div>
+				{topScores.map(score => 
+					<div key={score.id}>
+						<p>{score.name}: {score.scoreValue} </p> 
+					</div>
+				)}
+			</div>
+		);
+	}
+
+	const gameDisplay = () => {
+		return (
+			<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
+				<BoardContext.Provider value = {{ tiles, setTiles }}>
+					<GameLogic />
+					<Board />
+				</BoardContext.Provider>
+			</GameContext.Provider>
+		)
+	}
+
+	const renderStatus = () => {
+		if (gameOver) {
+			endTime = gameTime;
+			return (
+				<div>
+					<p> You won! Your time is {endTime} </p>
+					<ScoreForm score={endTime}/>
+					<p>Whoo!</p>
+				</div>
+			);
+		}
+		return (
+			<>
+				<TimeContext.Provider value={{ setGameTime }}>
+					<Stopwatch/>
+				</TimeContext.Provider>
+			</>
+		);
+	};
+
+	// Game 
+  return (
+			<>
+				{ renderStatus() }
+				<div className='game'>
+					{ gameDisplay() }
+					<h2>High Scores</h2>
+					{ displayScores()}
+				</div>
+				<div>
+					<h3>Directions</h3>
+					<p>h: left, k: up, j: down, l: right </p>
+				</div>
+			</>
+  );
+};
 
 // key press handler using vim keys
 const useKeyPress = () => {
@@ -41,74 +117,6 @@ const useKeyPress = () => {
     };
   }, []);
   return keyPressed;
-};
-
-export const GameContext = React.createContext();
-export const TimeContext = React.createContext();
-export const BoardContext = React.createContext();
-
-const Game = () => {
-  const [gameOver, setGameOver] = useState(false);
-	const [gameTime, setGameTime] = useState(initialTime); // where time indicates endtime
-
-	const [tiles, setTiles] = useState(initialTiles);
-	const pressed = useKeyPress();
-
-  var endTime = null;
-
-	// High scores
-	var topScores = window.token; //list of json name, score objects
-	const displayScores = () => {
-		return (
-			<div>
-				{ topScores.map(score => 
-					<div key={score.id}>
-						<p>{score.name}: {score.scoreValue} </p> 
-					</div>
-				)}
-			</div>
-		);
-	}
-
-  const renderStatus = () => {
-    if (gameOver) {
-      endTime = gameTime;
-      return (
-				<div>
-					<p> You won! Your time is {endTime} </p>
-					<ScoreForm score={endTime}/>
-				</div>
-			);
-    }
-    return (
-			<TimeContext.Provider value={{ setGameTime }}>
-				<Stopwatch/>
-			</TimeContext.Provider>
-    );
-  };
-
-	// Game 
-  return (
-			<>
-				<div>
-					{renderStatus()}
-				</div>
-				<div className='game'>
-					<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
-						<BoardContext.Provider value = {{ tiles, setTiles }}>
-							<Board />
-						</BoardContext.Provider>
-							{renderStatus}
-					</GameContext.Provider>
-					<h2>High Scores</h2>
-					{ displayScores()}
-				</div>
-				<div>
-					<h3>Directions</h3>
-					<p>h: left, k: up, j: down, l: right </p>
-				</div>
-			</>
-  );
 };
 
 // ========================================

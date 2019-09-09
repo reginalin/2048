@@ -1,108 +1,57 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
-import { dimension, DIRECTION, winningTile } from "../constants.js";
-import Stopwatch from "./stopwatch.js";
-import ScoreForm from "./scoreForm.js";
-import '../style.css'
+import { dimension, DIRECTION, winningTile } from "./constants.js";
+import { GameContext, BoardContext } from './index.js'
+import './style.css'
 
-//is there a better way of doing this
+/**
+ * Component that handles game logic
+ * updates context of Game when given user input
+ * @return {boolean} gameOver
+ */
 const GameLogic = () =>  {
-	GameLogic.propTypes = {
-		keyPressed: DIRECTION.isRequired,
-	}
-	GameLogic.defaultProps = {
-		keyPressed: DIRECTION.UP,
-	}
+	const { gameOver, setGameOver, pressed } = useContext(GameContext);
+	const { tiles, setTiles } = useContext(BoardContext);
+	var direction = null;
+	
+  const updateGame = () => {
+    direction = pressed.direction;
+		// if valid key pressed
+    if (direction != null) {
+      var newTiles = move(tiles);
+      setTiles(newTiles);
+    }
+  };
 
-  const initialTiles = [[0, 0, 0, 0], 
-												[0, 0, 0, 0], 
-												[0, 0, 0, 0], 
-												[0, 0, 0, 0]];
+  useEffect(() => {
+    updateGame();
+  }, [pressed]);
 
-	const isGameOver = newTiles => {
-		for (let i = 0; i < dimension; i++) {
-			for (let j = 0; j < dimension; j++) {
-				if (newTiles[i][j] === winningTile) {
-					return true;
-				}
-			}
-		}
-		return false;
+	/**
+	 * Handle changes when one key is pressed
+	 */
+	export const move = () => {
+		var newTiles = [...tiles];
+		updateTiles(newTiles);
+		generateNewNum(newTiles);
+		return newTiles;
 	};
 
 	/**
-	 * Merge new from row2, col2, into row1, col1
-	 * @param {number} row1 row in which new total resides 
-	 * @param {number} col1 col in which new total resides
-	 * @param {number} row2 row to be cleared upon merge
-	 * @param {number} col2 col to be cleared upon merge
+	 * Update board tiles in specified direction
 	 */
-	const merge = (newTiles, row1, col1, row2, col2) => {
-		let currentVal = newTiles[row1][col1];
-		let adjacentVal = newTiles[row2][col2];
-		newTiles[row1][col1] = currentVal + adjacentVal;
-		newTiles[row2][col2] = 0;
+	export const updateTiles = (newTiles) => {
+		slide(newTiles);
+		shift(newTiles);
+		slide(newTiles); // eliminate new empty spaces after shift
 	};
 
-	// do "sliding all the way" when shift
-	const slideUp = (newTiles, col) => {
-		//slide incrementally
-		for (let row = 0; row < dimension - 1; row++) {
-			if (newTiles[row][col] === 0) {
-				let row2 = row + 1;
-				//slide next available non blank tile
-				while (row2 < dimension - 1 && newTiles[row2][col] === 0) {
-					row2 += 1;
-				}
-				merge(newTiles, row, col, row2, col);
-			}
-		}
-		return newTiles;
-	};
-
-	const slideLeft = (newTiles, row) => {
-		for (let col = 0; col < dimension - 1; col++) {
-			if (newTiles[row][col] === 0) {
-				let col2 = col + 1;
-				while (col2 < dimension - 1 && newTiles[row][col2] === 0) {
-					col2 += 1;
-				}
-				merge(newTiles, row, col, row, col2);
-			}
-		}
-		return newTiles;
-	};
-
-	const slideDown = (newTiles, col) => {
-		for (let row = dimension - 1; row > 0; row--) {
-			if (newTiles[row][col] === 0) {
-				let row2 = row - 1;
-				while (row2 > 0 && newTiles[row2][col] === 0) {
-					row2 -= 1;
-				}
-				merge(newTiles, row, col, row2, col);
-			}
-		}
-		return newTiles;
-	};
-
-	const slideRight = (newTiles, row) => {
-		for (let col = dimension - 1; col > 0; col--) {
-			if (newTiles[row][col] === 0) {
-				let col2 = col - 1;
-				while (col2 > 0 && newTiles[row][col2] === 0) {
-					col2 -= 1;
-				}
-				merge(newTiles, row, col, row, col2);
-			}
-		}
-		return newTiles;
-	};
-
-	const slide = (newTiles, direction) => {
+	/**
+	 * Slide tiles, fill empty spaces in specified direction 
+	 */
+	export const slide = (newTiles) => {
 		for (let col = 0; col < dimension; col++) {
 			switch (direction) {
-				case DIRECTION.UP:
+				case DIRECTION.UP: 
 					slideUp(newTiles, col);
 					break;
 				case DIRECTION.DOWN:
@@ -116,6 +65,95 @@ const GameLogic = () =>  {
 					break;
 				default: // do nothing
 					console.log("not a direction");
+			}
+		}
+	};
+
+	/**
+	 * Move tiles if they can be merged
+	 */
+	export const shift = (newTiles) => {
+		switch (direction) {
+			case DIRECTION.UP:
+				shiftUp(newTiles);
+				break;
+			case DIRECTION.DOWN:
+				shiftDown(newTiles);
+				break;
+			case DIRECTION.LEFT:
+				shiftLeft(newTiles);
+				break;
+			case DIRECTION.RIGHT:
+				shiftRight(newTiles);
+				break;
+			default:
+				console.log("not a direction");
+			//do nothing
+		}
+	};
+
+	/**
+	 * Merge value of nextRow, nextCol, into row, col
+	 * Side effect: if new value formed is winning Tile, set game over
+	 */
+	export const merge = (newTiles, row, col, nextRow, nextCol) => {
+		let currentVal = newTiles[row][col];
+		let adjacentVal = newTiles[nextRow][nextCol];
+		let newVal = currentVal + adjacentVal;
+		newTiles[row][col] = currentVal + adjacentVal;
+		newTiles[nextRow][nextCol] = 0;
+		if (newVal === winningTile) {
+			setGameOver(true);
+		}
+	};
+
+
+	export const slideUp = (newTiles, col) => {
+		//slide incrementally
+		for (let row = 0; row < dimension - 1; row++) {
+			if (newTiles[row][col] === 0) {
+				let nextRow = row + 1;
+				//slide next available non blank tile
+				while (nextRow < dimension - 1 && newTiles[nextRow][col] === 0) {
+					nextRow += 1;
+				}
+				merge(newTiles, row, col, nextRow, col);
+			}
+		}
+	};
+
+	const slideLeft = (newTiles, row) => {
+		for (let col = 0; col < dimension - 1; col++) {
+			if (newTiles[row][col] === 0) {
+				let nextCol = col + 1;
+				while (nextCol < dimension - 1 && newTiles[row][nextCol] === 0) {
+					nextCol += 1;
+				}
+				merge(newTiles, row, col, row, nextCol);
+			}
+		}
+	};
+
+	export const slideDown = (newTiles, col) => {
+		for (let row = dimension - 1; row > 0; row--) {
+			if (newTiles[row][col] === 0) {
+				let nextRow = row - 1;
+				while (nextRow > 0 && newTiles[nextRow][col] === 0) {
+					nextRow -= 1;
+				}
+				merge(newTiles, row, col, nextRow, col);
+			}
+		}
+	};
+
+	const slideRight = (newTiles, row) => {
+		for (let col = dimension - 1; col > 0; col--) {
+			if (newTiles[row][col] === 0) {
+				let nextCol = col - 1;
+				while (nextCol > 0 && newTiles[row][nextCol] === 0) {
+					nextCol -= 1;
+				}
+				merge(newTiles, row, col, row, nextCol);
 			}
 		}
 	};
@@ -165,26 +203,6 @@ const GameLogic = () =>  {
 		}
 	};
 
-	const shift = (newTiles, direction) => {
-		switch (direction) {
-			case DIRECTION.UP:
-				shiftUp(newTiles);
-				break;
-			case DIRECTION.DOWN:
-				shiftDown(newTiles);
-				break;
-			case DIRECTION.LEFT:
-				shiftLeft(newTiles);
-				break;
-			case DIRECTION.RIGHT:
-				shiftRight(newTiles);
-				break;
-			default:
-				console.log("not a direction");
-			//do nothing
-		}
-	};
-
 	/** 
 	 * return random row or col index
 	 */
@@ -203,26 +221,5 @@ const GameLogic = () =>  {
 		} else {
 			generateNewNum(newTiles);
 		}
-	};
-
-	/**
-	 * Update board tiles in specified direction
-	 * @param {DIRECTION} direction to shift board
-	 */
-	const updateBoard = (newTiles, direction) => {
-		slide(newTiles, direction);
-		shift(newTiles, direction);
-		slide(newTiles, direction);
-		return newTiles;
-	};
-
-	/**
-	 * Handle changes when one key is pressed
-	 */
-	const move = (tiles, direction) => {
-		var newTiles = [...tiles];
-		updateBoard(newTiles, direction);
-		generateNewNum(newTiles);
-		return newTiles;
 	};
 }
