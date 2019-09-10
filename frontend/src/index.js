@@ -67,15 +67,24 @@ const Game = () => {
 	// Game 
   return (
 			<div className='container'>
-				{renderStatus()}
-				<div className='game'>
-					{gameDisplay()}
+				<div className='leftContainer'> 
+					<div className='header'>
+						<h1>2048</h1>
+					</div>
+					<div className='stopwatch'>
+						{renderStatus()}
+					</div>
+					<div className='gameContainer'>
+						{gameDisplay()}
+					</div>
+					<div className='footer'>
+						<h3>Directions</h3>
+						<p>h: left, k: up, j: down, l: right </p>
+					</div>
+				</div>
+				<div className='rightContainer'>
 					<h2>High Scores</h2>
 					{displayScores()}
-				</div>
-				<div>
-					<h3>Directions</h3>
-					<p>h: left, k: up, j: down, l: right </p>
 				</div>
 			</div>
   );
