@@ -32,7 +32,7 @@ export const Board = () => {
 	};
 
   return (
-    <div>
+    <div className="board">
 			{renderRow(0)}
 			{renderRow(1)}
 			{renderRow(2)}

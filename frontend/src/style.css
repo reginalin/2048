@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
+  /*font: 14px "Century Gothic", Futura, sans-serif;*/
+	font-family: 'Arvo', serif;
 	height: 100%;
 }
 
@@ -23,6 +26,10 @@ body {
 	background-color: #FFE6B8;
 }
 
+.leftContainer > div {
+	margin: 10px;
+}
+
 .header {
 	width: 100%;
 }
@@ -36,6 +43,7 @@ h1 {
   flex-direction: row;
 	align-items: stretch;
 	grid-column: 1 / -1;
+	background-color: #FFF3AB;
 }
 
 .rightContainer {
@@ -43,6 +51,7 @@ h1 {
 }
 
 .rightContainer > div {
+	margin: 10px;
 }
 
 .footer {
@@ -50,30 +59,37 @@ h1 {
 	grid-column: 1 / -1;
 }
 
-
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+.board {
+	display: grid;
+  border: 3px solid #999;
+	align-items: stretch;
+	justify-content: center;
+	width: 100%;
+	align-self: flex-end;
 }
+
+/*.board-row:after {*/
+	
+	/*clear: both;*/
+	/*content: "";*/
+	/*display: table;*/
+/*}*/
 
 .status {
   margin-bottom: 10px;
 }
 
 .tile {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
+  border: 3px solid #999;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
+  height: 100px;
+  /*margin-right: -1px;*/
+  /*margin-top: -1px;*/
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 100px;
 }
 
 .tile:focus {
@@ -85,6 +101,10 @@ h1 {
 }
 
 
-.game-info {
-  margin-left: 20px;
+/*.game-info {*/
+  /*margin-left: 20px;*/
+/*}*/
+
+#scoresHeader {
+
 }

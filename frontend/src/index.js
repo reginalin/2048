@@ -33,16 +33,16 @@ const Game = () => {
 		);
 	}
 
-	const gameDisplay = () => {
-		return (
-			<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
-				<BoardContext.Provider value = {{ tiles, setTiles }}>
-					<GameLogic />
-					<Board />
-				</BoardContext.Provider>
-			</GameContext.Provider>
-		)
-	}
+	//const gameDisplay = () => {
+		//return (
+			//<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
+				//<BoardContext.Provider value = {{ tiles, setTiles }}>
+					//<GameLogic />
+					//<Board />
+				//</BoardContext.Provider>
+			//</GameContext.Provider>
+		//)
+	//}
 
 	const renderStatus = () => {
 		if (gameOver) {
@@ -75,7 +75,12 @@ const Game = () => {
 						{renderStatus()}
 					</div>
 					<div className='gameContainer'>
-						{gameDisplay()}
+						<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
+							<BoardContext.Provider value = {{ tiles, setTiles }}>
+								<GameLogic />
+								<Board />
+							</BoardContext.Provider>
+						</GameContext.Provider>
 					</div>
 					<div className='footer'>
 						<h3>Directions</h3>
@@ -83,7 +88,7 @@ const Game = () => {
 					</div>
 				</div>
 				<div className='rightContainer'>
-					<h2>High Scores</h2>
+					<div id='scoresHeader'><h2>High Scores</h2></div>
 					{displayScores()}
 				</div>
 			</div>
