@@ -19,10 +19,8 @@ const Game = () => {
 	const [tiles, setTiles] = useState(initialTiles); //BoardContext
 
   var endTime = null;
-
-	// High scores
-	// retrieve list of json name, score objects
 	var topScores = window.token; 
+
 	const displayScores = () => {
 		return (
 			<div>
@@ -68,18 +66,18 @@ const Game = () => {
 
 	// Game 
   return (
-			<>
-				{ renderStatus() }
+			<div className='container'>
+				{renderStatus()}
 				<div className='game'>
-					{ gameDisplay() }
+					{gameDisplay()}
 					<h2>High Scores</h2>
-					{ displayScores()}
+					{displayScores()}
 				</div>
 				<div>
 					<h3>Directions</h3>
 					<p>h: left, k: up, j: down, l: right </p>
 				</div>
-			</>
+			</div>
   );
 };
 
