@@ -1,31 +1,98 @@
 @import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
 
-body {
-  /*font: 14px "Century Gothic", Futura, sans-serif;*/
-	font-family: 'Arvo', serif;
-	height: 100%;
-	background-color: #E8C49B;
+html {
+	--primaryBackground: #FAF8EF;
+	--primaryTextColor: #776E65; 
+
+	/* TEXT */ 
+	--titleColor: var(--primaryTextColor);
+
+	/* BUTTONS */
+	--primaryButtonColor: #BBADA0;
+	--primaryButtonText: white; 
+	--pauseButtonColor: #8F7A66; 
+	--highlightTextColor: var(--primaryTextColor); 
+
+	/*FORM*/
+	--formInputBackground: white;
+	--formInputTextColor: var(--primaryTextColor);
+	--formInputFocus: lightblue; 
 }
 
+html[data-theme='dark'] {
+	--primaryBackground: black;
+	--primaryTextColor: #8777b3; 
+	
+	/* TEXT */ 
+	--titleColor: #7c6eb7; 
+
+	/* BUTTONS */
+	--primaryButtonColor: #292553;
+	--primaryButtonText: #4AA6E2;
+	--pauseButtonColor: #8F7a66; 
+	--highlightTextColor: #B53E75; 
+
+	/*FORM*/
+	--formInputBackground: white;
+	--formInputTextColor: var(--primaryTextColor);
+	--formInputFocus: lightblue; 
+}
+
+body {
+	/* Global variables */
+	--primaryFont: 'Arvo', serif;
+	font-family: var(--primaryFont);
+	height: 100%;
+	background-color: var(--primaryBackground);
+	color: var(--primaryTextColor);
+}
+
+p {
+	color: var(--primaryTextColor);
+}
+
+h1 {
+	color: var(--titleColor);
+  font-size: 48px;
+}
+
+button {
+	font-family: var(--primaryFont);
+	background-color: var(--primaryButtonColor);
+	color: var(--primaryButtonText);
+	border: none;
+	text-align: center;
+	padding: 5px;
+	margin: 5px;
+	radius: 2px;
+}
+
+
+.highlight {
+	/* TEXT STYLE */
+	font-color: var(--highlightTextColor);
+}
 
 .container {
 	display: flex;
-	margin: 10px;
 	height: 100%;
 	justify-content: center;
-}
-
-.container > div {
-	/*flex: 1;*/
 }
 
 .leftContainer {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	background-color: #FFE6B8;
 }
 
 .leftContainer > div {
+	padding: 10px;
+}
+
+.rightContainer {
+	padding: 10px;
+}
+
+.rightContainer > div {
 	margin: 10px;
 }
 
@@ -33,8 +100,13 @@ body {
 	width: 100%;
 }
 
-h1 {
-  font-size: 48px;
+.subheader {
+	font-size: 20px;
+}
+
+.footer {
+	width: 100%;
+	grid-column: 1 / -1;
 }
 
 .gameContainer {
@@ -44,25 +116,13 @@ h1 {
 	grid-column: 1 / -1;
 	/*background-color: #FFF3AB;*/ }
 
-.rightContainer {
-	background-color: #FFCCAB;
-}
-
-.rightContainer > div {
-	margin: 10px;
-}
-
-.footer {
-	width: 100%;
-	grid-column: 1 / -1;
-}
+/*BOARD*/
 
 .board {
 	display: grid;
 	align-items: stretch;
 	justify-content: center;
 	width: 100%;
-	align-self: flex-end;
 	background: #999;
   /*border: 3px solid #999;*/
 }
@@ -72,55 +132,35 @@ h1 {
 }
 
 .tile {
-  border: 3px solid #999;
+	background-color: #E8C49B;
+	border: none;
+	color: white;
+	text-align: center;
+	font-family: var(--primaryFont);
   font-size: 24px;
   font-weight: bold;
 	font-color: black;
-  line-height: 34px; height: 100px; /*margin-right: -1px;*/ /*margin-top: -1px;*/ padding: 0;
-  text-align: center;
+	margin: 2px;
   width: 100px;
+	height: 100px;
+	margin: 2px;
+	/*align-self: flex-end;*/
 }
-
-.tile:focus {
-  outline: none;
-}
-
-.kbd-navigation .tile:focus {
-  background: #ddd;
-}
-
-/*.game-info {*/
-  /*margin-left: 20px;*/
-/*}*/
-
 
 /*Additional components*/
 
 .stopwatch {
 	width: 100%;
-	/*display: grid;*/
 }
 
 .pauseButton {
-	/*in stopwatch*/
 	width: 30%;
-	background-color: #E8C49B;
-	border: none;
-	color: white;
-	text-align: center;
-	font-family: 'Arvo', serif;
-	padding: 5px;
 }
-
-/*.scoreForm {*/
-	/*width: 100%;*/
-/*}*/
 
 form {
 	display: grid;
-	/*grid-template-rows: 1fr 1fr 1fr;*/
-	font-family: 'Arvo', serif;
 	width: 80%;
+	font-family: var(--primaryFont)
 }
 
 input {
@@ -130,29 +170,25 @@ input {
 }
 
 input[type=text] {
-	background-color: white;
+	background-color: var(--formInputBackground);
+	color: var(--formInputTextColor);
 	border: none;
-	color: black;
+	font-family: var(--primaryFont);
 }
 
 input[type=text]:focus {
-  background-color: lightblue;
+  background-color: var(--formInputFocus);
 }
 
 input[type=submit] {
 	/*TO DO: replicates pause button, consider refactoring*/
-	background-color: #E8C49B;
+	background-color: var(--primaryButtonColor);
 	border: none;
-	color: white;
+	color: var(--primaryButtonText);
 	text-align: center;
-	font-family: 'Arvo', serif;
+	font-family: var(--primaryFont);
 }
-
-/*input[type=text] {*/
-	/*border-radius: 4px;*/
-	/*background-color: white;*/
-	/*color: black;*/
-/*}*/
 
 #scoresHeader {
 }
+
