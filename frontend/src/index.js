@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { DIRECTION, initialTime, initialTiles } from './constants.js';
+import { 
+	DIRECTION, 
+	initialTime, 
+	initialTiles, 
+} from './constants.js';
 import { Board } from './components/board.js';
-import Stopwatch from "./components/stopwatch.js";
-import { ScoreForm } from "./components/displayComponents.js";
-import { GameLogic } from "./gameLogic.js";
+import Stopwatch from './components/stopwatch.js';
+import { ScoreForm } from './components/displayComponents.js';
+import { GameLogic } from './gameLogic.js';
+import { ThemeProvider, useThemeState, useThemeDispatch } from './themes.js';
 import * as serviceWorker from './serviceWorker'; 
 import './style.css';
 
@@ -65,14 +70,45 @@ const Game = () => {
 		);
 	};
 
+	const ToggleThemeDisplay = () => {
+		const {theme} = useThemeState();
+		return <div>Current theme is {`${theme}`}</div>
+	}
+
+	const ToggleTheme = () => {
+		const dispatch = useThemeDispatch();
+		return (
+			<>
+				<button onClick={() => dispatch('light')}>
+					Light mode
+				</button>
+				<button onClick={() => dispatch('dark')}>
+					Dark mode
+				</button>
+			</>
+		);
+	}
+				//<button 
+					//onClick={() => console.log(
+						//document.documentElement.getAttribute("data-theme")}>
+				//</button>
+
 	// Game 
   return (
 			<div className='container'>
 				<div className='leftContainer'> 
 					<div className='header'>
 						<h1>2048</h1>
+						<div className='subheader'>
+							<p>Merge the tiles to get to</p>
+							<p className='highlight'>2048</p>
+						</div>
 					</div>
 					<div className='stopwatch'>
+						<ThemeProvider>
+							<ToggleTheme />
+							<ToggleThemeDisplay />
+						</ThemeProvider>
 						{renderStatus()}
 					</div>
 					<div className='gameContainer'>
