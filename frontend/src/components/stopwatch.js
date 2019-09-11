@@ -62,9 +62,9 @@ const Stopwatch = () => {
   }, [time]);
 
   return (
-    <div>
+    <div className='stopwatch'>
       <p>{formattedTime()}</p>
-			<button onClick={() => setPaused(!paused)}>
+			<button className='pauseButton' onClick={() => setPaused(!paused)}>
 				{paused ? "Resume" : "Pause"}
 			</button>
     </div>
