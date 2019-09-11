@@ -99,17 +99,17 @@ const Game = () => {
 				<div className='leftContainer'> 
 					<div className='header'>
 						<h1>2048</h1>
-						<div className='subheader'>
-							<p>Merge the tiles to get to</p>
-							<p className='highlight'>2048</p>
+						<div> 
+							<p className='subheader'>Merge the tiles to get to</p>
+							<b><p className='subheader, highlight'>2048</p></b>
 						</div>
 					</div>
 					<div className='stopwatch'>
+						{renderStatus()}
 						<ThemeProvider>
 							<ToggleTheme />
 							<ToggleThemeDisplay />
 						</ThemeProvider>
-						{renderStatus()}
 					</div>
 					<div className='gameContainer'>
 						<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>

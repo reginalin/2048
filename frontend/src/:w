@@ -5,7 +5,7 @@ html {
 	--light-grayColor: #BBADA0;
 
 	--primaryBackground: #FAF8EF;
-	--primaryTextColor: #776E65; 
+	--primaryTextColor: var(--light-grayColor); 
 
 	/* TEXT */ 
 	--titleColor: var(--primaryTextColor);
