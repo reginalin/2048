@@ -4,16 +4,15 @@ body {
   /*font: 14px "Century Gothic", Futura, sans-serif;*/
 	font-family: 'Arvo', serif;
 	height: 100%;
+	background-color: #E8C49B;
 }
+
 
 .container {
 	display: flex;
 	margin: 10px;
 	height: 100%;
 	justify-content: center;
-	background-color: #E8C49B;
-	/*justify-content: center;*/
-	/*background: #1b1a3d;*/
 }
 
 .container > div {
@@ -43,8 +42,7 @@ h1 {
   flex-direction: row;
 	align-items: stretch;
 	grid-column: 1 / -1;
-	background-color: #FFF3AB;
-}
+	/*background-color: #FFF3AB;*/ }
 
 .rightContainer {
 	background-color: #FFCCAB;
@@ -61,19 +59,13 @@ h1 {
 
 .board {
 	display: grid;
-  border: 3px solid #999;
 	align-items: stretch;
 	justify-content: center;
 	width: 100%;
 	align-self: flex-end;
+	background: #999;
+  /*border: 3px solid #999;*/
 }
-
-/*.board-row:after {*/
-	
-	/*clear: both;*/
-	/*content: "";*/
-	/*display: table;*/
-/*}*/
 
 .status {
   margin-bottom: 10px;
@@ -83,11 +75,8 @@ h1 {
   border: 3px solid #999;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 100px;
-  /*margin-right: -1px;*/
-  /*margin-top: -1px;*/
-  padding: 0;
+	font-color: black;
+  line-height: 34px; height: 100px; /*margin-right: -1px;*/ /*margin-top: -1px;*/ padding: 0;
   text-align: center;
   width: 100px;
 }
@@ -100,11 +89,70 @@ h1 {
   background: #ddd;
 }
 
-
 /*.game-info {*/
   /*margin-left: 20px;*/
 /*}*/
 
-#scoresHeader {
 
+/*Additional components*/
+
+.stopwatch {
+	width: 100%;
+	/*display: grid;*/
+}
+
+.pauseButton {
+	/*in stopwatch*/
+	width: 30%;
+	background-color: #E8C49B;
+	border: none;
+	color: white;
+	text-align: center;
+	font-family: 'Arvo', serif;
+	padding: 5px;
+}
+
+/*.scoreForm {*/
+	/*width: 100%;*/
+/*}*/
+
+form {
+	display: grid;
+	/*grid-template-rows: 1fr 1fr 1fr;*/
+	font-family: 'Arvo', serif;
+	width: 80%;
+}
+
+input {
+	border-radius: 2px;
+	padding: 5px;
+	margin: 5px;
+}
+
+input[type=text] {
+	background-color: white;
+	border: none;
+	color: black;
+}
+
+input[type=text]:focus {
+  background-color: lightblue;
+}
+
+input[type=submit] {
+	/*TO DO: replicates pause button, consider refactoring*/
+	background-color: #E8C49B;
+	border: none;
+	color: white;
+	text-align: center;
+	font-family: 'Arvo', serif;
+}
+
+/*input[type=text] {*/
+	/*border-radius: 4px;*/
+	/*background-color: white;*/
+	/*color: black;*/
+/*}*/
+
+#scoresHeader {
 }

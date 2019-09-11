@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { DIRECTION, initialTime, initialTiles } from './constants.js';
 import { Board } from './components/board.js';
 import Stopwatch from "./components/stopwatch.js";
-import ScoreForm from "./components/scoreForm.js";
+import { ScoreForm } from "./components/displayComponents.js";
 import { GameLogic } from "./gameLogic.js";
 import * as serviceWorker from './serviceWorker'; 
 import './style.css';
@@ -48,11 +48,12 @@ const Game = () => {
 		if (gameOver) {
 			endTime = gameTime;
 			return (
-				<div>
-					<p> You won! Your time is {endTime} </p>
-					<ScoreForm score={endTime}/>
+				<>
+					<p>You won!</p>
+					<p>Your time is {endTime} </p>
+					<ScoreForm className='scoreForm' score={endTime}/>
 					<p>Whoo!</p>
-				</div>
+				</>
 			);
 		}
 		return (
