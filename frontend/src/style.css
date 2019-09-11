@@ -208,3 +208,12 @@ input[type=submit] {
 #scoresHeader {
 }
 
+.blankTile {
+	color: transparent;
+}
+
+/*.tile2 {*/
+  /*font-size: 24px;*/
+  /*width: 100px;*/
+  /*height: 100px;*/
+/*}*/
