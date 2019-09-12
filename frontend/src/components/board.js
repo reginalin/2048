@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { BoardContext } from '../index.js'
 import '../style.css'
+import '../tiles.css'
 
 const Tile = props => {
 	Tile.propTypes = {
@@ -12,6 +13,8 @@ const Tile = props => {
 	var tileType = '';
 	if (tileNum === 0) {
 		tileType = 'blankTile';
+	} else {
+		tileType = `tile${tileNum}`;
 	}
 	var tileClasses = `tile ${tileType}`;
   return (

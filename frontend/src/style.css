@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+@import 'colors.css';
 
 html {
 	/*COLORS*/
-	--light-grayColor: #BBADA0;
-
-	--primaryBackground: #FAF8EF;
-	--primaryTextColor: #776E65; 
+	--primaryBackground: var(--light-primaryBackground);
+	--primaryTextColor: var(--light-primaryTextColor); 
 
 	/* TEXT */ 
 	--titleColor: var(--primaryTextColor);
@@ -23,15 +21,14 @@ html {
 
 	/*BOARD*/
 	--boardBackground: var(--light-grayColor);
-	--tileBackground: rgba(238, 228, 218, 0.35);
-	--tileNumberColor: white;
+	--tileBackground: var(--light-tileBackground);
+	--tileNumberColor: var(--light-tileNumberColor);
 }
 
 html[data-theme='dark'] {
 	/*COLORS*/
-
-	--primaryBackground: black;
-	--primaryTextColor: #8777b3; 
+	--primaryBackground: var(--dark-primaryBackground);
+	--primaryTextColor: var(--dark-primaryTextColor); 
 	
 	/* TEXT */ 
 	--titleColor: #7c6eb7; 
@@ -43,21 +40,19 @@ html[data-theme='dark'] {
 	--highlightTextColor: #B53E75; 
 
 	/*FORM*/
-	--formInputBackground: white;
+	--formInputBackground: var(--dark-warmWhite);
 	--formInputTextColor: var(--primaryTextColor);
 	--formInputFocus: lightblue; 
 
 	/*BOARD*/
 	--boardBackground: #1b1a3d;
-	--tileBackground: #292553;
-	--tileNumberColor: #424287;
+	--tileBackground: var(--dark-tileBackground);
+	--tileNumberColor: var(--dark-tileNumberColor);
 }
 
 body {
 	/* Global variables */
-	--primaryFont: 'Arvo', serif;
 	font-family: var(--primaryFont);
-	height: 100%;
 	background-color: var(--primaryBackground);
 	color: var(--primaryTextColor);
 }
@@ -82,9 +77,7 @@ button {
 	radius: 2px;
 }
 
-
 .highlight {
-	/* TEXT STYLE */
 	color: var(--highlightTextColor);
 }
 
@@ -184,36 +177,23 @@ input {
 	padding: 5px;
 	margin: 5px;
 }
-
-input[type=text] {
-	background-color: var(--formInputBackground);
-	color: var(--formInputTextColor);
-	border: none;
-	font-family: var(--primaryFont);
-}
-
-input[type=text]:focus {
-  background-color: var(--formInputFocus);
-}
-
-input[type=submit] {
-	/*TO DO: replicates pause button, consider refactoring*/
-	background-color: var(--primaryButtonColor);
-	border: none;
-	color: var(--primaryButtonText);
-	text-align: center;
-	font-family: var(--primaryFont);
-}
+	input[type=text] {
+		background-color: var(--formInputBackground);
+		color: var(--formInputTextColor);
+		border: none;
+		font-family: var(--primaryFont);
+	}
+	input[type=text]:focus {
+		background-color: var(--formInputFocus);
+	}
+	input[type=submit] {
+		/*TO DO: replicates pause button, consider refactoring*/
+		background-color: var(--primaryButtonColor);
+		border: none;
+		color: var(--primaryButtonText);
+		text-align: center;
+		font-family: var(--primaryFont);
+	}
 
 #scoresHeader {
 }
-
-.blankTile {
-	color: transparent;
-}
-
-/*.tile2 {*/
-  /*font-size: 24px;*/
-  /*width: 100px;*/
-  /*height: 100px;*/
-/*}*/

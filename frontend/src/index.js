@@ -57,7 +57,6 @@ const Game = () => {
 					<p>You won!</p>
 					<p>Your time is {endTime} </p>
 					<ScoreForm className='scoreForm' score={endTime}/>
-					<p>Whoo!</p>
 				</>
 			);
 		}

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './index.js'
 import './style.css'
@@ -17,6 +17,8 @@ import './style.css'
 export const GameLogic = () =>  {
 	const { gameOver, setGameOver, pressed } = useContext(GameContext);
 	const { tiles, setTiles } = useContext(BoardContext);
+	const { biggestTile, setBiggestTile } = useState(0);
+	var numEmptyTiles = dimension * dimension; //initially
 	
   const updateBoard = () => {
     var direction = pressed.direction;
@@ -55,14 +57,21 @@ export const GameLogic = () =>  {
 	 * Side effect: if new value formed is winning Tile, set game over
 	 */
 	const merge = (newTiles, row, col, nextRow, nextCol) => {
+		if (row === nextRow && col === nextCol) {
+			return;
+		}
 		let currentVal = newTiles[row][col];
 		let adjacentVal = newTiles[nextRow][nextCol];
 		let newVal = currentVal + adjacentVal;
 		newTiles[row][col] = currentVal + adjacentVal;
 		newTiles[nextRow][nextCol] = 0;
+		console.log(numEmptyTiles);
+		numEmptyTiles++;
+		if (newVal > biggestTile) {
+			setBiggestTile(newVal);
+		}
 		if (newVal === winningTile) {
 			setGameOver(true);
-			console.log(gameOver);
 		}
 		return newVal;
 	};
@@ -217,17 +226,34 @@ export const GameLogic = () =>  {
 	};
 
 	/**
-	 * Generates new 2 in random spot and updates board
+	 * Generates new 2 or 4 in random spot and updates board
 	 */
 	const generateNewNum = newTiles => {
 		let row = getRandomIndex();
 		let col = getRandomIndex();
 		if (newTiles[row][col] === 0) {
-			newTiles[row][col] = 2;
+			newTiles[row][col] = numToGenerate();
+			numEmptyTiles--;
 		} else {
-			generateNewNum(newTiles);
+			if (numEmptyTiles !== 0) {
+				console.log(numEmptyTiles);
+				generateNewNum(newTiles);
+			} else {
+				setGameOver(true);
+			}
 		}
 	};
 
-	return  gameOver; 
+	/**
+	 * when we reach a high enough point, generate 4
+	 */
+	const numToGenerate = () => {
+		if (biggestTile >= 64) {
+			if (Math.random() > .5) {
+				return 4;
+			}
+		}
+		return 2;
+	}
+	return gameOver; 
 }
