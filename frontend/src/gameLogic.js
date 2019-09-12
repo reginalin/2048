@@ -46,9 +46,7 @@ export const GameLogic = () =>  {
 	 * @param {DIRECTION} direction to shift board
 	 */
 	const updateTiles = (newTiles, direction) => {
-		slide(newTiles, direction);
 		shift(newTiles, direction);
-		slide(newTiles, direction);
 		return newTiles;
 	};
 
@@ -57,15 +55,16 @@ export const GameLogic = () =>  {
 	 * Side effect: if new value formed is winning Tile, set game over
 	 */
 	const merge = (newTiles, row, col, nextRow, nextCol) => {
-		if (row === nextRow && col === nextCol) {
-			return;
-		}
+		//console.log({'row': row, 'col': col});
+		//if (row === nextRow && col === nextCol) {
+			//console.log({'row': row, 'col': col});
+			//return;
+		//}
 		let currentVal = newTiles[row][col];
 		let adjacentVal = newTiles[nextRow][nextCol];
 		let newVal = currentVal + adjacentVal;
 		newTiles[row][col] = currentVal + adjacentVal;
 		newTiles[nextRow][nextCol] = 0;
-		console.log(numEmptyTiles);
 		numEmptyTiles++;
 		if (newVal > biggestTile) {
 			setBiggestTile(newVal);
@@ -76,90 +75,15 @@ export const GameLogic = () =>  {
 		return newVal;
 	};
 
-	const slide = (newTiles, direction) => {
-		for (let col = 0; col < dimension; col++) {
-			switch (direction) {
-				case DIRECTION.UP:
-					slideUp(newTiles, col);
-					break;
-				case DIRECTION.DOWN:
-					slideDown(newTiles, col);
-					break;
-				case DIRECTION.LEFT:
-					slideLeft(newTiles, col);
-					break;
-				case DIRECTION.RIGHT:
-					slideRight(newTiles, col);
-					break;
-				default: 
-					console.log("not a direction");
-			}
-		}
-	};
-
-	// do "sliding all the way" when shift
-	const slideUp = (newTiles, col) => {
-		//slide incrementally
-		for (let row = 0; row < dimension - 1; row++) {
-			if (newTiles[row][col] === 0) {
-				let nextRow = row + 1;
-				//slide next available non blank tile
-				while (nextRow < dimension - 1 && newTiles[nextRow][col] === 0) {
-					nextRow += 1;
-				}
-				merge(newTiles, row, col, nextRow, col);
-			}
-		}
-		return newTiles;
-	};
-
-	const slideLeft = (newTiles, row) => {
-		for (let col = 0; col < dimension - 1; col++) {
-			if (newTiles[row][col] === 0) {
-				let nextCol = col + 1;
-				while (nextCol < dimension - 1 && newTiles[row][nextCol] === 0) {
-					nextCol += 1;
-				}
-				merge(newTiles, row, col, row, nextCol);
-			}
-		}
-		return newTiles;
-	};
-
-	const slideDown = (newTiles, col) => {
-		for (let row = dimension - 1; row > 0; row--) {
-			if (newTiles[row][col] === 0) {
-				let nextRow = row - 1;
-				while (nextRow > 0 && newTiles[nextRow][col] === 0) {
-					nextRow -= 1;
-				}
-				merge(newTiles, row, col, nextRow, col);
-			}
-		}
-		return newTiles;
-	};
-
-	const slideRight = (newTiles, row) => {
-		for (let col = dimension - 1; col > 0; col--) {
-			if (newTiles[row][col] === 0) {
-				let nextCol = col - 1;
-				while (nextCol > 0 && newTiles[row][nextCol] === 0) {
-					nextCol -= 1;
-				}
-				merge(newTiles, row, col, row, nextCol);
-			}
-		}
-		return newTiles;
-	};
-
-
 	// modify board with merged tiles newTiles up one
 	const shiftUp = newTiles => {
 		for (let row = 0; row < dimension - 1; row++) {
 			for (let col = 0; col < dimension; col++) {
 				let nextRow = row + 1;
-				if (newTiles[row][col] === newTiles[nextRow][col]) {
-					merge(newTiles, row, col, nextRow, col);
+				let nextCol = col;
+				if (newTiles[row][col] === newTiles[nextRow][nextCol] ||
+						newTiles[row][col] == 0) {
+					merge(newTiles, row, col, nextRow, nextCol);
 				}
 			}
 		}
@@ -168,9 +92,11 @@ export const GameLogic = () =>  {
 	const shiftLeft = newTiles => {
 		for (let row = 0; row < dimension; row++) {
 			for (let col = 0; col < dimension - 1; col++) {
+				let nextRow = row;
 				let nextCol = col + 1;
-				if (newTiles[row][col] === newTiles[row][nextCol]) {
-					merge(newTiles, row, col, row, nextCol);
+				if (newTiles[row][col] === newTiles[nextRow][nextCol] ||
+						newTiles[row][col] == 0) {
+					merge(newTiles, row, col, nextRow, nextCol);
 				}
 			}
 		}
@@ -180,8 +106,10 @@ export const GameLogic = () =>  {
 		for (let row = dimension - 1; row > 0; row--) {
 			for (let col = 0; col < dimension; col++) {
 				let nextRow = row - 1;
-				if (newTiles[row][col] === newTiles[nextRow][col]) {
-					merge(newTiles, row, col, nextRow, col);
+				let nextCol = col;
+				if (newTiles[row][col] === newTiles[nextRow][nextCol] ||
+						newTiles[row][col] == 0) {
+					merge(newTiles, row, col, nextRow, nextCol);
 				}
 			}
 		}
@@ -190,31 +118,35 @@ export const GameLogic = () =>  {
 	const shiftRight = newTiles => {
 		for (let row = 0; row < dimension; row++) {
 			for (let col = dimension - 1; col > 0; col--) {
+				let nextRow = row;
 				let nextCol = col - 1;
-				if (newTiles[row][col] === newTiles[row][nextCol]) {
-					merge(newTiles, row, col, row, nextCol);
+				if (newTiles[row][col] === newTiles[nextRow][nextCol] ||
+						newTiles[row][col] == 0) {
+					merge(newTiles, row, col, nextRow, nextCol);
 				}
 			}
 		}
 	};
 
 	const shift = (newTiles, direction) => {
-		switch (direction) {
-			case DIRECTION.UP:
-				shiftUp(newTiles);
-				break;
-			case DIRECTION.DOWN:
-				shiftDown(newTiles);
-				break;
-			case DIRECTION.LEFT:
-				shiftLeft(newTiles);
-				break;
-			case DIRECTION.RIGHT:
-				shiftRight(newTiles);
-				break;
-			default:
-				console.log("not a direction");
-			//do nothing
+		for (let pass = 0; pass < dimension; pass++) {
+			switch (direction) {
+				case DIRECTION.UP:
+					shiftUp(newTiles);
+					break;
+				case DIRECTION.DOWN:
+					shiftDown(newTiles);
+					break;
+				case DIRECTION.LEFT:
+					shiftLeft(newTiles);
+					break;
+				case DIRECTION.RIGHT:
+					shiftRight(newTiles);
+					break;
+				default:
+					console.log("not a direction");
+				//do nothing
+			}
 		}
 	};
 
