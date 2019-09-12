@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+
+/* Define global variables to be used in styles.css */
+:root {
+	--primaryFont: 'Arvo', serif;
+
+	/*COLORS*/
+	/*light mode*/
+	--light-grayColor: #BBADA0;
+	--light-primaryBackground: #FAF8EF;
+	--light-primaryTextColor: #776E65; 
+
+	--light-tileBackground: rgba(238, 228, 218, 0.35);
+	--light-tileNumberColor: white;
+
+	--light-beige: #eee4da;
+	--light-beigeYellow: #ede0c8;
+	--light-paleOrange: #f2b179;
+	--light-brightOrange: #f59563; 
+	--light-brighterOrange: #f67c5f;
+	--light-brightestOrange: #f65e3b;
+	--light-white: #f9f6f2;
+	--light-yellow: #edcf72;
+
+	/*dark mode*/
+	--dark-primaryBackground: #0C0A2F;
+	--dark-primaryTextColor: #8777b3; 
+	--dark-tileBackground: #292553; 
+	--dark-tileNumberColor: #424287;
+
+	--dark-teal: #4AA6E2;
+	--dark-dullBlue: #37588c;
+	--dark-coolWhite: #ABDAF4;
+	--dark-warmWhite: #D7D2FC;
+	--dark-reddishPurple: #1B0E2D;
+	--dark-blue: #102559;
+	--dark-darkestBlue: #010D2B;
+	--dark-pink: #b55e74;
+}
+
