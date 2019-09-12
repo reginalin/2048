@@ -18,10 +18,16 @@ export const TimeContext = React.createContext();
 export const BoardContext = React.createContext();
 
 const Game = () => {
-  const [gameOver, setGameOver] = useState(false); //GameContext
-	const pressed = useKeyPress(); //GameContext
-	const [gameTime, setGameTime] = useState(initialTime); //TimeContext
-	const [tiles, setTiles] = useState(initialTiles); //BoardContext
+	// GameContext
+  const [gameOver, setGameOver] = useState(false); 
+	const [gameWon, setGameWon] = useState(false);
+	const pressed = useKeyPress(); 
+
+	// TimeContext
+	const [gameTime, setGameTime] = useState(initialTime); 
+
+	//BoardContext
+	const [tiles, setTiles] = useState(initialTiles);
 
   var endTime = null;
 	var topScores = window.token; 
@@ -50,7 +56,7 @@ const Game = () => {
 	//}
 
 	const renderStatus = () => {
-		if (gameOver) {
+		if (gameOver && gameWon) {
 			endTime = gameTime;
 			return (
 				<>
@@ -59,14 +65,22 @@ const Game = () => {
 					<ScoreForm className='scoreForm' score={endTime}/>
 				</>
 			);
+		} else if (gameOver && !gameWon) {
+			return (
+				<>
+					<p>You lost!</p>
+					<p>Try again? </p>
+				</>
+			);
+		} else {
+			return (
+				<>
+					<TimeContext.Provider value={{ setGameTime }}>
+						<Stopwatch/>
+					</TimeContext.Provider>
+				</>
+			);
 		}
-		return (
-			<>
-				<TimeContext.Provider value={{ setGameTime }}>
-					<Stopwatch/>
-				</TimeContext.Provider>
-			</>
-		);
 	};
 
 	const ToggleThemeDisplay = () => {
@@ -74,23 +88,16 @@ const Game = () => {
 		return <div>Current theme is {`${theme}`}</div>
 	}
 
-	const ToggleTheme = () => {
+	const Toggle = () => {
+		//const theme = useThemeState();
+		const {theme} = useThemeState();
 		const dispatch = useThemeDispatch();
 		return (
-			<>
-				<button onClick={() => dispatch('light')}>
-					Light mode
-				</button>
-				<button onClick={() => dispatch('dark')}>
-					Dark mode
-				</button>
-			</>
+			<button onClick={() => dispatch('toggle')}>
+				{ theme === 'light' ? 'dark mode' : 'light mode' }	
+			</button>
 		);
 	}
-				//<button 
-					//onClick={() => console.log(
-						//document.documentElement.getAttribute("data-theme")}>
-				//</button>
 
 	// Game 
   return (
@@ -106,12 +113,13 @@ const Game = () => {
 					<div className='stopwatch'>
 						{renderStatus()}
 						<ThemeProvider>
-							<ToggleTheme />
+							<Toggle />
 							<ToggleThemeDisplay />
 						</ThemeProvider>
 					</div>
 					<div className='gameContainer'>
-						<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
+						<GameContext.Provider value={{ gameOver, setGameOver, gameWon, 
+								setGameWon, pressed}}>
 							<BoardContext.Provider value = {{ tiles, setTiles }}>
 								<GameLogic />
 								<Board />
