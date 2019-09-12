@@ -83,18 +83,29 @@ const Game = () => {
 		}
 	};
 
-	const ToggleThemeDisplay = () => {
-		const {theme} = useThemeState();
-		return <div>Current theme is {`${theme}`}</div>
-	}
+	//const ToggleThemeDisplay = () => {
+		//const {theme} = useThemeState();
+		//return <div>Current theme is {`${theme}`}</div>
+	//}
 
-	const Toggle = () => {
+	const ToggleLightDark = () => {
 		//const theme = useThemeState();
-		const {theme} = useThemeState();
+		const theme = useThemeState().color;
 		const dispatch = useThemeDispatch();
 		return (
-			<button onClick={() => dispatch('toggle')}>
+			<button onClick={() => dispatch(theme)}>
 				{ theme === 'light' ? 'dark mode' : 'light mode' }	
+			</button>
+		);
+	}
+
+	const ToggleNormalUltra = () => {
+		//const theme = useThemeState();
+		const theme = useThemeState().fun;
+		const dispatch = useThemeDispatch();
+		return (
+			<button onClick={() => dispatch(theme)}>
+				{ theme === 'normal' ? 'ultra mode' : 'normal mode' }	
 			</button>
 		);
 	}
@@ -113,8 +124,8 @@ const Game = () => {
 					<div className='stopwatch'>
 						{renderStatus()}
 						<ThemeProvider>
-							<Toggle />
-							<ToggleThemeDisplay />
+							<ToggleLightDark />
+							<ToggleNormalUltra/>
 						</ThemeProvider>
 					</div>
 					<div className='gameContainer'>
