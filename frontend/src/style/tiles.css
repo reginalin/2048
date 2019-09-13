@@ -1,7 +1,11 @@
 @import 'colors.css';
 
+/*html[data-theme='light'] {*/
 html {
 	/*light mode*/
+	--tileBackground: var(--light-tileBackground);
+	--tileNumberColor: var(--light-tileNumberColor);
+
 	--tileBackground-2: var(--light-beige);
 	--tileTextColor-2: var(--light-primaryTextColor);
 
@@ -37,9 +41,11 @@ html {
 }
 
 html[data-theme='dark'] {
-	/*light dark*/
+	/*dark mode*/
+	--tileBackground: var(--dark-tileBackground);
+	--tileNumberColor: var(--dark-tileNumberColor);
+
 	--tileBackground-2: #292553; 
-	/*--tileTextColor-2: #534287;*/
 	--tileTextColor-2: var(--dark-primaryTextColor);
 
 	--tileBackground-4: #2e2d5e;
@@ -73,8 +79,55 @@ html[data-theme='dark'] {
 	--tileTextColor-2048: var(--dark-pink);
 }
 
+.tile {
+	background: var(--tileBackgroundImg);
+	border: none;
+	text-align: center;
+	font-family: var(--primaryFont);
+  font-size: 24px;
+  font-weight: bold;
+	font-color: black;
+	margin: 2px;
+  width: 100px;
+	height: 100px;
+	margin: 2px;
+}
+
+html[fun-theme='normal'] {
+	--tileBackgroundImg: none;
+}
+
+html[fun-theme='ultra'] {
+	--tileTextColor-2: transparent; 
+	--tileTextColor-4: transparent; 
+	--tileTextColor-8: transparent; 
+	--tileTextColor-16: transparent; 
+	--tileTextColor-32: transparent; 
+	--tileTextColor-64: transparent; 
+	--tileTextColor-128: transparent; 
+	--tileTextColor-256: transparent; 
+	--tileTextColor-512: transparent; 
+	--tileTextColor-1024: transparent; 
+}
+
+html[fun-theme='ultra'][data-theme='dark'] {
+	--tileBackgroundImg: url('./images/party-parrot.gif');
+}
+
+html[fun-theme='ultra'][data-theme='light'] {
+	--tileBackgroundImg: url('./images/parrot.gif');
+}
+
 .blankTile {
+	background: var(--tileBackgroundImg);
+	background-color: var(--tileBackground);
+	border: none;
 	color: transparent;
+	--tileBackgroundImg: none;
+}
+
+.nonBlankTiles {
+	color: var(--nonBlankTiles);
 }
 
 .tile2 {
@@ -131,3 +184,4 @@ html[data-theme='dark'] {
 	background-color: var(--tileBackground-2048);
 	color: var(--tileTextColor-2048);
 }
+

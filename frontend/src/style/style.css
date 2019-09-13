@@ -21,8 +21,6 @@ html {
 
 	/*BOARD*/
 	--boardBackground: var(--light-grayColor);
-	--tileBackground: var(--light-tileBackground);
-	--tileNumberColor: var(--light-tileNumberColor);
 }
 
 html[data-theme='dark'] {
@@ -46,9 +44,8 @@ html[data-theme='dark'] {
 
 	/*BOARD*/
 	--boardBackground: #1b1a3d;
-	--tileBackground: var(--dark-tileBackground);
-	--tileNumberColor: var(--dark-tileNumberColor);
 }
+
 
 body {
 	/* Global variables */
@@ -140,22 +137,6 @@ button {
   margin-bottom: 10px;
 }
 
-.tile {
-	background-color: var(--tileBackground);
-	border: none;
-	color: var(--tileNumberColor);
-	text-align: center;
-	font-family: var(--primaryFont);
-  font-size: 24px;
-  font-weight: bold;
-	font-color: black;
-	margin: 2px;
-  width: 100px;
-	height: 100px;
-	margin: 2px;
-	/*align-self: flex-end;*/
-}
-
 /*Additional components*/
 
 .stopwatch {
@@ -187,7 +168,6 @@ input {
 		background-color: var(--formInputFocus);
 	}
 	input[type=submit] {
-		/*TO DO: replicates pause button, consider refactoring*/
 		background-color: var(--primaryButtonColor);
 		border: none;
 		color: var(--primaryButtonText);

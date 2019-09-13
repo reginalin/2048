@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './index.js'
-import './css/style.css'
 
 export const GameLogic = () =>  {
 	const { 

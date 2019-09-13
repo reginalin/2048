@@ -7,19 +7,22 @@ const ThemeDispatchContext = React.createContext();
 
 const themeReducer = (state, action) => {
 	switch (action) {
-		case 'light':
+		case THEMES.light:
 			document.documentElement.setAttribute("data-theme", 'dark');
 			return {color: THEMES.dark, fun: state.fun};
-		case 'dark':
+		case THEMES.dark:
 			document.documentElement.setAttribute("data-theme", 'light');
 			return {color: THEMES.light, fun: state.fun};
-		case 'ultra':
-			return {color: state.color, fun: 'normal'};
-		case 'normal':
+		case THEMES.ultra:
+			document.documentElement.setAttribute("fun-theme", 'normal');
+			return {color: state.color, fun: THEMES.normal};
+		case THEMES.normal:
+			document.documentElement.setAttribute("fun-theme", 'ultra');
 			return {color: state.color, fun: THEMES.ultra};
 		default: 
 			document.documentElement.setAttribute("data-theme", 'light');
-			return {color: THEMES.light, fun: 'normal'};
+			document.documentElement.setAttribute("fun-theme", 'normal');
+			return {color: THEMES.light, fun: THEMES.normal};
 	}
 }
 
@@ -29,7 +32,7 @@ const ThemeProvider = ({children}) => {
 	}
 
 	const [state, dispatch] = 
-		React.useReducer(themeReducer, {color: 'light', fun: 'normal'});
+		React.useReducer(themeReducer, {color: THEMES.light, fun: THEMES.normal});
 	return (
 		<ThemeStateContext.Provider value={state}>
 			<ThemeDispatchContext.Provider value={dispatch}>

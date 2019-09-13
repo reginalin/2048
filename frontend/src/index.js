@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { 
-	DIRECTION, 
+	DIRECTION,
+	THEMES,
 	initialTime, 
 	initialTiles, 
 } from './constants.js';
@@ -11,7 +12,7 @@ import { ScoreForm } from './components/displayComponents.js';
 import { GameLogic } from './gameLogic.js';
 import { ThemeProvider, useThemeState, useThemeDispatch } from './themes.js';
 import * as serviceWorker from './serviceWorker'; 
-import './css/style.css';
+import './style/style.css';
 
 export const GameContext = React.createContext();
 export const TimeContext = React.createContext();
@@ -72,27 +73,28 @@ const Game = () => {
 		}
 	};
 
-	//const ToggleThemeDisplay = () => {
-		//const {theme} = useThemeState();
-		//return <div>Current theme is {`${theme}`}</div>
-	//}
+	const ToggleThemeDisplay = () => {
+		const theme = useThemeState().fun;
+		const color = useThemeState().color;
+		return <div>Current theme is {`${theme}, ${color}`}</div>
+	}
 
 	const ToggleLightDark = () => {
-		const theme = useThemeState().color;
-		const dispatch = useThemeDispatch();
+		let theme = useThemeState().color;
+		let dispatch = useThemeDispatch();
 		return (
 			<button onClick={() => dispatch(theme)}>
-				{ theme === 'light' ? 'dark mode' : 'light mode' }	
+				{ theme === THEMES.light ? 'dark mode' : 'light mode' }	
 			</button>
 		);
 	}
 
 	const ToggleNormalUltra = () => {
-		const theme = useThemeState().fun;
-		const dispatch = useThemeDispatch();
+		let theme = useThemeState().fun;
+		let dispatch = useThemeDispatch();
 		return (
 			<button onClick={() => dispatch(theme)}>
-				{ theme === 'normal' ? 'ultra mode' : 'normal mode' }	
+				{ theme === THEMES.normal ? 'ultra mode' : 'normal mode' }	
 			</button>
 		);
 	}
@@ -111,6 +113,7 @@ const Game = () => {
 					<div className='stopwatch'>
 						{renderStatus()}
 						<ThemeProvider>
+							<ToggleThemeDisplay/>
 							<ToggleLightDark />
 							<ToggleNormalUltra/>
 						</ThemeProvider>
