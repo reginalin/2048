@@ -1,6 +1,5 @@
 @import 'colors.css';
 
-/*html[data-theme='light'] {*/
 html {
 	/*light mode*/
 	--tileBackground: var(--light-tileBackground);
@@ -110,12 +109,12 @@ html[fun-theme='ultra'] {
 	--tileTextColor-1024: transparent; 
 }
 
-html[fun-theme='ultra'][data-theme='dark'] {
-	--tileBackgroundImg: url('./images/party-parrot.gif');
+html[fun-theme='ultra']{
+	--tileBackgroundImg: url('./images/parrot.gif');
 }
 
-html[fun-theme='ultra'][data-theme='light'] {
-	--tileBackgroundImg: url('./images/parrot.gif');
+html[fun-theme='ultra'][data-theme='dark'] {
+	--tileBackgroundImg: url('./images/party-parrot.gif');
 }
 
 .blankTile {
