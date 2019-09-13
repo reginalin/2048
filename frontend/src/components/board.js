@@ -26,6 +26,7 @@ const Tile = props => {
 
 export const Board = () => {
 	const tiles = useContext(BoardContext).tiles; 
+	let rows = [0, 1, 2, 3];
 
   const renderTile = (i, j) => {
     return <Tile value={tiles[i][j]} />;
@@ -34,20 +35,14 @@ export const Board = () => {
 	const renderRow = i => {
 		return (
 			<div className='board-row'>
-				{renderTile(i, 0)}
-				{renderTile(i, 1)}
-				{renderTile(i, 2)}
-				{renderTile(i, 3)}
+				{rows.map(row => renderTile(i, row))}
 			</div>
 		);
 	};
 
   return (
     <div className='board'>
-			{renderRow(0)}
-			{renderRow(1)}
-			{renderRow(2)}
-			{renderRow(3)}
+			{rows.map(row => renderRow(row))}
     </div>
   );
 };
