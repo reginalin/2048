@@ -73,12 +73,6 @@ const Game = () => {
 		}
 	};
 
-	const ToggleThemeDisplay = () => {
-		const theme = useThemeState().fun;
-		const color = useThemeState().color;
-		return <div>Current theme is {`${theme}, ${color}`}</div>
-	}
-
 	const ToggleLightDark = () => {
 		let theme = useThemeState().color;
 		let dispatch = useThemeDispatch();
@@ -113,7 +107,6 @@ const Game = () => {
 					<div className='stopwatch'>
 						{renderStatus()}
 						<ThemeProvider>
-							<ToggleThemeDisplay/>
 							<ToggleLightDark />
 							<ToggleNormalUltra/>
 						</ThemeProvider>
