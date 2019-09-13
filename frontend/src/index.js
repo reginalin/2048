@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { 
-	DIRECTION, 
+	DIRECTION,
+	THEMES,
 	initialTime, 
 	initialTiles, 
 } from './constants.js';
@@ -11,20 +12,43 @@ import { ScoreForm } from './components/displayComponents.js';
 import { GameLogic } from './gameLogic.js';
 import { ThemeProvider, useThemeState, useThemeDispatch } from './themes.js';
 import * as serviceWorker from './serviceWorker'; 
-import './style.css';
+import './style/style.css';
 
 export const GameContext = React.createContext();
 export const TimeContext = React.createContext();
 export const BoardContext = React.createContext();
 
 const Game = () => {
-  const [gameOver, setGameOver] = useState(false); //GameContext
-	const pressed = useKeyPress(); //GameContext
-	const [gameTime, setGameTime] = useState(initialTime); //TimeContext
-	const [tiles, setTiles] = useState(initialTiles); //BoardContext
+	// GameContext
+  const [gameOver, setGameOver] = useState(false); 
+	const [gameWon, setGameWon] = useState(false);
+	const pressed = useKeyPress(); 
+
+	// TimeContext
+	const [gameTime, setGameTime] = useState(initialTime); 
+
+	//BoardContext
+	const [tiles, setTiles] = useState(initialTiles);
 
   var endTime = null;
 	var topScores = window.token; 
+
+	const restart = () => {
+		setGameOver(false);
+		setGameWon(false);
+		console.log(gameWon);
+		setTiles(initialTiles);
+		console.log(tiles);
+		console.log("restart");
+	}
+
+	const StartButton = () => {
+		return (
+			<button onClick={restart}>
+			Restart
+			</button>
+		);
+	}
 
 	const displayScores = () => {
 		return (
@@ -38,19 +62,8 @@ const Game = () => {
 		);
 	}
 
-	//const gameDisplay = () => {
-		//return (
-			//<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
-				//<BoardContext.Provider value = {{ tiles, setTiles }}>
-					//<GameLogic />
-					//<Board />
-				//</BoardContext.Provider>
-			//</GameContext.Provider>
-		//)
-	//}
-
 	const renderStatus = () => {
-		if (gameOver) {
+		if (gameOver && gameWon) {
 			endTime = gameTime;
 			return (
 				<>
@@ -59,38 +72,43 @@ const Game = () => {
 					<ScoreForm className='scoreForm' score={endTime}/>
 				</>
 			);
+		} else if (gameOver && !gameWon) {
+			return (
+				<>
+					<p>You lost!</p>
+					<p>Try again? </p>
+				</>
+			);
+		} else {
+			return (
+				<>
+					<TimeContext.Provider value={{ setGameTime }}>
+						<Stopwatch/>
+					</TimeContext.Provider>
+				</>
+			);
 		}
-		return (
-			<>
-				<TimeContext.Provider value={{ setGameTime }}>
-					<Stopwatch/>
-				</TimeContext.Provider>
-			</>
-		);
 	};
 
-	const ToggleThemeDisplay = () => {
-		const {theme} = useThemeState();
-		return <div>Current theme is {`${theme}`}</div>
-	}
-
-	const ToggleTheme = () => {
-		const dispatch = useThemeDispatch();
+	const ToggleLightDark = () => {
+		let theme = useThemeState().color;
+		let dispatch = useThemeDispatch();
 		return (
-			<>
-				<button onClick={() => dispatch('light')}>
-					Light mode
-				</button>
-				<button onClick={() => dispatch('dark')}>
-					Dark mode
-				</button>
-			</>
+			<button onClick={() => dispatch(theme)}>
+				{ theme === THEMES.light ? 'dark mode' : 'light mode' }	
+			</button>
 		);
 	}
-				//<button 
-					//onClick={() => console.log(
-						//document.documentElement.getAttribute("data-theme")}>
-				//</button>
+
+	const ToggleNormalUltra = () => {
+		let theme = useThemeState().fun;
+		let dispatch = useThemeDispatch();
+		return (
+			<button onClick={() => dispatch(theme)}>
+				{ theme === THEMES.normal ? 'ultra mode' : 'normal mode' }	
+			</button>
+		);
+	}
 
 	// Game 
   return (
@@ -106,12 +124,14 @@ const Game = () => {
 					<div className='stopwatch'>
 						{renderStatus()}
 						<ThemeProvider>
-							<ToggleTheme />
-							<ToggleThemeDisplay />
+							<ToggleLightDark />
+							<ToggleNormalUltra/>
 						</ThemeProvider>
+						<StartButton/>
 					</div>
 					<div className='gameContainer'>
-						<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
+						<GameContext.Provider value={{ gameOver, setGameOver, gameWon, 
+								setGameWon, pressed}}>
 							<BoardContext.Provider value = {{ tiles, setTiles }}>
 								<GameLogic />
 								<Board />

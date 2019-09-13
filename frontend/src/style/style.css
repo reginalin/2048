@@ -1,0 +1,179 @@
+@import 'colors.css';
+
+html {
+	/*COLORS*/
+	--primaryBackground: var(--light-primaryBackground);
+	--primaryTextColor: var(--light-primaryTextColor); 
+
+	/* TEXT */ 
+	--titleColor: var(--primaryTextColor);
+
+	/* BUTTONS */
+	--primaryButtonColor: var(--light-grayColor);
+	--primaryButtonText: white; 
+	--pauseButtonColor: #8F7A66; 
+	--highlightTextColor: var(--primaryTextColor); 
+
+	/*FORM*/
+	--formInputBackground: white;
+	--formInputTextColor: var(--primaryTextColor);
+	--formInputFocus: lightblue; 
+
+	/*BOARD*/
+	--boardBackground: var(--light-grayColor);
+}
+
+html[data-theme='dark'] {
+	/*COLORS*/
+	--primaryBackground: var(--dark-primaryBackground);
+	--primaryTextColor: var(--dark-primaryTextColor); 
+	
+	/* TEXT */ 
+	--titleColor: #7c6eb7; 
+
+	/* BUTTONS */
+	--primaryButtonColor: #292553;
+	--primaryButtonText: #4AA6E2;
+	--pauseButtonColor: #8F7a66; 
+	--highlightTextColor: #B53E75; 
+
+	/*FORM*/
+	--formInputBackground: var(--dark-warmWhite);
+	--formInputTextColor: var(--primaryTextColor);
+	--formInputFocus: lightblue; 
+
+	/*BOARD*/
+	--boardBackground: #1b1a3d;
+}
+
+
+body {
+	/* Global variables */
+	font-family: var(--primaryFont);
+	background-color: var(--primaryBackground);
+	color: var(--primaryTextColor);
+}
+
+p {
+	color: var(--primaryTextColor);
+}
+
+h1 {
+	color: var(--titleColor);
+  font-size: 48px;
+}
+
+button {
+	font-family: var(--primaryFont);
+	background-color: var(--primaryButtonColor);
+	color: var(--primaryButtonText);
+	border: none;
+	text-align: center;
+	padding: 5px;
+	margin: 5px;
+	radius: 2px;
+}
+
+.highlight {
+	color: var(--highlightTextColor);
+}
+
+.container {
+	display: flex;
+	height: 100%;
+	justify-content: center;
+}
+
+.leftContainer {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.leftContainer > div {
+	padding: 10px;
+}
+
+.rightContainer {
+	padding: 10px;
+}
+
+.rightContainer > div {
+	margin: 10px;
+}
+
+.header {
+	width: 100%;
+}
+
+.subheader {
+	font-size: 16px;
+}
+
+.footer {
+	width: 100%;
+	grid-column: 1 / -1;
+}
+
+.gameContainer {
+  display: flex;
+  flex-direction: row;
+	align-items: stretch;
+	grid-column: 1 / -1;
+}
+
+/*BOARD*/
+
+.board {
+	display: grid;
+	align-items: stretch;
+	justify-content: center;
+	width: 100%;
+	border-radius: 2px;
+	background: var(--boardBackground);
+	border: 5px solid var(--boardBackground);
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+/*Additional components*/
+
+.stopwatch {
+	width: 100%;
+}
+
+.pauseButton {
+	width: 30%;
+}
+
+form {
+	display: grid;
+	width: 80%;
+	font-family: var(--primaryFont)
+}
+
+input {
+	border-radius: 2px;
+	padding: 5px;
+	margin: 5px;
+}
+	input[type=text] {
+		background-color: var(--formInputBackground);
+		color: var(--formInputTextColor);
+		border: none;
+		font-family: var(--primaryFont);
+	}
+	input[type=text]:focus {
+		background-color: var(--formInputFocus);
+	}
+	input[type=submit] {
+		background-color: var(--primaryButtonColor);
+		border: none;
+		color: var(--primaryButtonText);
+		text-align: center;
+		font-family: var(--primaryFont);
+	}
+
+#scoresHeader {
+}

@@ -1,0 +1,186 @@
+@import 'colors.css';
+
+html {
+	/*light mode*/
+	--tileBackground: var(--light-tileBackground);
+	--tileNumberColor: var(--light-tileNumberColor);
+
+	--tileBackground-2: var(--light-beige);
+	--tileTextColor-2: var(--light-primaryTextColor);
+
+	--tileBackground-4: var(--light-beigeYellow);
+	--tileTextColor-4: var(--light-primaryTextColor);
+
+	--tileBackground-8: var(--light-paleOrange);
+	--tileTextColor-8: var(--light-white); 
+
+	--tileBackground-16: var(--light-brightOrange);
+	--tileTextColor-16: var(--light-white);
+
+	--tileBackground-32: var(--light-brighterOrange);
+	--tileTextColor-32: var(--light-white);
+
+	--tileBackground-64: var(--light-brightestOrange);
+	--tileTextColor-64: var(--light-white);
+
+	--tileBackground-128: var(--light-yellow);
+	--tileTextColor-128: var(--light-white);
+
+	--tileBackground-256: var(--light-yellow);
+	--tileTextColor-256: var(--light-white);
+
+	--tileBackground-512: var(--light-yellow);
+	--tileTextColor-512: var(--light-white);
+
+	--tileBackground-1024: var(--light-yellow);
+	--tileTextColor-1024: var(--light-white);
+
+	--tileBackground-2048: var(--light-yellow);
+	--tileTextColor-2048: var(--light-white);
+}
+
+html[data-theme='dark'] {
+	/*dark mode*/
+	--tileBackground: var(--dark-tileBackground);
+	--tileNumberColor: var(--dark-tileNumberColor);
+
+	--tileBackground-2: #292553; 
+	--tileTextColor-2: var(--dark-primaryTextColor);
+
+	--tileBackground-4: #2e2d5e;
+	--tileTextColor-4: #8777b3;
+
+	--tileBackground-8: #353572;
+	--tileTextColor-8: var(--dark-teal); 
+
+	--tileBackground-16: var(--dark-dullBlue);
+	--tileTextColor-16: var(--dark-coolWhite);
+
+	--tileBackground-32: #1460a5;
+	--tileTextColor-32: var(--dark-coolWhite);
+
+	--tileBackground-64: #0f4a84; 
+	--tileTextColor-64: var(--dark-coolWhite);
+
+	--tileBackground-128: var(--dark-blue); 
+	--tileTextColor-128: var(--dark-coolWhite);
+
+	--tileBackground-256: var(--dark-reddishPurple); 
+	--tileTextColor-256: var(---dark-warmWhite);
+
+	--tileBackground-512: var(--dark-reddishPurple);
+	--tileTextColor-512: var(---dark-warmWhite);
+
+	--tileBackground-1024: var(--dark-reddishPurple);
+	--tileTextColor-1024: var(--dark-warmWhite);
+
+	--tileBackground-2048: var(--darkestBlue);
+	--tileTextColor-2048: var(--dark-pink);
+}
+
+.tile {
+	background: var(--tileBackgroundImg);
+	border: none;
+	text-align: center;
+	font-family: var(--primaryFont);
+  font-size: 24px;
+  font-weight: bold;
+	font-color: black;
+	margin: 2px;
+  width: 100px;
+	height: 100px;
+	margin: 2px;
+}
+
+html[fun-theme='normal'] {
+	--tileBackgroundImg: none;
+}
+
+html[fun-theme='ultra'] {
+	--tileTextColor-2: transparent; 
+	--tileTextColor-4: transparent; 
+	--tileTextColor-8: transparent; 
+	--tileTextColor-16: transparent; 
+	--tileTextColor-32: transparent; 
+	--tileTextColor-64: transparent; 
+	--tileTextColor-128: transparent; 
+	--tileTextColor-256: transparent; 
+	--tileTextColor-512: transparent; 
+	--tileTextColor-1024: transparent; 
+}
+
+html[fun-theme='ultra']{
+	--tileBackgroundImg: url('./images/parrot.gif');
+}
+
+html[fun-theme='ultra'][data-theme='dark'] {
+	--tileBackgroundImg: url('./images/party-parrot.gif');
+}
+
+.blankTile {
+	background: var(--tileBackgroundImg);
+	background-color: var(--tileBackground);
+	border: none;
+	color: transparent;
+	--tileBackgroundImg: none;
+}
+
+.nonBlankTiles {
+	color: var(--nonBlankTiles);
+}
+
+.tile2 {
+	background-color: var(--tileBackground-2);
+	color: var(--tileTextColor-2);
+}
+
+.tile4 {
+	background-color: var(--tileBackground-4);
+	color: var(--tileTextColor-4);
+}
+
+.tile8 {
+	background-color: var(--tileBackground-8);
+	color: var(--tileTextColor-8);
+}
+
+.tile16 {
+	background-color: var(--tileBackground-16);
+	color: var(--tileTextColor-16);
+}
+
+.tile32 {
+	background-color: var(--tileBackground-32);
+	color: var(--tileTextColor-32);
+}
+
+.tile64 {
+	background-color: var(--tileBackground-64);
+	color: var(--tileTextColor-64);
+}
+
+.tile128 {
+	background-color: var(--tileBackground-128);
+	color: var(--tileTextColor-128);
+}
+
+.tile256 {
+	background-color: var(--tileBackground-256);
+	color: var(--tileTextColor-256);
+}
+
+.tile512 {
+	background-color: var(--tileBackground-512);
+	color: var(--tileTextColor-512);
+}
+
+.tile1024 {
+	background-color: var(--tileBackground-1024);
+	color: var(--tileTextColor-1024);
+}
+
+.tile2048 {
+	background-color: var(--tileBackground-2048);
+	color: var(--tileTextColor-2048);
+}
+
