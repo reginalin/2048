@@ -33,6 +33,23 @@ const Game = () => {
   var endTime = null;
 	var topScores = window.token; 
 
+	const restart = () => {
+		setGameOver(false);
+		setGameWon(false);
+		console.log(gameWon);
+		setTiles(initialTiles);
+		console.log(tiles);
+		console.log("restart");
+	}
+
+	const StartButton = () => {
+		return (
+			<button onClick={restart}>
+			Restart
+			</button>
+		);
+	}
+
 	const displayScores = () => {
 		return (
 			<div>
@@ -110,6 +127,7 @@ const Game = () => {
 							<ToggleLightDark />
 							<ToggleNormalUltra/>
 						</ThemeProvider>
+						<StartButton/>
 					</div>
 					<div className='gameContainer'>
 						<GameContext.Provider value={{ gameOver, setGameOver, gameWon, 
