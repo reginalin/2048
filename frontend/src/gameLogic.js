@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './index.js'
-import './style.css'
+import './css/style.css'
 
 export const GameLogic = () =>  {
 	const { 
@@ -25,11 +25,27 @@ export const GameLogic = () =>  {
       setTiles(newTiles);
     }
   };
+
   useEffect(() => {
 		if (!gameOver) {
 			move();
 		}
   }, [pressed]);
+
+	useEffect(() => {
+		checkGameOver();	
+	}, [biggestTile, numEmptyTiles]);
+
+	const checkGameOver = () =>  {
+		if (numEmptyTiles === 0) {
+			setGameOver(true);
+			setGameWon(false);
+		}
+		if (biggestTile === winningTile) {
+			setGameOver(true);
+			setGameWon(true);
+		}
+	}
 
 	/**
 	 * Update board tiles in specified direction
@@ -139,11 +155,7 @@ export const GameLogic = () =>  {
 		newTiles[row][col] = newVal;
 		newTiles[nextRow][nextCol] = 0;
 		if (newVal > biggestTile) {
-			setBiggestTile(biggestTile => newVal);
-			if (newVal === winningTile) {
-					setGameWon(true);
-					setGameOver(true);
-			}
+			setBiggestTile(newVal);
 		}
 		return newVal;
 	};
@@ -172,12 +184,9 @@ export const GameLogic = () =>  {
 		if (newTiles[row][col] === 0) {
 			newTiles[row][col] = numToGenerate();
 			setNumEmptyTiles(numEmptyTiles => numEmptyTiles - 1);
-		} else {
-			if (numEmptyTiles !== 0) {
+		} else { 
+				if (numEmptyTiles !== 0) {
 				generateNewNum(newTiles);
-			} else {
-				setGameOver(true);
-				setGameWon(false);
 			} 
 		}
 	};
@@ -186,7 +195,7 @@ export const GameLogic = () =>  {
 	 * when we reach a high enough point, generate 4
 	 */
 	const numToGenerate = () => {
-		if (biggestTile >= 64) {
+		if (biggestTile >= 32) {
 			if (Math.random() > .5) {
 				return 4;
 			}

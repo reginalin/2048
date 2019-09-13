@@ -102,9 +102,9 @@ const GameLogic = () =>  {
 		let newVal = currentVal + adjacentVal;
 		newTiles[row][col] = currentVal + adjacentVal;
 		newTiles[nextRow][nextCol] = 0;
-		if (newVal === winningTile) {
-			setGameOver(true);
-		}
+		//if (newVal === winningTile) {
+			//setGameOver(true);
+		//}
 	};
 
 

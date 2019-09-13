@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { BoardContext } from '../index.js'
-import '../style.css'
-import '../tiles.css'
+import '../css/style.css'
+import '../css/tiles.css'
 
 const Tile = props => {
 	Tile.propTypes = {

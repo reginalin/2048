@@ -11,7 +11,7 @@ import { ScoreForm } from './components/displayComponents.js';
 import { GameLogic } from './gameLogic.js';
 import { ThemeProvider, useThemeState, useThemeDispatch } from './themes.js';
 import * as serviceWorker from './serviceWorker'; 
-import './style.css';
+import './css/style.css';
 
 export const GameContext = React.createContext();
 export const TimeContext = React.createContext();
@@ -43,17 +43,6 @@ const Game = () => {
 			</div>
 		);
 	}
-
-	//const gameDisplay = () => {
-		//return (
-			//<GameContext.Provider value={{ gameOver, setGameOver, pressed}}>
-				//<BoardContext.Provider value = {{ tiles, setTiles }}>
-					//<GameLogic />
-					//<Board />
-				//</BoardContext.Provider>
-			//</GameContext.Provider>
-		//)
-	//}
 
 	const renderStatus = () => {
 		if (gameOver && gameWon) {
@@ -89,7 +78,6 @@ const Game = () => {
 	//}
 
 	const ToggleLightDark = () => {
-		//const theme = useThemeState();
 		const theme = useThemeState().color;
 		const dispatch = useThemeDispatch();
 		return (
@@ -100,7 +88,6 @@ const Game = () => {
 	}
 
 	const ToggleNormalUltra = () => {
-		//const theme = useThemeState();
 		const theme = useThemeState().fun;
 		const dispatch = useThemeDispatch();
 		return (
