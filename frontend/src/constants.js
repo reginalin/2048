@@ -24,3 +24,7 @@ export const THEMES = {
   ultra: 'ultra',
 	normal: 'normal',
 }
+
+export const getScoresRoute = 'http://localhost:5000/users'
+
+export const postScoreRoute = 'http://localhost:5000/user'

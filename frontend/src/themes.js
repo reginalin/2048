@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {THEMES} from './constants.js';
 
 const ThemeStateContext = React.createContext();
@@ -27,9 +26,6 @@ const themeReducer = (state, action) => {
 }
 
 const ThemeProvider = ({children}) => {
-	ThemeProvider.propTypes = {
-		children: PropTypes.isRequired
-	}
 
 	const [state, dispatch] = 
 		React.useReducer(themeReducer, {color: THEMES.light, fun: THEMES.normal});

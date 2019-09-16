@@ -8,11 +8,41 @@ export const GameLogic = () =>  {
 		setGameOver, 
 		gameWon, 
 		setGameWon, 
+		restart,
+		setRestart,
 		pressed 
 	} = useContext(GameContext);
 	const { tiles, setTiles } = useContext(BoardContext);
 	const [ biggestTile, setBiggestTile ] = useState(0);
 	const [ numEmptyTiles, setNumEmptyTiles ] = useState(dimension * dimension);
+
+	const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+
+  const restartGame = () => {
+		setBiggestTile(0);
+		setNumEmptyTiles(dimension * dimension);
+		setGameOver(false);
+		setGameWon(false);	
+		setTiles(startingTiles);
+		console.log(tiles);
+		setRestart(false);
+	}
+
+	useEffect(() => {
+		if (restart) {
+			restartGame();
+		}
+	}, [restart]);
+	
+  useEffect(() => {
+		if (!gameOver) {
+			move();
+		}
+  }, [pressed]);
+
+	useEffect(() => {
+		checkGameOver();	
+	}, [biggestTile, numEmptyTiles]);
 	
 	/**
 	 * Handle board updates in one move
@@ -25,15 +55,6 @@ export const GameLogic = () =>  {
     }
   };
 
-  useEffect(() => {
-		if (!gameOver) {
-			move();
-		}
-  }, [pressed]);
-
-	useEffect(() => {
-		checkGameOver();	
-	}, [biggestTile, numEmptyTiles]);
 
 	const checkGameOver = () =>  {
 		if (numEmptyTiles === 0) {

@@ -28,13 +28,21 @@ export const Board = () => {
 	const tiles = useContext(BoardContext).tiles; 
 	let rows = [0, 1, 2, 3];
 
+	//useEffect(() => {
+		//if (tiles === initialTiles)	{
+			//console.log('board')
+			//console.log(tiles);
+			////restart
+		//}
+	//}, [tiles]);
+
   const renderTile = (i, j) => {
-    return <Tile value={tiles[i][j]} />;
+    return <Tile key={`${i}${j}`} value={tiles[i][j]} />;
   };
 
 	const renderRow = i => {
 		return (
-			<div className='board-row'>
+			<div key={i} className='board-row'>
 				{rows.map(row => renderTile(i, row))}
 			</div>
 		);

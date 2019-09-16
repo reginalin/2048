@@ -1,21 +1,26 @@
 import React, { useContext, useState, useEffect } from "react";
-import { TimeContext } from '../index.js'
+import { GameContext, TimeContext } from '../index.js';
+import '../style/style.css';
 
 const Stopwatch = () => {
 	const { setGameTime } = useContext(TimeContext);
-
-  var [paused, setPaused] = useState(false);
-  var [time, setTime] = useState({
+	const { restart } = useContext(GameContext);
+	const initialTime = {
     hours: 0,
     minutes: 0,
     seconds: 0
-  });
+	};
+
+	var [time, setTime] = useState(initialTime);
+
+	useEffect(() => {
+		if (restart) {
+			setTime(initialTime);
+		}
+	}, [restart]);
 
   // let one second pass
   const tick = () => {
-    if (paused) {
-      return;
-    }
     var newHours = time.hours;
     var newMinutes = time.minutes;
     var newSeconds = time.seconds + 1;
@@ -63,10 +68,7 @@ const Stopwatch = () => {
 
   return (
     <div className='stopwatch'>
-      <p>{formattedTime()}</p>
-			<button className='pauseButton' onClick={() => setPaused(!paused)}>
-				{paused ? "Resume" : "Pause"}
-			</button>
+      {formattedTime()}
     </div>
   );
 };
