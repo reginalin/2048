@@ -52,22 +52,8 @@ const TopScoresDisplay = props => {
 	);
 }
 
-
-		//<form className='scoreForm' method='POST' action='/'>
 const StartButton = () => {
 	const { setRestart } = useContext(GameContext);
-	//const { setRestart, setGameOver, setGameWon} = useContext(GameContext);
-	//const { tiles, setTiles } = useContext(BoardContext);
-
-	//const newTiles = [ [0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]  ]
-
-	//const reset = () => {
-		//console.log('reset');
-		//setGameOver(false);
-		//setGameWon(false);	
-		//setTiles(newTiles);
-		//console.log(tiles);
-	//}
 	return (
 		<button 
 			className="startButton"
@@ -76,9 +62,4 @@ const StartButton = () => {
 	);
 };
 
-// TO DO: replace board when game over
-const GameEndDisplay = () => {
-  return <p> whooo </p>;
-};
-
-export { ScoreForm, TopScoresDisplay, StartButton, GameEndDisplay };
+export { ScoreForm, TopScoresDisplay, StartButton };
