@@ -3,16 +3,21 @@ import axios from 'axios';
 import ReactDOM from 'react-dom';
 import { 
 	DIRECTION,
-	THEMES,
 	initialTime, 
 	initialTiles, 
 	getScoresRoute,
 } from './constants.js';
 import { Board } from './components/board.js';
 import Stopwatch from './components/stopwatch.js';
-import { ScoreForm, TopScoresDisplay, StartButton } from './components/displayComponents.js';
+import { 
+	ScoreForm,
+	TopScoresDisplay, 
+	StartButton,
+	ToggleLightDark,
+	ToggleNormalUltra,
+} from './components/displayComponents.js';
 import { GameLogic } from './gameLogic.js';
-import { ThemeProvider, useThemeState, useThemeDispatch } from './themes.js';
+import { ThemeProvider } from './themes.js';
 import * as serviceWorker from './serviceWorker'; 
 import './style/style.css';
 
@@ -21,6 +26,7 @@ export const TimeContext = React.createContext();
 export const BoardContext = React.createContext();
 
 const Game = () => {
+
 	// GameContext
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
@@ -30,33 +36,35 @@ const Game = () => {
 	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
 
-	//BoardContext
+	// BoardContext
 	const [tiles, setTiles] = useState(initialTiles);
 
-  var endTime = null;
-
+	// Top scores
 	const [topScores, setTopScores] = useState([])
 
-	async function getTopScores() {
-		console.log("getting")
-		const response = await axios.get(getScoresRoute)
+	/**
+	 * Get scores from flask backend 
+	 */
+	const getTopScores = async () => {
+		await axios.get(getScoresRoute)
 			.then(json => {
 					console.log(json.data.scores);
 					setTopScores(json.data.scores);
 			}).catch((e) => {console.log('cant access high scores', e)});
 	}
-
 	getTopScores();
 
-
+	/**
+	 * Show display for 
+	 * game over, game lost, or game in session
+	 */
 	const renderStatus = () => {
 		if (gameOver && gameWon) {
-			endTime = gameTime;
 			return (
 				<>
 					<p>You won!</p>
-					<p>Your time is {endTime} </p>
-					<ScoreForm className='scoreForm' score={endTime}/>
+					<p>Your time is {gameTime} </p>
+				<ScoreForm className='scoreForm' score={gameTime}/>
 				</>
 			);
 		} else if (gameOver && !gameWon) {
@@ -73,25 +81,6 @@ const Game = () => {
 		}
 	};
 
-	const ToggleLightDark = () => {
-		let theme = useThemeState().color;
-		let dispatch = useThemeDispatch();
-		return (
-			<button onClick={() => dispatch(theme)}>
-				{ theme === THEMES.light ? 'dark mode' : 'light mode' }	
-			</button>
-		);
-	}
-
-	const ToggleNormalUltra = () => {
-		let theme = useThemeState().fun;
-		let dispatch = useThemeDispatch();
-		return (
-			<button onClick={() => dispatch(theme)}>
-				{ theme === THEMES.normal ? 'ultra mode' : 'normal mode' }	
-			</button>
-		);
-	}
 
 	// Game 
   return (

@@ -2,8 +2,28 @@ import React, { useContext, useState } from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { GameContext} from '../index.js'
-import { postScoreRoute } from '../constants.js'
+import { THEMES, postScoreRoute } from '../constants.js'
+import { useThemeState, useThemeDispatch } from '../themes.js';
 
+const ToggleLightDark = () => {
+	let theme = useThemeState().color;
+	let dispatch = useThemeDispatch();
+	return (
+		<button onClick={() => dispatch(theme)}>
+			{ theme === THEMES.light ? 'dark mode' : 'light mode' }	
+		</button>
+	);
+}
+
+const ToggleNormalUltra = () => {
+	let theme = useThemeState().fun;
+	let dispatch = useThemeDispatch();
+	return (
+		<button onClick={() => dispatch(theme)}>
+			{ theme === THEMES.normal ? 'ultra mode' : 'normal mode' }	
+		</button>
+	);
+}
 const ScoreForm = props => {
 	ScoreForm.propTypes = {
 		score: PropTypes.string, 
@@ -63,4 +83,10 @@ const StartButton = () => {
 	);
 };
 
-export { ScoreForm, TopScoresDisplay, StartButton };
+export {
+	ScoreForm, 
+	TopScoresDisplay, 
+	StartButton,
+	ToggleLightDark,
+	ToggleNormalUltra,
+};
