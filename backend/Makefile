@@ -1,4 +1,4 @@
-IMAGE_BASE = game
+IMAGE_BASE = game-backend
 PYTHON_VERSION = 3.7.3
 
 .PHONY: release
