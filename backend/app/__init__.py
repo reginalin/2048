@@ -15,5 +15,5 @@ db = SQLAlchemy(app)
 from app.models import Score
 from app import api
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+    # app.run(debug=True)
