@@ -4,6 +4,8 @@ import axios from 'axios';
 import * as serviceWorker from './serviceWorker'; 
 import { GameLogic } from './gameLogic.js';
 import { ThemeProvider } from './themes.js';
+import './style/style.css';
+
 import { 
 	DIRECTION,
 	initialTime, 
@@ -19,7 +21,6 @@ import {
 	ToggleLightDark,
 	ToggleNormalUltra,
 } from './components/displayComponents.js';
-import './style/style.css';
 
 export const GameContext = React.createContext();
 export const TimeContext = React.createContext();
@@ -40,18 +41,17 @@ const Game = () => {
 
 	const [topScores, setTopScores] = useState([])
 
-	/**
-	 * Get scores from flask backend 
-	 */
-	const getTopScores = async () => {
-		await axios.get(getScoresRoute)
-			.then(json => {
-					console.log(json.data.scores);
-					setTopScores(json.data.scores);
-			}).catch((e) => {console.log('cant access high scores', e)});
-	}
-
-	getTopScores();
+	useEffect(() => {
+	// Get scores from flask backend
+		const getScores = async () => {
+			await axios.get(getScoresRoute)
+				.then(json => {
+						console.log(json.data.scores);
+						setTopScores(json.data.scores);
+				}).catch((e) => {console.log('cant access high scores', e)});
+		};
+		getScores();
+	}, []);
 
 	/**
 	 * Show display for 
