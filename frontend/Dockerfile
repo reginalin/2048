@@ -11,7 +11,7 @@ WORKDIR /usr/src/app
 
 # Copy project setup files 
 COPY package*.json /app/
-COPY yarn.lock /app
+#COPY yarn.lock /app
 
 #RUN npm install
 
