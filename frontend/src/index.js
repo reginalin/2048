@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import * as serviceWorker from './serviceWorker'; 
 import { GameLogic } from './gameLogic.js';
 import { ThemeProvider } from './themes.js';
+import { useBackendScores } from './scoresAPI.js';
 import './style/style.css';
 
 import { 
 	DIRECTION,
 	initialTime, 
 	initialTiles, 
-	getScoresRoute,
 } from './constants.js';
 import { Board } from './components/board.js';
 import Stopwatch from './components/stopwatch.js';
@@ -26,32 +25,24 @@ export const GameContext = React.createContext();
 export const TimeContext = React.createContext();
 export const BoardContext = React.createContext();
 
+
 /**
  * Highest level display component of 2048
  */
 const Game = () => {
+	// GameContext
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
 	const pressed = useKeyPress(); 
 
+	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
 
+	// BoardContext
 	const [tiles, setTiles] = useState(initialTiles);
 
-	const [topScores, setTopScores] = useState([])
-
-	useEffect(() => {
-	// Get scores from flask backend
-		const getScores = async () => {
-			await axios.get(getScoresRoute)
-				.then(json => {
-						console.log(json.data.scores);
-						setTopScores(json.data.scores);
-				}).catch((e) => {console.log('cant access high scores', e)});
-		};
-		getScores();
-	}, []);
+	const topScores = useBackendScores();
 
 	/**
 	 * Show display for 
