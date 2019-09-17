@@ -7,8 +7,7 @@ services:
       target: development
       args:
         PYTHON_VERSION: 3.7.3
-      cache_from: 
-        - game-backend/release-3.7.3
+    image: game-backend
     ports: 
       - '5000:5000'
   frontend:
@@ -18,7 +17,6 @@ services:
       target: development
       args: 
         NODE_VERSION: 10
-      cache_from: 
-        - game-frontend/release-10
+    image: game-frontend
     ports: 
       - '3000:3000'
