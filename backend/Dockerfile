@@ -42,7 +42,6 @@ FROM base as release
 
 # Build the release
 RUN poetry config settings.virtualenvs.create false
-RUN poetry install --no-interaction
-RUN poetry build
+RUN poetry install --no-dev --no-interaction
 
 ENTRYPOINT python3 backend.py
