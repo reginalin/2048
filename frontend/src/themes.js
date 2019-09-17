@@ -1,16 +1,23 @@
+/**
+ * Handle global application themes
+ */
+
 import React from 'react';
 import {THEMES} from './constants.js';
 
 const ThemeStateContext = React.createContext();
 const ThemeDispatchContext = React.createContext();
 
+/**
+ * Toggles theme state between (light, dark) and (normal, ultra)
+ */
 const themeReducer = (state, action) => {
 	switch (action) {
 		case THEMES.light:
-			document.documentElement.setAttribute("data-theme", 'dark');
+			document.documentElement.setAttribute("color-theme", 'dark');
 			return {color: THEMES.dark, fun: state.fun};
 		case THEMES.dark:
-			document.documentElement.setAttribute("data-theme", 'light');
+			document.documentElement.setAttribute("color-theme", 'light');
 			return {color: THEMES.light, fun: state.fun};
 		case THEMES.ultra:
 			document.documentElement.setAttribute("fun-theme", 'normal');
@@ -19,7 +26,7 @@ const themeReducer = (state, action) => {
 			document.documentElement.setAttribute("fun-theme", 'ultra');
 			return {color: state.color, fun: THEMES.ultra};
 		default: 
-			document.documentElement.setAttribute("data-theme", 'light');
+			document.documentElement.setAttribute("color-theme", 'light');
 			document.documentElement.setAttribute("fun-theme", 'normal');
 			return {color: THEMES.light, fun: THEMES.normal};
 	}

@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './index.js'
 
+/**
+ * Contains main game logic and state
+ */
 export const GameLogic = () =>  {
 	const { 
 		gameOver, 
@@ -55,7 +58,9 @@ export const GameLogic = () =>  {
     }
   };
 
-
+	/**
+	 * Sets context appropriately if we have won or lost 
+	 */
 	const checkGameOver = () =>  {
 		if (numEmptyTiles === 0) {
 			setGameOver(true);
@@ -79,7 +84,7 @@ export const GameLogic = () =>  {
 	};
 
 	/**
-	 * Full shift in direction specified
+	 * Full shift in specified direction
 	 */
 	const shift = (newTiles, direction) => {
 		for (let pass = 0; pass < dimension; pass++) {
@@ -165,7 +170,7 @@ export const GameLogic = () =>  {
 
 	/**
 	 * Sum value from nextRow, nextCol, into row, col 
-	 * Side effect: if new value formed is winning Tile, set game over
+	 * Side effect: updates biggestTile if appropriate 
 	 */
 	const merge = (newTiles, row, col, nextRow, nextCol) => {
 		if (newTiles[row][col] !== 0) { //not merging into empty
@@ -212,7 +217,7 @@ export const GameLogic = () =>  {
 	};
 
 	/**
-	 * when we reach a high enough point, generate 4
+	 * Generate 2s or 4s (if tiles are large enough)
 	 */
 	const numToGenerate = () => {
 		if (biggestTile >= 32) {

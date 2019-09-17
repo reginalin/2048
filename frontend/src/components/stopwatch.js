@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import { GameContext, TimeContext } from '../index.js';
 import '../style/style.css';
 
+/**
+ * Stopwatch component, increments by 1 sec
+ */
 const Stopwatch = () => {
 	const { setGameTime } = useContext(TimeContext);
 	const { restart } = useContext(GameContext);
@@ -13,13 +16,28 @@ const Stopwatch = () => {
 
 	var [time, setTime] = useState(initialTime);
 
+	/**
+	 * Restarts time when game restarts
+	 */
 	useEffect(() => {
 		if (restart) {
 			setTime(initialTime);
 		}
 	}, [restart]);
 
-  // let one second pass
+	/**
+	 * Updates time every second
+	 */
+  useEffect(() => {
+    let timerId = setInterval(tick, 1000); // tick every sec 
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [time]);
+
+	/**
+	 * Change stopwatch state by 1 second 
+	 */
   const tick = () => {
     var newHours = time.hours;
     var newMinutes = time.minutes;
@@ -45,6 +63,9 @@ const Stopwatch = () => {
     });
   };
 
+	/**
+	 * Return string format
+	 */
   const padTime = timeComponent => {
     return timeComponent.toString().padStart(2, "0");
   };
@@ -58,13 +79,6 @@ const Stopwatch = () => {
 		setGameTime(timeString);
     return timeString;
   };
-
-  useEffect(() => {
-    let timerId = setInterval(tick, 1000); // tick every sec 
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [time]);
 
   return (
     <div className='stopwatch'>

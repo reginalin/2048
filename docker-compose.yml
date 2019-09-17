@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+      args:
+        PYTHON_VERSION: 3.7.3
+      cache_from: 
+        - game-backend/release-3.7.3
+    ports: 
+      - '5000:5000'
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+      args: 
+        NODE_VERSION: 10
+      cache_from: 
+        - game-frontend/release-10
+    ports: 
+      - '3000:3000'

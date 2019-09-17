@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
+import * as serviceWorker from './serviceWorker'; 
+import { GameLogic } from './gameLogic.js';
+import { ThemeProvider } from './themes.js';
 import { 
 	DIRECTION,
 	initialTime, 
@@ -16,30 +19,25 @@ import {
 	ToggleLightDark,
 	ToggleNormalUltra,
 } from './components/displayComponents.js';
-import { GameLogic } from './gameLogic.js';
-import { ThemeProvider } from './themes.js';
-import * as serviceWorker from './serviceWorker'; 
 import './style/style.css';
 
 export const GameContext = React.createContext();
 export const TimeContext = React.createContext();
 export const BoardContext = React.createContext();
 
+/**
+ * Highest level display component of 2048
+ */
 const Game = () => {
-
-	// GameContext
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
 	const pressed = useKeyPress(); 
 
-	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
 
-	// BoardContext
 	const [tiles, setTiles] = useState(initialTiles);
 
-	// Top scores
 	const [topScores, setTopScores] = useState([])
 
 	/**
@@ -52,6 +50,7 @@ const Game = () => {
 					setTopScores(json.data.scores);
 			}).catch((e) => {console.log('cant access high scores', e)});
 	}
+
 	getTopScores();
 
 	/**
@@ -81,8 +80,6 @@ const Game = () => {
 		}
 	};
 
-
-	// Game 
   return (
 			<div className='container'>
 				<div className='leftContainer'> 
@@ -96,20 +93,20 @@ const Game = () => {
 							setGameWon, restart, setRestart, pressed}}>
 						<BoardContext.Provider value = {{ tiles, setTiles }}>
 							<TimeContext.Provider value={{ setGameTime }}>
-							<div className='rightHeader'>
-								<ThemeProvider>
-									<div className='toggles'>
-										<ToggleLightDark />
-										<ToggleNormalUltra/>
-									</div>
-									{renderStatus()}
-									<StartButton/>
-								</ThemeProvider>
-							</div>
-							<div className='gameContainer'>
-										<GameLogic />
-										<Board />
-							</div>
+								<div className='rightHeader'>
+									<ThemeProvider>
+										<div className='toggles'>
+											<ToggleLightDark />
+											<ToggleNormalUltra/>
+										</div>
+										{renderStatus()}
+										<StartButton/>
+									</ThemeProvider>
+								</div>
+								<div className='gameContainer'>
+									<GameLogic />
+									<Board />
+								</div>
 							</TimeContext.Provider>
 						</BoardContext.Provider>
 					</GameContext.Provider>
@@ -130,7 +127,9 @@ const Game = () => {
   );
 };
 
-// key press handler using vim keys
+/**
+ * Key press handler mapping vim keys to directions
+ */
 const useKeyPress = () => {
   const [keyPressed, setKeyPressed] = useState({ direction: null });
 

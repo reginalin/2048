@@ -39,7 +39,7 @@ html {
 	--tileTextColor-2048: var(--light-white);
 }
 
-html[data-theme='dark'] {
+html[color-theme='dark'] {
 	/*dark mode*/
 	--tileBackground: var(--dark-tileBackground);
 	--tileNumberColor: var(--dark-tileNumberColor);
@@ -113,7 +113,7 @@ html[fun-theme='ultra']{
 	--tileBackgroundImg: url('./images/parrot.gif');
 }
 
-html[fun-theme='ultra'][data-theme='dark'] {
+html[fun-theme='ultra'][color-theme='dark'] {
 	--tileBackgroundImg: url('./images/party-parrot.gif');
 }
 

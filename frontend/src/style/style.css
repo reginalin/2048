@@ -23,7 +23,7 @@ html {
 	--boardBackground: var(--light-grayColor);
 }
 
-html[data-theme='dark'] {
+html[color-theme='dark'] {
 	/*COLORS*/
 	--primaryBackground: var(--dark-primaryBackground);
 	--primaryTextColor: var(--dark-primaryTextColor); 
