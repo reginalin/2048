@@ -1,24 +1,31 @@
+/**
+ * display game Board made of Tile pieces 
+ * number of Tiles in a Board = (dimension * dimension) 
+ */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { BoardContext } from '../game.js'
-import '../style/style.css'
-import '../style/tiles.css'
+import { BoardContext } from '../game.js';
+import { dimension } from '../constants.js';
+import '../style/style.css';
+import '../style/tiles.css';
 
 const Tile = props => {
 	Tile.propTypes = {
 		value: PropTypes.number,
 	}
 
-	var tileNum = props.value;
-	var tileType = '';
+	let tileNum = props.value;
+	let tileType = '';
+
+	// handle styling for different tyle values 
 	if (tileNum === 0) {
 		tileType = 'blankTile';
 	} else {
 		tileType = `nonBlankTile tile${tileNum}`;
 	}
-	var tileClasses = `tile ${tileType}`;
+
   return (
-    <button className={tileClasses}>
+    <button className={`tile ${tileType}`}>
       {tileNum}
     </button>
   );
@@ -26,15 +33,7 @@ const Tile = props => {
 
 export const Board = () => {
 	const tiles = useContext(BoardContext).tiles; 
-	let rows = [0, 1, 2, 3];
-
-	//useEffect(() => {
-		//if (tiles === initialTiles)	{
-			//console.log('board')
-			//console.log(tiles);
-			////restart
-		//}
-	//}, [tiles]);
+	let rows = [...Array(dimension).keys()];
 
   const renderTile = (i, j) => {
     return <Tile key={`${i}${j}`} value={tiles[i][j]} />;
