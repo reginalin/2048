@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './game.js'
+import { getRandomIndex } from './utils.js';
 
 /**
  * Contains main game logic and state
@@ -193,19 +194,12 @@ export const GameLogic = () =>  {
 						newTiles[row][col] === 0);
 	}
 
-	/** 
-	 * return random row or col index
-	 */
-	const getRandomIndex = () => {
-		return Math.floor(Math.random() * dimension);
-	};
-
 	/**
 	 * Generates new 2 or 4 in random spot and updates board
 	 */
 	const generateNewNum = newTiles => {
-		let row = getRandomIndex();
-		let col = getRandomIndex();
+		let row = getRandomIndex(dimension);
+		let col = getRandomIndex(dimension);
 		if (newTiles[row][col] === 0) {
 			newTiles[row][col] = numToGenerate();
 			setNumEmptyTiles(numEmptyTiles => numEmptyTiles - 1);

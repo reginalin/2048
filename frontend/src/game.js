@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GameLogic } from './gameLogic.js';
+import { NewGameLogic } from './NewGameLogic.js';
 import { ThemeProvider } from './themes.js';
 import './style/style.css';
 
@@ -77,7 +77,7 @@ const Game = props => {
 						<StartButton/>
 					</div>
 					<div className='gameContainer'>
-						<GameLogic />
+						<NewGameLogic />
 						<Board />
 					</div>
 				</TimeContext.Provider>
