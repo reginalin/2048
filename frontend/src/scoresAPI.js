@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getScoresRoute } from './constants.js';
+import { getScoresRoute, postScoreRoute } from './constants.js';
 
 /**
- * Get scores from flask backend
+ * Custom hook that gets scores from flask backend
  */
 const useBackendScores = () => {
 	const [topScores, setTopScores] = useState([]);
@@ -23,4 +23,20 @@ const useBackendScores = () => {
 	return topScores;
 }
 
-export { useBackendScores };
+/**
+ * Returns score data in appropriate format for backend
+ */
+const formatScoreData = (username, score) => {
+	return {'username': username, 'score': score};
+}
+
+/**
+ * Posts score to backend
+ */
+const postScore = (username, score) => {
+	axios.post(postScoreRoute, formatScoreData(username, score))
+		.then( response => console.log(response.data) )
+		.catch((e) => {console.log('cant access high scores', e)});
+}
+
+export { useBackendScores, postScore };
