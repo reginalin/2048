@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
-import * as serviceWorker from './serviceWorker'; 
 import { GameLogic } from './gameLogic.js';
 import { ThemeProvider } from './themes.js';
-import { useBackendScores } from './scoresAPI.js';
 import './style/style.css';
 
 import { 
-	DIRECTION,
 	initialTime, 
 	initialTiles, 
 } from './constants.js';
 
 import { Board } from './components/board.js';
-import Stopwatch from './components/stopwatch.js';
-
-import { 
-	ScoreForm,
-	TopScoresDisplay, 
-} from './components/scores.js';
 
 import {
 	StartButton,
@@ -25,12 +16,17 @@ import {
 	ToggleNormalUltra,
 } from './components/buttons.js';
 
+import { 
+	GameWonDisplay, 
+	GameLostDisplay, 
+	GameSessionDisplay,
+} from './components/gameStatus.js';
+
 const GameContext = React.createContext();
 const TimeContext = React.createContext();
 const BoardContext = React.createContext();
 
 const Game = props => {
-
 	// GameContext
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
@@ -46,29 +42,28 @@ const Game = props => {
 	const renderGameStatus = () => {
 		if (gameOver && gameWon) {
 			return (
-				<>
-					<p>You won!</p>
-					<p>Your time is {gameTime} </p>
-				<ScoreForm className='scoreForm' score={gameTime}/>
-				</>
+				<GameWonDisplay />
 			);
 		} else if (gameOver && !gameWon) {
 			return (
-				<>
-					<p>You lost!</p>
-					<p>Try again? </p>
-				</>
+				<GameLostDisplay />
 			);
 		} else {
 			return (
-				<Stopwatch/>
+				<GameSessionDisplay />
 			);
 		}
 	};
 
   return (
-		<GameContext.Provider value={{ gameOver, setGameOver, gameWon, 
-				setGameWon, restart, setRestart, pressed}}>
+		<GameContext.Provider 
+			value={{gameOver, 
+				setGameOver, 
+				gameWon, 
+				setGameWon, 
+				restart, 
+				setRestart, 
+				pressed}}>
 			<BoardContext.Provider value = {{ tiles, setTiles }}>
 				<TimeContext.Provider value={{ setGameTime }}>
 					<div className='rightHeader'>

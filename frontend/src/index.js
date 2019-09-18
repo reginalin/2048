@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker'; 
-import { ThemeProvider } from './themes.js';
 import { useBackendScores } from './scoresAPI.js';
-import './style/style.css';
-import { 
-	DIRECTION,
-} from './constants.js';
+import { DIRECTION } from './constants.js';
 import { Game } from './game.js';
 import { TopScoresDisplay } from './components/scores.js';
-import {
-	StartButton,
-	ToggleLightDark,
-	ToggleNormalUltra,
-} from './components/buttons.js';
+import './style/style.css';
 
 const App = () => {
 	const topScores = useBackendScores();

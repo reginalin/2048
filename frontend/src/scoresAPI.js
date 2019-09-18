@@ -4,6 +4,7 @@ import { getScoresRoute, postScoreRoute } from './constants.js';
 
 /**
  * Custom hook that gets scores from flask backend
+ * @return {!Array <json>} list of json objects containing username, score1
  */
 const useBackendScores = () => {
 	const [topScores, setTopScores] = useState([]);
@@ -24,7 +25,10 @@ const useBackendScores = () => {
 }
 
 /**
- * Returns score data in appropriate format for backend
+ * Get score data in appropriate format for backend
+ * @param {string} username The name corresponding to the score
+ * @param {string} score Score to be added, in time format XX:XX:XX 
+ * @return {json} json object to be posted to database 
  */
 const formatScoreData = (username, score) => {
 	return {'username': username, 'score': score};
@@ -32,6 +36,8 @@ const formatScoreData = (username, score) => {
 
 /**
  * Posts score to backend
+ * @param {string} username The name corresponding to the score
+ * @param {string} score Score to be added, in time format XX:XX:XX 
  */
 const postScore = (username, score) => {
 	axios.post(postScoreRoute, formatScoreData(username, score))

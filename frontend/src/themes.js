@@ -33,7 +33,6 @@ const themeReducer = (state, action) => {
 }
 
 const ThemeProvider = ({children}) => {
-
 	const [state, dispatch] = 
 		React.useReducer(themeReducer, {color: THEMES.light, fun: THEMES.normal});
 	return (
