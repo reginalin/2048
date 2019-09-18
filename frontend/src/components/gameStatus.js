@@ -4,7 +4,7 @@ import { ScoreForm } from './scores.js';
 import { TimeContext } from '../game.js'
 
 const GameWonDisplay = () => {
-	const gameTime = useContext(TimeContext).tiles; 
+	const gameTime = useContext(TimeContext).gameTime; 
 	return (
 		<>
 			<p>You won!</p>

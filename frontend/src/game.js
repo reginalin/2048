@@ -65,7 +65,7 @@ const Game = props => {
 				setRestart, 
 				pressed}}>
 			<BoardContext.Provider value = {{ tiles, setTiles }}>
-				<TimeContext.Provider value={{ setGameTime }}>
+				<TimeContext.Provider value={{ gameTime, setGameTime }}>
 					<div className='rightHeader'>
 						<ThemeProvider>
 							<div className='toggles'>
