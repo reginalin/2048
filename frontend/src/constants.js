@@ -7,7 +7,7 @@ export const DIRECTION = {
   RIGHT: 'right'
 };
 
-export const winningTile = 64;
+export const winningTile = 16;
 
 export const initialTime = '00:00:00';
 

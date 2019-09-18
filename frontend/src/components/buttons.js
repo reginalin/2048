@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { THEMES } from '../constants.js'
-import { GameContext} from '../index.js'
+import { GameContext} from '../game.js'
 import { useThemeState, useThemeDispatch } from '../themes.js';
 
 const ToggleLightDark = () => {

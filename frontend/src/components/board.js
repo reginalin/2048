@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { BoardContext } from '../index.js'
+import { BoardContext } from '../game.js'
 import '../style/style.css'
 import '../style/tiles.css'
 

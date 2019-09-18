@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { GameContext, TimeContext } from '../index.js';
+import { GameContext, TimeContext } from '../game.js';
 import '../style/style.css';
 
 /**

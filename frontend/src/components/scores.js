@@ -7,7 +7,7 @@ const ScoreForm = props => {
 	ScoreForm.propTypes = {
 		score: PropTypes.string, 
 	}
-	const [username, setUsername] = useState('someone');
+	const [username, setUsername] = useState('anonymous');
 	const [score, setScore] = useState(props.score);
 
 	const handleSubmit = () => {
@@ -15,7 +15,7 @@ const ScoreForm = props => {
 	}
 
 	const handleFormUsername = event => {
-		setUsername(event.target.value)
+		setUsername(event.target.value);
 	}
 
 	return (

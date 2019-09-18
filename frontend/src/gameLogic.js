@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
-import { GameContext, BoardContext } from './index.js'
+import { GameContext, BoardContext } from './game.js'
 
 /**
  * Contains main game logic and state

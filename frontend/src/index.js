@@ -1,76 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker'; 
-import { GameLogic } from './gameLogic.js';
 import { ThemeProvider } from './themes.js';
 import { useBackendScores } from './scoresAPI.js';
 import './style/style.css';
-
 import { 
 	DIRECTION,
-	initialTime, 
-	initialTiles, 
 } from './constants.js';
-import { Board } from './components/board.js';
-import Stopwatch from './components/stopwatch.js';
-import { 
-	ScoreForm,
-	TopScoresDisplay, 
+import { Game } from './game.js';
+import { TopScoresDisplay } from './components/scores.js';
+import {
 	StartButton,
 	ToggleLightDark,
 	ToggleNormalUltra,
-} from './components/displayComponents.js';
+} from './components/buttons.js';
 
-export const GameContext = React.createContext();
-export const TimeContext = React.createContext();
-export const BoardContext = React.createContext();
-
-
-/**
- * Highest level display component of 2048
- */
-const Game = () => {
-	// GameContext
-  const [gameOver, setGameOver] = useState(false); 
-	const [gameWon, setGameWon] = useState(false);
-	const [restart, setRestart] = useState(false);
-	const pressed = useKeyPress(); 
-
-	// TimeContext
-	const [gameTime, setGameTime] = useState(initialTime); 
-
-	// BoardContext
-	const [tiles, setTiles] = useState(initialTiles);
-
+const App = () => {
 	const topScores = useBackendScores();
-
-	/**
-	 * Show display for 
-	 * game over, game lost, or game in session
-	 */
-	const renderStatus = () => {
-		if (gameOver && gameWon) {
-			return (
-				<>
-					<p>You won!</p>
-					<p>Your time is {gameTime} </p>
-				<ScoreForm className='scoreForm' score={gameTime}/>
-				</>
-			);
-		} else if (gameOver && !gameWon) {
-			return (
-				<>
-					<p>You lost!</p>
-					<p>Try again? </p>
-				</>
-			);
-		} else {
-			return (
-						<Stopwatch/>
-			);
-		}
-	};
-
   return (
 			<div className='container'>
 				<div className='leftContainer'> 
@@ -80,32 +26,11 @@ const Game = () => {
 							<p className='subheader'>Merge the tiles to get to 2048!</p>
 						</div>
 					</div>
-					<GameContext.Provider value={{ gameOver, setGameOver, gameWon, 
-							setGameWon, restart, setRestart, pressed}}>
-						<BoardContext.Provider value = {{ tiles, setTiles }}>
-							<TimeContext.Provider value={{ setGameTime }}>
-								<div className='rightHeader'>
-									<ThemeProvider>
-										<div className='toggles'>
-											<ToggleLightDark />
-											<ToggleNormalUltra/>
-										</div>
-										{renderStatus()}
-										<StartButton/>
-									</ThemeProvider>
-								</div>
-								<div className='gameContainer'>
-									<GameLogic />
-									<Board />
-								</div>
-							</TimeContext.Provider>
-						</BoardContext.Provider>
-					</GameContext.Provider>
+					<Game pressed={useKeyPress()}/> 
 					<div className='footer'>
 						<h3>Directions</h3>
-							<p>Use vim keys (h: left, k: up, j: down, l: right)</p>
-								<p>Try to move fast without 
-									filling up the board!</p>
+						<p>Use vim keys (h: left, k: up, j: down, l: right)</p>
+						<p>Try to move fast without filling up the board!</p>
 					</div>
 				</div>
 				<div className='rightContainer'>
@@ -157,5 +82,5 @@ const useKeyPress = () => {
 };
 
 // ========================================
-ReactDOM.render(<Game />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 serviceWorker.unregister()
