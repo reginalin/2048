@@ -20,6 +20,11 @@ docker-run-%: docker-build-%
 clean-%:
 	-docker image remove $(IMAGE_BASE):$*-$(PYTHON_VERSION)
 
+.PHONY: db
+db:
+	rm *.db; \
+	python create_db.py
+
 #######################################################################
 # Local dev
 #######################################################################
