@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GameLogic } from './gameLogic.js';
-import { ThemeProvider } from './themes.js';
+import { ThemeProvider } from './themeContext.js';
 import './style/style.css';
 
 import { 
@@ -23,7 +23,6 @@ import {
 } from './components/gameStatus.js';
 
 const GameContext = React.createContext();
-const TimeContext = React.createContext();
 const BoardContext = React.createContext();
 
 const Game = props => {
@@ -31,10 +30,8 @@ const Game = props => {
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
-	const pressed = props.pressed; 
-
-	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
+	const pressed = props.pressed; 
 
 	// BoardContext
 	const [tiles, setTiles] = useState(initialTiles);
@@ -63,9 +60,10 @@ const Game = props => {
 				setGameWon, 
 				restart, 
 				setRestart, 
+				gameTime,
+				setGameTime,
 				pressed}}>
 			<BoardContext.Provider value = {{ tiles, setTiles }}>
-				<TimeContext.Provider value={{ setGameTime }}>
 					<div className='rightHeader'>
 						<ThemeProvider>
 							<div className='toggles'>
@@ -80,10 +78,9 @@ const Game = props => {
 						<GameLogic />
 						<Board />
 					</div>
-				</TimeContext.Provider>
 			</BoardContext.Provider>
 		</GameContext.Provider>
   );
 }
 
-export { Game, GameContext, TimeContext, BoardContext };
+export { Game, GameContext, BoardContext };

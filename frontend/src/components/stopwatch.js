@@ -1,13 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
-import { GameContext, TimeContext } from '../game.js';
-import '../style/style.css';
-
 /**
  * Stopwatch component, increments by 1 sec
+ * Used to track game score
  */
+import React, { useContext, useState, useEffect } from "react";
+import { GameContext } from '../game.js';
+import '../style/style.css';
+
 const Stopwatch = () => {
-	const { setGameTime } = useContext(TimeContext);
-	const { restart } = useContext(GameContext);
+	const setGameTime = useContext(GameContext).setGameTime;
+	const restart = useContext(GameContext).restart;
 	const initialTime = {
     hours: 0,
     minutes: 0,

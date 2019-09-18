@@ -1,8 +1,14 @@
+/**
+ * Displays relating to scores
+ */
 import React, { useState } from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { postScore } from '../scoresAPI.js'
 
+/**
+ * Form that takes in a user's name and assigns it to a score
+ */
 const ScoreForm = props => {
 	ScoreForm.propTypes = {
 		score: PropTypes.string, 
@@ -35,7 +41,9 @@ const ScoreForm = props => {
 	);
 };
 
-
+/**
+ * Display of top 10 users with corresponding scores
+ */
 const TopScoresDisplay = props => {
 	let topScores = props.scores;
 	return (
