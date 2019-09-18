@@ -1,5 +1,5 @@
 /**
- * Handle global application themes
+ * Handle global application themes using React Context
  */
 
 import React from 'react';
@@ -32,6 +32,10 @@ const themeReducer = (state, action) => {
 	}
 }
 
+/**
+ * Context provider for theme context 
+ * Gives theme context state and dispatch function to alter context state
+ */
 const ThemeProvider = ({children}) => {
 	const [state, dispatch] = 
 		React.useReducer(themeReducer, {color: THEMES.light, fun: THEMES.normal});
@@ -44,6 +48,9 @@ const ThemeProvider = ({children}) => {
 	);
 }
 
+/**
+ * Custom hook providing theme context
+ */
 const useThemeState = () => {
 	const themeContext = React.useContext(ThemeStateContext);
 	if (themeContext === undefined) {
@@ -52,6 +59,9 @@ const useThemeState = () => {
 	return themeContext;
 }
 
+/**
+ * Custom hook providing theme context
+ */
 const useThemeDispatch = () => {
 	const themeContext = React.useContext(ThemeDispatchContext);
 	if (themeContext === undefined) {
@@ -60,4 +70,4 @@ const useThemeDispatch = () => {
 	return themeContext;
 }
 
-export { ThemeProvider, useThemeState, useThemeDispatch }
+export { ThemeProvider, useThemeState, useThemeDispatch };
