@@ -4,8 +4,6 @@ import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './game.js'
 import { getRandomIndex } from './utils.js';
 
-const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
-const boardObj = new BoardLogic(startingTiles, dimension);
 
 const NewGameLogic = () => {
 	const { 
@@ -33,33 +31,9 @@ const NewGameLogic = () => {
 
 	// divide old and new
 
-	const [boardLogic, setBoardLogic] = useState(new BoardLogic(startingTiles, dimension));
 	//const boardLogic = useRef(boardObj);
 	//console.log(boardLogic.tiles);
 
-	/**
-	 * Sets context appropriately if we have won or lost 
-	 */
-	const checkGameOver = () =>  {
-		if (boardLogic.numEmptyTiles() === 0) {
-			setGameOver(true);
-			setGameWon(false);
-		}
-		if (boardLogic.getBiggestTile() === winningTile) {
-			setGameOver(true);
-			setGameWon(true);
-		}
-	}
-
-	useEffect(() => {
-		if (!gameOver) {
-			console.log("pressed" + pressed);
-			console.log(boardLogic.tiles);
-			boardLogic.update(pressed);
-			setBoardLogic(boardLogic);
-			setTiles(boardLogic.tiles);
-		}
-	}, [pressed]);
 
 	//useEffect(() => {
 		//if (restart) {

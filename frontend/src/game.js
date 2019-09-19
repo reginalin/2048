@@ -1,9 +1,11 @@
+import { BoardLogic } from './BoardLogic.js';
 import React, { useState, useEffect, useRef } from 'react';
-import { NewGameLogic } from './NewGameLogic.js';
 import { ThemeProvider } from './themes.js';
 import './style/style.css';
 
 import { 
+	dimension,
+	winningTile,
 	initialTime, 
 	initialTiles, 
 } from './constants.js';
@@ -26,15 +28,41 @@ const GameContext = React.createContext();
 const TimeContext = React.createContext();
 const BoardContext = React.createContext();
 
+const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+
 const Game = props => {
 	// GameContext
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
 	const pressed = props.pressed;
-	console.log(`yay2 ${pressed}`);
+	const [boardLogic, setBoardLogic] = useState(new BoardLogic(startingTiles, dimension));
 	//console.log(pressed);
 	//const pressed = props.pressed; 
+
+	/**
+	 * Sets context appropriately if we have won or lost 
+	 */
+	const checkGameOver = () =>  {
+		console.log('checking');
+		if (boardLogic.numEmptyTiles === 0) {
+			setGameOver(true);
+			setGameWon(false);
+		}
+		if (boardLogic.biggestTile === winningTile) {
+			setGameOver(true);
+			setGameWon(true);
+		}
+	}
+
+	useEffect(() => {
+		if (!gameOver) {
+			boardLogic.update(pressed);
+			setBoardLogic(boardLogic);
+			setTiles(boardLogic.tiles);
+			checkGameOver();
+		}
+	}, [pressed]);
 
 	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
@@ -79,7 +107,6 @@ const Game = props => {
 						<StartButton/>
 					</div>
 					<div className='gameContainer'>
-						<NewGameLogic />
 						<Board />
 					</div>
 				</TimeContext.Provider>

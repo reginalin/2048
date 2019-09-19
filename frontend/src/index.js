@@ -9,8 +9,6 @@ import './style/style.css';
 
 const App = () => {
 	const topScores = useBackendScores();
-	//const pressed = useKeyPress();
-	//const pressed = useRef(useKeyPress());
 
   return (
 			<div className='container'>
