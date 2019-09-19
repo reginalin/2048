@@ -1,8 +1,11 @@
 import { BoardLogic } from './BoardLogic.js';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { dimension, DIRECTION, winningTile } from "./constants.js";
 import { GameContext, BoardContext } from './game.js'
 import { getRandomIndex } from './utils.js';
+
+const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+const boardObj = new BoardLogic(startingTiles, dimension);
 
 const NewGameLogic = () => {
 	const { 
@@ -18,7 +21,6 @@ const NewGameLogic = () => {
 	const [ biggestTile, setBiggestTile ] = useState(0);
 	const [ numEmptyTiles, setNumEmptyTiles ] = useState(dimension * dimension);
 
-	const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
   const restartGame = () => {
 		setBiggestTile(0);
 		setNumEmptyTiles(dimension * dimension);
@@ -31,7 +33,8 @@ const NewGameLogic = () => {
 
 	// divide old and new
 
-	let boardLogic = new BoardLogic(startingTiles, dimension);
+	const [boardLogic, setBoardLogic] = useState(new BoardLogic(startingTiles, dimension));
+	//const boardLogic = useRef(boardObj);
 	//console.log(boardLogic.tiles);
 
 	/**
@@ -51,7 +54,9 @@ const NewGameLogic = () => {
 	useEffect(() => {
 		if (!gameOver) {
 			console.log("pressed" + pressed);
+			console.log(boardLogic.tiles);
 			boardLogic.update(pressed);
+			setBoardLogic(boardLogic);
 			setTiles(boardLogic.tiles);
 		}
 	}, [pressed]);

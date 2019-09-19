@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker'; 
 import { useBackendScores } from './scoresAPI.js';
-import { DIRECTION } from './constants.js';
 import { Game } from './game.js';
 import { TopScoresDisplay } from './components/scores.js';
 import './style/style.css';
+import { DIRECTION } from './constants.js';
 
 const App = () => {
 	const topScores = useBackendScores();
+	const pressed = useKeyPress();
+
   return (
 			<div className='container'>
 				<div className='leftContainer'> 
@@ -18,7 +20,7 @@ const App = () => {
 							<p className='subheader'>Merge the tiles to get to 2048!</p>
 						</div>
 					</div>
-					<Game pressed={useKeyPress()}/> 
+					<Game pressed={pressed}/> 
 					<div className='footer'>
 						<h3>Directions</h3>
 						<p>Use vim keys (h: left, k: up, j: down, l: right)</p>

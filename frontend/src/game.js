@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NewGameLogic } from './NewGameLogic.js';
 import { ThemeProvider } from './themes.js';
 import './style/style.css';
@@ -32,6 +32,7 @@ const Game = props => {
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
 	const pressed = props.pressed; 
+	console.log(`yayyy ${pressed}`);
 
 	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
@@ -43,8 +44,7 @@ const Game = props => {
 		if (gameOver && gameWon) {
 			return (
 				<GameWonDisplay />
-			);
-		} else if (gameOver && !gameWon) {
+			); } else if (gameOver && !gameWon) {
 			return (
 				<GameLostDisplay />
 			);

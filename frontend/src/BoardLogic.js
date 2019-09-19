@@ -1,25 +1,15 @@
-import { dimension, DIRECTION } from './constants.js';
+import { DIRECTION } from './constants.js';
 
 class BoardLogic {
 
 	constructor(startingTiles, dimension) {
-		startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
 		this._tiles = [...startingTiles];
 		this._biggestTile = 0;
-		this._numEmptyTiles = this.dimension * this.dimension;
+		this._numEmptyTiles = dimension * dimension;
 
 		// for restarting game
 		this._startingTiles = startingTiles;
 		this._dimension = dimension;
-	}
-
-	/**
-	 * Resets board to inital state upon game restart
-	 */
-	restart() {
-		this.tiles = [...this.startingTiles];
-		this.biggestTile = 0;
-		this.numEmptyTiles = this.dimension * this.dimension;
 	}
 
 	get tiles() {
@@ -42,17 +32,17 @@ class BoardLogic {
 		return this._dimension;
 	}
 
-	set tiles(tilesToSet) {
-		this._tiles = tilesToSet;
-	}
+	//set tiles(tilesToSet) {
+		//this._tiles = tilesToSet;
+	//}
 
-	set biggestTile(biggest) {
-		this._biggestTile = biggest;
-	}
+	//set biggestTile(biggest) {
+		//this._biggestTile = biggest;
+	//}
 
-	set numEmptyTiles(numEmpty) {
-		this._numEmptyTiles = numEmpty;
-	}
+	//set numEmptyTiles(numEmpty) {
+		//this._numEmptyTiles = numEmpty;
+	//}
 
 	set startingTiles(tilesToSet) {
 		this._startingTiles = tilesToSet;
@@ -63,17 +53,19 @@ class BoardLogic {
 	}
 
 	/**
-	 * We can merge if tiles match or if merging into a blank
+	 * Resets board to inital state upon game restart
 	 */
-	canMerge(newTiles, row, col, nextRow, nextCol) {
-		return (newTiles[row][col] === newTiles[nextRow][nextCol]);
+	restart() {
+		this._tiles = [...this.startingTiles];
+		this._biggestTile = 0;
+		this._numEmptyTiles = this.dimension * this.dimension;
 	}
 
 	/**
-	 * Check if we are merging nextRow, nextCol into empty tile
+	 * Check if tile num at (row, col) matches (nextRow, nextCol) 
 	 */
-	mergingIntoEmpty(newTiles, row, col, nextRow, nextCol) {
-		return newTiles[row][col] === 0;
+	sameTileNumber(newTiles, row, col, nextRow, nextCol) {
+		return (newTiles[row][col] === newTiles[nextRow][nextCol]);
 	}
 
 	/**
@@ -87,27 +79,40 @@ class BoardLogic {
 	 * Move value from nextRow, nextCol into row, col
 	 * Side effect: updates numEmptyTiles
 	 */
-	slide(newTiles, row, col, nextRow, nextCol) {
+	mergeIntoEmpty(newTiles, row, col, nextRow, nextCol) {
 		newTiles[row][col] = newTiles[nextRow][nextCol];
-		this.numEmptyTiles += 1;
+		newTiles[nextRow][nextCol] = 0;
 	}
 
 	/**
 	 * Sum value from nextRow, nextCol, into row, col 
 	 * Side effect: updates biggestTile if new value is larger 
 	 */
-	merge(newTiles, row, col, nextRow, nextCol) {
-		if (this.canMerge(newTiles, row, col, nextRow, nextCol)) {
-			let newVal = newTiles[row][col] + newTiles[nextRow][nextCol];
-			newTiles[row][col] = newVal;
-			newTiles[nextRow][nextCol] = 0;
+	mergeSameNumber(newTiles, row, col, nextRow, nextCol) {
+		let newVal = newTiles[row][col] + newTiles[nextRow][nextCol];
+		newTiles[row][col] = newVal;
+		newTiles[nextRow][nextCol] = 0;
 
-			// check if new value is largest seen so far
-			if (newVal > this.biggestTile) {
-				this.biggestTile(newVal);
-			}
+		this._numEmptyTiles += 1;
+
+		// check if new value is largest seen so far
+		if (newVal > this._biggestTile) {
+			this._biggestTile = newVal;
 		}
 	};
+
+	/**
+	 * Handle merging of (nextRow, nextCol) into (row, col)
+	 */
+	merge(newTiles, row, col, nextRow, nextCol) {
+		if (this.emptyTile(newTiles, row, col)) {
+			this.mergeIntoEmpty(newTiles, row, col, nextRow, nextCol);
+		} else {
+			if (this.sameTileNumber(newTiles, row, col, nextRow, nextCol)) {
+				this.mergeSameNumber(newTiles, row, col, nextRow, nextCol);
+			}
+		}
+	}
 
 	/*
 	 * Each tile shifts or merges up one space if possible
@@ -117,11 +122,7 @@ class BoardLogic {
 			for (let col = 0; col < this.dimension; col++) {
 				let nextRow = row + 1;
 				let nextCol = col;
-				if (this.emptyTile(newTiles, row, col)) {
-					this.slide(newTiles, row, col, nextRow, nextCol);
-				} else {
-					this.merge(newTiles, row, col, nextRow, nextCol);
-				}
+				this.merge(newTiles, row, col, nextRow, nextCol); 
 			}
 		}
 	};
@@ -134,11 +135,7 @@ class BoardLogic {
 			for (let col = 0; col < this.dimension - 1; col++) {
 				let nextRow = row;
 				let nextCol = col + 1;
-				if (this.emptyTile(newTiles, row, col)) {
-					this.slide(newTiles, row, col, nextRow, nextCol);
-				} else {
-					this.merge(newTiles, row, col, nextRow, nextCol);
-				}
+				this.merge(newTiles, row, col, nextRow, nextCol); 
 			}
 		}
 	};
@@ -151,11 +148,7 @@ class BoardLogic {
 			for (let col = 0; col < this.dimension; col++) {
 				let nextRow = row - 1;
 				let nextCol = col;
-				if (this.emptyTile(newTiles, row, col)) {
-					this.slide(newTiles, row, col, nextRow, nextCol);
-				} else {
-					this.merge(newTiles, row, col, nextRow, nextCol);
-				}
+				this.merge(newTiles, row, col, nextRow, nextCol); 
 			}
 		}
 	};
@@ -168,11 +161,7 @@ class BoardLogic {
 			for (let col = this.dimension - 1; col > 0; col--) {
 				let nextRow = row;
 				let nextCol = col - 1;
-				if (this.emptyTile(newTiles, row, col)) {
-					this.slide(newTiles, row, col, nextRow, nextCol);
-				} else {
-					this.merge(newTiles, row, col, nextRow, nextCol);
-				}
+				this.merge(newTiles, row, col, nextRow, nextCol); 
 			}
 		}
 	};
@@ -205,7 +194,7 @@ class BoardLogic {
 	 * Generate 2s or 4s (if tiles are large enough)
 	 */
 	numToGenerate() {
-		if (this.biggestTile >= 32) {
+		if (this._biggestTile >= 32) {
 			if (Math.random() > .5) {
 				return 4;
 			}
@@ -224,8 +213,7 @@ class BoardLogic {
 	 * return random row or col index
 	 */
 	getRandomIndex() {
-		return Math.floor(Math.random() * 4);
-		//return Math.floor(Math.random() * indexRange);
+		return Math.floor(Math.random() * this.dimension);
 	}
 
 	/**
@@ -234,12 +222,9 @@ class BoardLogic {
 	generateNewNum(newTiles) {
 		let row = this.getRandomIndex(this.dimension);
 		let col = this.getRandomIndex(this.dimension);
-		console.log(newTiles);
-		console.log(row);
-		console.log(col);
 		if (this.emptyTile(newTiles, row, col)) {
 			newTiles[row][col] = this.numToGenerate();
-			this.numEmptyTiles -= 1;
+			this._numEmptyTiles = this.numEmptyTiles - 1;
 		} else { 
 				if (this.emptyTilesRemaining()) {
 					this.generateNewNum(newTiles);
@@ -253,10 +238,9 @@ class BoardLogic {
 	 */
 	update(direction) {
 		let newTiles = [...this.tiles];
-		console.log(newTiles);
 		this.shift(newTiles, direction);
 		this.generateNewNum(newTiles);
-		this.tiles = newTiles;
+		this._tiles = newTiles;
 	}
 }
 
