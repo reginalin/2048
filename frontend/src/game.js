@@ -36,15 +36,27 @@ const Game = props => {
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
 	const pressed = props.pressed;
+
+	// TimeContext
+	const [gameTime, setGameTime] = useState(initialTime); 
+
+	// BoardContext
+	const [tiles, setTiles] = useState(initialTiles);
+
 	const [boardLogic, setBoardLogic] = useState(new BoardLogic(startingTiles, dimension));
-	//console.log(pressed);
-	//const pressed = props.pressed; 
+
+  const restartGame = () => {
+		setGameOver(false);
+		setGameWon(false);	
+		boardLogic.restart();
+		setTiles(boardLogic.tiles);
+		setRestart(false);
+	}
 
 	/**
 	 * Sets context appropriately if we have won or lost 
 	 */
 	const checkGameOver = () =>  {
-		console.log('checking');
 		if (boardLogic.numEmptyTiles === 0) {
 			setGameOver(true);
 			setGameWon(false);
@@ -56,19 +68,19 @@ const Game = props => {
 	}
 
 	useEffect(() => {
+		if (restart) {
+			restartGame();
+		}
+	}, [restart]);
+
+	useEffect(() => {
 		if (!gameOver) {
-			boardLogic.update(pressed);
+			boardLogic.update(pressed.direction);
 			setBoardLogic(boardLogic);
 			setTiles(boardLogic.tiles);
 			checkGameOver();
 		}
 	}, [pressed]);
-
-	// TimeContext
-	const [gameTime, setGameTime] = useState(initialTime); 
-
-	// BoardContext
-	const [tiles, setTiles] = useState(initialTiles);
 
 	const renderGameStatus = () => {
 		if (gameOver && gameWon) {

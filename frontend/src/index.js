@@ -40,7 +40,7 @@ const App = () => {
  * Key press handler mapping vim keys to directions
  */
 const useKeyPress = () => {
-  const [keyPressed, setKeyPressed] = useState(null);
+  const [keyPressed, setKeyPressed] = useState({direction: null});
 
   const downHandler = ({ key }) => {
     let pressed = null;
@@ -61,7 +61,7 @@ const useKeyPress = () => {
         pressed = null;
         break;
     }
-    setKeyPressed(pressed);
+    setKeyPressed({direction: pressed});
   };
 
   useEffect(() => {
