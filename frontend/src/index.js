@@ -5,11 +5,9 @@ import { useBackendScores } from './scoresAPI.js';
 import { Game } from './game.js';
 import { TopScoresDisplay } from './components/scores.js';
 import './style/style.css';
-import { DIRECTION } from './constants.js';
 
 const App = () => {
 	const topScores = useBackendScores();
-	const pressed = useKeyPress();
 
   return (
 			<div className='container'>
@@ -20,7 +18,7 @@ const App = () => {
 							<p className='subheader'>Merge the tiles to get to 2048!</p>
 						</div>
 					</div>
-					<Game pressed={pressed}/> 
+					<Game /> 
 					<div className='footer'>
 						<h3>Directions</h3>
 						<p>Use vim keys (h: left, k: up, j: down, l: right)</p>
@@ -35,44 +33,6 @@ const App = () => {
 				</div>
 			</div>
   );
-};
-
-/**
- * Key press handler mapping vim keys to directions
- */
-const useKeyPress = () => {
-  const [keyPressed, setKeyPressed] = useState({ direction: null });
-
-  const downHandler = ({ key }) => {
-    let pressed = null;
-    switch (key) {
-      case 'k':
-        pressed = DIRECTION.UP;
-        break;
-      case 'j':
-        pressed = DIRECTION.DOWN;
-        break;
-      case 'h':
-        pressed = DIRECTION.LEFT;
-        break;
-      case 'l':
-        pressed = DIRECTION.RIGHT;
-        break;
-      default:
-        pressed = null;
-        break;
-    }
-    setKeyPressed({ direction: pressed });
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-
-    return () => {
-      window.removeEventListener('keydown', downHandler);
-    };
-  }, []);
-  return keyPressed;
 };
 
 // ========================================
