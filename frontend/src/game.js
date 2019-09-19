@@ -6,7 +6,6 @@ import './style/style.css';
 import { 
 	initialTime, 
 	initialTiles, 
-	DIRECTION,
 } from './constants.js';
 
 import { Board } from './components/board.js';
@@ -27,16 +26,15 @@ const GameContext = React.createContext();
 const TimeContext = React.createContext();
 const BoardContext = React.createContext();
 
-const Game = () => {
-	console.log('game rerender');
+const Game = props => {
 	// GameContext
   const [gameOver, setGameOver] = useState(false); 
 	const [gameWon, setGameWon] = useState(false);
 	const [restart, setRestart] = useState(false);
-	const pressed = useRef(useKeyPress());
+	const pressed = props.pressed;
+	console.log(`yay2 ${pressed}`);
 	//console.log(pressed);
 	//const pressed = props.pressed; 
-	console.log(`yayyy ${pressed}`);
 
 	// TimeContext
 	const [gameTime, setGameTime] = useState(initialTime); 
@@ -89,44 +87,5 @@ const Game = () => {
 		</GameContext.Provider>
   );
 }
-
-/**
- * Key press handler mapping vim keys to directions
- */
-const useKeyPress = () => {
-	console.log('keypress rerender');
-  const [keyPressed, setKeyPressed] = useState({ direction: null });
-
-  const downHandler = ({ key }) => {
-    let pressed = null;
-    switch (key) {
-      case 'k':
-        pressed = DIRECTION.UP;
-        break;
-      case 'j':
-        pressed = DIRECTION.DOWN;
-        break;
-      case 'h':
-        pressed = DIRECTION.LEFT;
-        break;
-      case 'l':
-        pressed = DIRECTION.RIGHT;
-        break;
-      default:
-        pressed = null;
-        break;
-    }
-    setKeyPressed({ direction: pressed });
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-
-    return () => {
-      window.removeEventListener('keydown', downHandler);
-    };
-  }, []);
-  return keyPressed;
-};
 
 export { Game, GameContext, TimeContext, BoardContext };
