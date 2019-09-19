@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { THEMES, GAME_ACTION} from '../constants.js'
 import { useThemeState, useThemeDispatch } from '../themeContext.js';
 import { useGameDispatch } from '../gameContext.js';

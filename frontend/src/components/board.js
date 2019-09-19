@@ -4,8 +4,8 @@
  */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useGameState } from '../gameContext.js';
 import { dimension } from '../constants.js';
+import { useGameState } from '../gameContext.js';
 import '../style/style.css';
 import '../style/tiles.css';
 
@@ -33,7 +33,6 @@ const Tile = props => {
 
 export const Board = () => {
 	const tiles = useGameState().tiles;
-	//const tiles = useContext(BoardContext).tiles; 
 	let rows = [...Array(dimension).keys()];
 
   const renderTile = (i, j) => {

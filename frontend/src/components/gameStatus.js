@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Stopwatch from './stopwatch.js';
 import { ScoreForm } from './scores.js';
 import { TimeContext } from '../game.js'

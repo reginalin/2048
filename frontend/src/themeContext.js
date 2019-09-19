@@ -16,24 +16,19 @@ const themeReducer = (state, action) => {
 		case THEMES.light:
 			document.documentElement.setAttribute("color-theme", 'dark');
 			return {color: THEMES.dark, fun: state.fun};
-			break;
 		case THEMES.dark:
 			document.documentElement.setAttribute("color-theme", 'light');
 			return {color: THEMES.light, fun: state.fun};
-			break;
 		case THEMES.ultra:
 			document.documentElement.setAttribute("fun-theme", 'normal');
 			return {color: state.color, fun: THEMES.normal};
-			break;
 		case THEMES.normal:
 			document.documentElement.setAttribute("fun-theme", 'ultra');
 			return {color: state.color, fun: THEMES.ultra};
-			break;
 		default: 
 			document.documentElement.setAttribute("color-theme", 'light');
 			document.documentElement.setAttribute("fun-theme", 'normal');
 			return {color: THEMES.light, fun: THEMES.normal};
-			break;
 	}
 }
 

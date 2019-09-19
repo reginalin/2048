@@ -1,32 +1,40 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { postScore } from '../scoresAPI.js'
 
+/**
+ * Form to submit username and score to database
+ */
 const ScoreForm = props => {
+	// score will be passed in based on ending game time
 	ScoreForm.propTypes = {
 		score: PropTypes.string, 
 	}
+
 	const [username, setUsername] = useState('anonymous');
 	const [score, setScore] = useState(props.score);
 
+	// Submit form content (username and score) to backend
 	const handleSubmit = () => {
 		postScore(username, score);
 	}
 
+	// Updates form username based on user input
 	const handleFormUsername = event => {
 		setUsername(event.target.value);
 	}
 
 	return (
-		<form className='scoreForm' onSubmit={handleSubmit} >
+		<form className="scoreForm" onSubmit={handleSubmit} >
 			<input 
 				type="text" 
 				name="name" 
 				placeholder="Enter name"
 				onChange={handleFormUsername}
 			/>
-			<input type="text" name="scoreValue" 
+			<input 
+				type="text" 
+				name="scoreValue" 
 				value={props.score}
 				readOnly
 			/>

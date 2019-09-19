@@ -1,7 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useGameState, useGameDispatch } from '../gameContext.js';
-//import { TimeContext } from '../game.js';
-//import { useGameState } from '../gameContext.js';
 import { GAME_ACTION } from '../constants.js';
 import '../style/style.css';
 
@@ -11,22 +9,16 @@ import '../style/style.css';
 const Stopwatch = () => {
 	const gameDispatch = useGameDispatch();
 	const restart = useGameState().restart;
-	const gameOver = useGameState().gameOver;
-	//const { restart, gameOver, ... gameState} = useGameState();
 
-	//const restart = useGameState().restart;
 	const initialTime = {
     hours: 0,
     minutes: 0,
     seconds: 0
 	};
+	const [time, setTime] = useState(initialTime);
 	const [gameTime, setGameTime] = useState('00:00:00');
 
-	var [time, setTime] = useState(initialTime);
-
-	/**
-	 * Restarts time when game restarts
-	 */
+	// Updates game context with given time
 	const updateTime = timeToSet => {
 		gameDispatch({ 
 			type: GAME_ACTION.update_time,
@@ -34,24 +26,14 @@ const Stopwatch = () => {
 		});
 	};
 
-	useEffect(() => {
-		if (gameOver) {
-			console.log('stopwatch knows game is over');
-			console.log(time);
-			//updateTime(formattedTime());
-		}
-	}, [gameOver]);
-
+	// Restarts time when game restarts
 	useEffect(() => {
 		if (restart) {
 			setTime(initialTime);
-			//updateTime(time);
 		}
 	}, [restart]);
 
-	/**
-	 * Updates time every second
-	 */
+	// Updates time every second
   useEffect(() => {
     let timerId = setInterval(tick, 1000); // tick every sec 
 		setGameTime(formattedTime());
@@ -61,9 +43,7 @@ const Stopwatch = () => {
     };
   }, [time]);
 
-	/**
-	 * Change stopwatch state by 1 second 
-	 */
+	// Change stopwatch state by 1 second 
   const tick = () => {
     var newHours = time.hours;
     var newMinutes = time.minutes;
@@ -89,13 +69,12 @@ const Stopwatch = () => {
     });
   };
 
-	/**
-	 * Return string format
-	 */
+	// Return padded string 'XX'
   const padTime = timeComponent => {
     return timeComponent.toString().padStart(2, "0");
   };
 
+	// Format time to string 'XX:XX:XX'
   const formattedTime = () => {
     var formattedHours = padTime(time.hours);
     var formattedMinutes = padTime(time.minutes);

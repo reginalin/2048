@@ -1,3 +1,6 @@
+/**
+ * Handles logic relating to board updates and tile movements
+ */
 import { DIRECTION } from './constants.js';
 
 class BoardLogic {
