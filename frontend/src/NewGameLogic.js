@@ -32,6 +32,7 @@ const NewGameLogic = () => {
 	// divide old and new
 
 	let boardLogic = new BoardLogic(startingTiles, dimension);
+	//console.log(boardLogic.tiles);
 
 	/**
 	 * Sets context appropriately if we have won or lost 
@@ -49,9 +50,9 @@ const NewGameLogic = () => {
 
 	useEffect(() => {
 		if (!gameOver) {
-			console.log("pressed");
+			console.log("pressed" + pressed);
 			boardLogic.update(pressed);
-			//setTiles(boardLogic.getTiles());
+			setTiles(boardLogic.tiles);
 		}
 	}, [pressed]);
 

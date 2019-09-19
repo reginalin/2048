@@ -9,10 +9,18 @@ test("directions enum", () => {
   expect("up").toBe(DIRECTION.UP);
 });
 
+const boardLogic = new BoardLogic(initialTiles, dimension);
+
 test("initialize boardLogic", () => {
-	const boardLogic = new BoardLogic(initialTiles, dimension);
 	console.log(boardLogic.tiles)
   expect("up").toBe(DIRECTION.UP);
+});
+
+// generate new num
+test("random index", () => {
+	let random = boardLogic.getRandomIndex();
+  expect(random).toBeGreaterThanOrEqual(0);
+	expect(random).toBeLessThanOrEqual(12);
 });
 
 //restart

@@ -1,10 +1,10 @@
-import { DIRECTION } from './constants.js';
-import { getRandomIndex } from './utils.js';
+import { dimension, DIRECTION } from './constants.js';
 
 class BoardLogic {
 
 	constructor(startingTiles, dimension) {
-		this._tiles = startingTiles;
+		startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+		this._tiles = [...startingTiles];
 		this._biggestTile = 0;
 		this._numEmptyTiles = this.dimension * this.dimension;
 
@@ -17,7 +17,7 @@ class BoardLogic {
 	 * Resets board to inital state upon game restart
 	 */
 	restart() {
-		this.tiles = this.startingTiles;
+		this.tiles = [...this.startingTiles];
 		this.biggestTile = 0;
 		this.numEmptyTiles = this.dimension * this.dimension;
 	}
@@ -34,12 +34,32 @@ class BoardLogic {
 		return this._numEmptyTiles;
 	}
 
+	get startingTiles() {
+		return this._startingTiles;
+	}
+
+	get dimension() {
+		return this._dimension;
+	}
+
+	set tiles(tilesToSet) {
+		this._tiles = tilesToSet;
+	}
+
 	set biggestTile(biggest) {
 		this._biggestTile = biggest;
 	}
 
 	set numEmptyTiles(numEmpty) {
 		this._numEmptyTiles = numEmpty;
+	}
+
+	set startingTiles(tilesToSet) {
+		this._startingTiles = tilesToSet;
+	}
+
+	set dimension(dim) {
+		this._dimension = dim;
 	}
 
 	/**
@@ -200,12 +220,23 @@ class BoardLogic {
 		return this.numEmptyTiles !== 0;
 	}
 
+	/** 
+	 * return random row or col index
+	 */
+	getRandomIndex() {
+		return Math.floor(Math.random() * 4);
+		//return Math.floor(Math.random() * indexRange);
+	}
+
 	/**
 	 * Generates new 2 or 4 in random spot and updates board
 	 */
 	generateNewNum(newTiles) {
-		let row = getRandomIndex(this.dimension);
-		let col = getRandomIndex(this.dimension);
+		let row = this.getRandomIndex(this.dimension);
+		let col = this.getRandomIndex(this.dimension);
+		console.log(newTiles);
+		console.log(row);
+		console.log(col);
 		if (this.emptyTile(newTiles, row, col)) {
 			newTiles[row][col] = this.numToGenerate();
 			this.numEmptyTiles -= 1;
@@ -221,9 +252,10 @@ class BoardLogic {
 	 * @param {DIRECTION} direction to shift board
 	 */
 	update(direction) {
-		var newTiles = [...this.tiles];
-		this.shift(this.tiles, direction);
-		this.generateNewNum(this.tiles);
+		let newTiles = [...this.tiles];
+		console.log(newTiles);
+		this.shift(newTiles, direction);
+		this.generateNewNum(newTiles);
 		this.tiles = newTiles;
 	}
 }
