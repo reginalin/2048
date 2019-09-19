@@ -1,5 +1,5 @@
-import { dimension, DIRECTION, initialTiles } from "./constants.js";
-import { BoardLogic } from "./BoardLogic.js";
+import { dimension, DIRECTION, initialTiles } from "../constants.js";
+import { BoardLogic } from "../BoardLogic.js";
 
 test("directions enum", () => {
   expect("up").toBe(DIRECTION.UP);
@@ -66,6 +66,17 @@ test("restart", () => {
 	expect(boardLogic.biggestTile).toBe(0);
 	expect(boardLogic.numEmptyTiles).toBe(16);
 });
+
+test("restart after some updates", () => {
+	boardLogic.update(DIRECTION.UP);
+	boardLogic.update(DIRECTION.DOWN);
+	boardLogic.update(DIRECTION.LEFT);
+	boardLogic.update(DIRECTION.DOWN);
+	boardLogic.restart();
+	expect(boardLogic.tiles).toEqual(initialTiles);
+	expect(boardLogic.biggestTile).toBe(0);
+	expect(boardLogic.numEmptyTiles).toBe(16);
+}); 
 
 test("mergeIntoEmpty", () => {
 	let newTiles = [...centerTiles];

@@ -7,7 +7,7 @@ class BoardLogic {
 		this._biggestTile = 0;
 		this._numEmptyTiles = dimension * dimension;
 
-		// for restarting game
+		// for game restart
 		this._startingTiles = startingTiles;
 		this._dimension = dimension;
 	}
@@ -31,19 +31,6 @@ class BoardLogic {
 	get dimension() {
 		return this._dimension;
 	}
-
-	//set tiles(tilesToSet) {
-		//this._tiles = tilesToSet;
-	//}
-
-	//set biggestTile(biggest) {
-		//this._biggestTile = biggest;
-	//}
-
-	//set numEmptyTiles(numEmpty) {
-		//this._numEmptyTiles = numEmpty;
-	//}
-
 	set startingTiles(tilesToSet) {
 		this._startingTiles = tilesToSet;
 	}

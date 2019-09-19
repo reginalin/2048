@@ -25,14 +25,13 @@ export const THEMES = {
 	normal: 'normal',
 }
 
+export const GAME_ACTION = {
+	won: 'won',
+	lost: 'lost',
+	restart: 'restart',
+	restart_over: 'restart_over',
+}
+
 export const getScoresRoute = 'http://localhost:5000/users'
 
 export const postScoreRoute = 'http://localhost:5000/user'
-
-// testing
-export const centerTiles = [
-	[0, 0, 0, 0], 
-	[0, 2, 0, 0], 
-	[0, 0, 2, 0], 
-	[0, 0, 0, 0]
-];

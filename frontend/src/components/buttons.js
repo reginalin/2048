@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { THEMES } from '../constants.js'
-import { GameContext} from '../game.js'
-import { useThemeState, useThemeDispatch } from '../themes.js';
+import { THEMES, GAME_ACTION} from '../constants.js'
+import { useThemeState, useThemeDispatch } from '../themeContext.js';
+import { useGameDispatch } from '../gameContext.js';
 
 const ToggleLightDark = () => {
 	let theme = useThemeState().color;
@@ -24,11 +24,11 @@ const ToggleNormalUltra = () => {
 }
 
 const StartButton = () => {
-	const { setRestart } = useContext(GameContext);
+	let dispatch = useGameDispatch();
 	return (
 		<button 
 			className="startButton"
-			onClick={() => setRestart(true)} > Restart
+			onClick={() => dispatch(GAME_ACTION.restart)} > Restart
 		</button>
 	);
 };

@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { GameContext, TimeContext } from '../game.js';
+import { TimeContext } from '../game.js';
+import { useGameState } from '../gameContext.js';
 import '../style/style.css';
 
 /**
@@ -7,7 +8,8 @@ import '../style/style.css';
  */
 const Stopwatch = () => {
 	const { setGameTime } = useContext(TimeContext);
-	const { restart } = useContext(GameContext);
+	const restart = useGameState().restart;
+	//const { restart } = useContext(GameContext);
 	const initialTime = {
     hours: 0,
     minutes: 0,

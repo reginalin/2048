@@ -32,6 +32,7 @@ const Tile = props => {
 };
 
 export const Board = () => {
+	console.log('board rerender');
 	const tiles = useContext(BoardContext).tiles; 
 	let rows = [...Array(dimension).keys()];
 

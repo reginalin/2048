@@ -16,20 +16,47 @@ const themeReducer = (state, action) => {
 		case THEMES.light:
 			document.documentElement.setAttribute("color-theme", 'dark');
 			return {color: THEMES.dark, fun: state.fun};
+			break;
 		case THEMES.dark:
 			document.documentElement.setAttribute("color-theme", 'light');
 			return {color: THEMES.light, fun: state.fun};
+			break;
 		case THEMES.ultra:
 			document.documentElement.setAttribute("fun-theme", 'normal');
 			return {color: state.color, fun: THEMES.normal};
+			break;
 		case THEMES.normal:
 			document.documentElement.setAttribute("fun-theme", 'ultra');
 			return {color: state.color, fun: THEMES.ultra};
+			break;
 		default: 
 			document.documentElement.setAttribute("color-theme", 'light');
 			document.documentElement.setAttribute("fun-theme", 'normal');
 			return {color: THEMES.light, fun: THEMES.normal};
+			break;
 	}
+}
+
+/**
+ * Custom hook providing ThemeStateContext
+ */
+const useThemeState = () => {
+	const themeContext = React.useContext(ThemeStateContext);
+	if (themeContext === undefined) {
+		throw new Error('themeContext must be used within a ThemeProvider');
+	}
+	return themeContext;
+}
+
+/**
+ * Custom hook providing ThemeDispatchContext
+ */
+const useThemeDispatch = () => {
+	const themeContext = React.useContext(ThemeDispatchContext);
+	if (themeContext === undefined) {
+		throw new Error('themeContext must be used within a ThemeProvider');
+	}
+	return themeContext;
 }
 
 /**
@@ -48,26 +75,5 @@ const ThemeProvider = ({children}) => {
 	);
 }
 
-/**
- * Custom hook providing theme context
- */
-const useThemeState = () => {
-	const themeContext = React.useContext(ThemeStateContext);
-	if (themeContext === undefined) {
-		throw new Error('themeContext must be used within a ThemeProvider');
-	}
-	return themeContext;
-}
-
-/**
- * Custom hook providing theme context
- */
-const useThemeDispatch = () => {
-	const themeContext = React.useContext(ThemeDispatchContext);
-	if (themeContext === undefined) {
-		throw new Error('themeContext must be used within a ThemeProvider');
-	}
-	return themeContext;
-}
 
 export { ThemeProvider, useThemeState, useThemeDispatch };

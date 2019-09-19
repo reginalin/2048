@@ -1,6 +1,7 @@
 import { BoardLogic } from './BoardLogic.js';
-import React, { useState, useEffect, useRef } from 'react';
-import { ThemeProvider } from './themes.js';
+import React, { useState, useEffect } from 'react';
+import { ThemeProvider } from './themeContext.js';
+import { useGameState, useGameDispatch } from './gameContext.js';
 import './style/style.css';
 
 import { 
@@ -8,6 +9,7 @@ import {
 	winningTile,
 	initialTime, 
 	initialTiles, 
+	GAME_ACTION,
 } from './constants.js';
 
 import { Board } from './components/board.js';
@@ -24,7 +26,7 @@ import {
 	GameSessionDisplay,
 } from './components/gameStatus.js';
 
-const GameContext = React.createContext();
+//const GameContext = React.createContext();
 const TimeContext = React.createContext();
 const BoardContext = React.createContext();
 
@@ -32,47 +34,67 @@ const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
 
 const Game = props => {
 	// GameContext
-  const [gameOver, setGameOver] = useState(false); 
-	const [gameWon, setGameWon] = useState(false);
-	const [restart, setRestart] = useState(false);
+  //const [gameOver, setGameOver] = useState(false); 
+	//const [gameWon, setGameWon] = useState(false);
+	//const [restart, setRestart] = useState(false);
+	const { gameOver, gameWon, restart } = useGameState();
+	const gameDispatch = useGameDispatch();
 	const pressed = props.pressed;
 
 	// TimeContext
-	const [gameTime, setGameTime] = useState(initialTime); 
+	const [gameTime, setGameTime] = useState(startingTiles); 
 
-	// BoardContext
-	const [tiles, setTiles] = useState(initialTiles);
+	const [tiles, setTiles] = useState(startingTiles);
 
-	const [boardLogic, setBoardLogic] = useState(new BoardLogic(startingTiles, dimension));
+	const [boardLogic, setBoardLogic] = 
+		useState(new BoardLogic(initialTiles, dimension));
 
+	/**
+	 * Resets context and BoardLogic
+	 */
   const restartGame = () => {
-		setGameOver(false);
-		setGameWon(false);	
+		gameDispatch(GAME_ACTION.restart);
+		//setGameOver(false);
+		//setGameWon(false);	
 		boardLogic.restart();
-		setTiles(boardLogic.tiles);
-		setRestart(false);
+		setBoardLogic(boardLogic);
+		setTiles(startingTiles);
+		//setRestart(false);
+		gameDispatch(GAME_ACTION.restart_over);
 	}
 
 	/**
 	 * Sets context appropriately if we have won or lost 
 	 */
 	const checkGameOver = () =>  {
+
+		// lose if board is full before winningTile 
 		if (boardLogic.numEmptyTiles === 0) {
-			setGameOver(true);
-			setGameWon(false);
+			gameDispatch(GAME_ACTION.lost);
+			//setGameOver(true);
+			//setGameWon(false);
 		}
+
+		// win if we get winningTile
 		if (boardLogic.biggestTile === winningTile) {
-			setGameOver(true);
-			setGameWon(true);
+			gameDispatch(GAME_ACTION.won);
+			//setGameOver(true);
+			//setGameWon(true);
 		}
 	}
 
+	/**
+	 * Handles restart
+	 */
 	useEffect(() => {
 		if (restart) {
 			restartGame();
 		}
 	}, [restart]);
 
+	/**
+	 * Handles key press 
+	 */
 	useEffect(() => {
 		if (!gameOver) {
 			boardLogic.update(pressed.direction);
@@ -82,6 +104,12 @@ const Game = props => {
 		}
 	}, [pressed]);
 
+	/**
+	 * Display varies depending on whether game is
+	 * 1. won
+	 * 2. lost
+	 * 3. in session
+	 */
 	const renderGameStatus = () => {
 		if (gameOver && gameWon) {
 			return (
@@ -97,15 +125,16 @@ const Game = props => {
 		}
 	};
 
+		//<GameContext.Provider 
+			//value={{gameOver, 
+				//setGameOver, 
+				//gameWon, 
+				//setGameWon, 
+				//restart, 
+				//setRestart, 
+				//}}>
+		//</GameContext.Provider>
   return (
-		<GameContext.Provider 
-			value={{gameOver, 
-				setGameOver, 
-				gameWon, 
-				setGameWon, 
-				restart, 
-				setRestart, 
-				pressed}}>
 			<BoardContext.Provider value = {{ tiles, setTiles }}>
 				<TimeContext.Provider value={{ gameTime, setGameTime }}>
 					<div className='rightHeader'>
@@ -119,12 +148,11 @@ const Game = props => {
 						<StartButton/>
 					</div>
 					<div className='gameContainer'>
-						<Board />
+						<Board tiles={boardLogic.tiles}/>
 					</div>
 				</TimeContext.Provider>
 			</BoardContext.Provider>
-		</GameContext.Provider>
   );
 }
 
-export { Game, GameContext, TimeContext, BoardContext };
+export { Game, TimeContext, BoardContext };

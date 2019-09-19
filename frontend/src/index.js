@@ -6,6 +6,7 @@ import { Game } from './game.js';
 import { TopScoresDisplay } from './components/scores.js';
 import { DIRECTION } from './constants.js'
 import './style/style.css';
+import { GameProvider } from './gameContext.js';
 
 const App = () => {
 	const topScores = useBackendScores();
@@ -19,7 +20,9 @@ const App = () => {
 							<p className='subheader'>Merge the tiles to get to 2048!</p>
 						</div>
 					</div>
-					<Game pressed={useKeyPress()} /> 
+					<GameProvider>
+						<Game pressed={useKeyPress()} /> 
+					</GameProvider>
 					<div className='footer'>
 						<h3>Directions</h3>
 						<p>Use vim keys (h: left, k: up, j: down, l: right)</p>
