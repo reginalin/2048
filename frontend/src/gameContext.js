@@ -14,20 +14,22 @@ const GameDispatchContext = React.createContext();
 const gameReducer = (state, action) => {
 	switch (action.type) {
 		case GAME_ACTION.won:
-			return {...state, gameOver: true, gameWon: true};
+			return { ...state, gameOver: true, gameWon: true};
 			break;
 		case GAME_ACTION.lost:
-			return {...state, gameOver: true, gameWon: false};
+			return { ...state, gameOver: true, gameWon: false};
 			break;
 		case GAME_ACTION.restart:
-			return { gameOver: false, gameWon: false, restart: true };
+			return { ...state, gameOver: false, gameWon: false, restart: true };
 			break;
 		case GAME_ACTION.restart_over:
-			return {...state, restart: false};
+			return { ...state, restart: false};
 			break;
 		case GAME_ACTION.update_tiles:
+			return { ...state, tiles: action.value }
 			break;
 		case GAME_ACTION.update_time: 
+			return { ...state, time: action.value}
 			break;
 		default:
 			return { state };
@@ -66,8 +68,11 @@ const GameProvider = ({children}) => {
 		React.useReducer(gameReducer, {
 			gameOver: false, 
 			gameWon: false, 
-			restart: false
+			restart: false,
+			tiles: [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]],
+			time: '00:00:00',
 		});
+
 	return (
 		<GameStateContext.Provider value={state}>
 			<GameDispatchContext.Provider value={dispatch}>

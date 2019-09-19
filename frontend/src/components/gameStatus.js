@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import Stopwatch from './stopwatch.js';
 import { ScoreForm } from './scores.js';
 import { TimeContext } from '../game.js'
+import { useGameState } from '../gameContext.js';
 
 const GameWonDisplay = () => {
-	const gameTime = useContext(TimeContext).gameTime; 
+	let gameTime = useGameState().time;
 	return (
 		<>
 			<p>You won!</p>

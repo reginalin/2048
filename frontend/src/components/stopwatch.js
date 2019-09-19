@@ -1,29 +1,51 @@
 import React, { useContext, useState, useEffect } from "react";
-import { TimeContext } from '../game.js';
-import { useGameState } from '../gameContext.js';
+import { useGameState, useGameDispatch } from '../gameContext.js';
+//import { TimeContext } from '../game.js';
+//import { useGameState } from '../gameContext.js';
+import { GAME_ACTION } from '../constants.js';
 import '../style/style.css';
 
 /**
  * Stopwatch component, increments by 1 sec
  */
 const Stopwatch = () => {
-	const { setGameTime } = useContext(TimeContext);
+	const gameDispatch = useGameDispatch();
 	const restart = useGameState().restart;
-	//const { restart } = useContext(GameContext);
+	const gameOver = useGameState().gameOver;
+	//const { restart, gameOver, ... gameState} = useGameState();
+
+	//const restart = useGameState().restart;
 	const initialTime = {
     hours: 0,
     minutes: 0,
     seconds: 0
 	};
+	const [gameTime, setGameTime] = useState('00:00:00');
 
 	var [time, setTime] = useState(initialTime);
 
 	/**
 	 * Restarts time when game restarts
 	 */
+	const updateTime = timeToSet => {
+		gameDispatch({ 
+			type: GAME_ACTION.update_time,
+			value: timeToSet,
+		});
+	};
+
+	useEffect(() => {
+		if (gameOver) {
+			console.log('stopwatch knows game is over');
+			console.log(time);
+			//updateTime(formattedTime());
+		}
+	}, [gameOver]);
+
 	useEffect(() => {
 		if (restart) {
 			setTime(initialTime);
+			//updateTime(time);
 		}
 	}, [restart]);
 
@@ -32,6 +54,8 @@ const Stopwatch = () => {
 	 */
   useEffect(() => {
     let timerId = setInterval(tick, 1000); // tick every sec 
+		setGameTime(formattedTime());
+		updateTime(gameTime);
     return () => {
       clearInterval(timerId);
     };
@@ -46,7 +70,7 @@ const Stopwatch = () => {
     var newSeconds = time.seconds + 1;
 
     if (newSeconds === 60) {
-      setTime({
+			setTime({
         hours: time.hours,
         minutes: time.minutes + 1,
         seconds: 0
@@ -78,13 +102,12 @@ const Stopwatch = () => {
     var formattedSeconds = padTime(time.seconds);
     var timeString = 
 			`${formattedHours}: ${formattedMinutes}: ${formattedSeconds}`;
-		setGameTime(timeString);
     return timeString;
   };
 
   return (
     <div className='stopwatch'>
-      {formattedTime()}
+      {gameTime}
     </div>
   );
 };

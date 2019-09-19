@@ -30,6 +30,8 @@ export const GAME_ACTION = {
 	lost: 'lost',
 	restart: 'restart',
 	restart_over: 'restart_over',
+	update_tiles: 'update_tiles',
+	update_time: 'update_time',
 }
 
 export const getScoresRoute = 'http://localhost:5000/users'

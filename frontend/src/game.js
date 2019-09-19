@@ -26,19 +26,19 @@ import {
 	GameSessionDisplay,
 } from './components/gameStatus.js';
 
-const TimeContext = React.createContext();
-const BoardContext = React.createContext();
+//const TimeContext = React.createContext();
+//const BoardContext = React.createContext();
 
 const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
 
 const Game = props => {
-	const { gameOver, gameWon, restart } = useGameState();
+	const { gameOver, gameWon, restart, tiles, time } = useGameState();
 	const gameDispatch = useGameDispatch();
 	const pressed = props.pressed;
 // TimeContext
-	const [gameTime, setGameTime] = useState(initialTime); 
+	//const [gameTime, setGameTime] = useState(initialTime); 
 
-	const [tiles, setTiles] = useState(startingTiles);
+	//const [tiles, setTiles] = useState(startingTiles);
 
 	const [boardLogic, setBoardLogic] = 
 		useState(new BoardLogic(initialTiles, dimension));
@@ -54,17 +54,32 @@ const Game = props => {
 		}
 		// win if we get winningTile
 		if (boardLogic.biggestTile === winningTile) {
+			console.log('detected in game');
 			gameDispatch({ type: GAME_ACTION.won });
 		}
 	}
 
+	const updateTiles = newTiles => {
+		gameDispatch({ 
+			type: GAME_ACTION.update_tiles,
+			value: newTiles,
+		});
+	}
 	/**
 	 * Resets context and BoardLogic
 	 */
   const restartGame = () => {
 		boardLogic.restart();
 		setBoardLogic(boardLogic);
-		setTiles(startingTiles);
+
+		// reset tiles
+		updateTiles(startingTiles);
+		//gameDispatch({ 
+			//type: GAME_ACTION.update_tiles,
+			//value: startingTiles,
+		//});
+
+		//setTiles(startingTiles);
 		gameDispatch({ type: GAME_ACTION.restart_over });
 	}
 
@@ -84,7 +99,9 @@ const Game = props => {
 		if (!gameOver) {
 			boardLogic.update(pressed.direction);
 			setBoardLogic(boardLogic);
-			setTiles(boardLogic.tiles);
+
+			//setTiles(boardLogic.tiles);
+			updateTiles(boardLogic.tiles);
 			checkGameOver();
 		}
 	}, [pressed]);
@@ -110,18 +127,12 @@ const Game = props => {
 		}
 	};
 
-		//<GameContext.Provider 
-			//value={{gameOver, 
-				//setGameOver, 
-				//gameWon, 
-				//setGameWon, 
-				//restart, 
-				//setRestart, 
-				//}}>
-		//</GameContext.Provider>
+		//<TimeContext.Provider value={{ gameTime, setGameTime }}>
+				//</TimeContext.Provider>
+			//<BoardContext.Provider value = {{ tiles, setTiles }}>
+			//</BoardContext.Provider>
   return (
-			<BoardContext.Provider value = {{ tiles, setTiles }}>
-				<TimeContext.Provider value={{ gameTime, setGameTime }}>
+		<>
 					<div className='rightHeader'>
 						<ThemeProvider>
 							<div className='toggles'>
@@ -135,9 +146,8 @@ const Game = props => {
 					<div className='gameContainer'>
 						<Board tiles={boardLogic.tiles}/>
 					</div>
-				</TimeContext.Provider>
-			</BoardContext.Provider>
+		</>
   );
 }
 
-export { Game, TimeContext, BoardContext };
+export { Game };
