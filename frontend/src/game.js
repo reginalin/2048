@@ -26,61 +26,46 @@ import {
 	GameSessionDisplay,
 } from './components/gameStatus.js';
 
-//const GameContext = React.createContext();
 const TimeContext = React.createContext();
 const BoardContext = React.createContext();
 
 const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
 
 const Game = props => {
-	// GameContext
-  //const [gameOver, setGameOver] = useState(false); 
-	//const [gameWon, setGameWon] = useState(false);
-	//const [restart, setRestart] = useState(false);
 	const { gameOver, gameWon, restart } = useGameState();
 	const gameDispatch = useGameDispatch();
 	const pressed = props.pressed;
-
-	// TimeContext
-	const [gameTime, setGameTime] = useState(startingTiles); 
+// TimeContext
+	const [gameTime, setGameTime] = useState(initialTime); 
 
 	const [tiles, setTiles] = useState(startingTiles);
 
 	const [boardLogic, setBoardLogic] = 
 		useState(new BoardLogic(initialTiles, dimension));
 
-	/**
-	 * Resets context and BoardLogic
-	 */
-  const restartGame = () => {
-		gameDispatch(GAME_ACTION.restart);
-		//setGameOver(false);
-		//setGameWon(false);	
-		boardLogic.restart();
-		setBoardLogic(boardLogic);
-		setTiles(startingTiles);
-		//setRestart(false);
-		gameDispatch(GAME_ACTION.restart_over);
-	}
 
 	/**
 	 * Sets context appropriately if we have won or lost 
 	 */
 	const checkGameOver = () =>  {
-
 		// lose if board is full before winningTile 
 		if (boardLogic.numEmptyTiles === 0) {
-			gameDispatch(GAME_ACTION.lost);
-			//setGameOver(true);
-			//setGameWon(false);
+			gameDispatch({ type: GAME_ACTION.lost });
 		}
-
 		// win if we get winningTile
 		if (boardLogic.biggestTile === winningTile) {
-			gameDispatch(GAME_ACTION.won);
-			//setGameOver(true);
-			//setGameWon(true);
+			gameDispatch({ type: GAME_ACTION.won });
 		}
+	}
+
+	/**
+	 * Resets context and BoardLogic
+	 */
+  const restartGame = () => {
+		boardLogic.restart();
+		setBoardLogic(boardLogic);
+		setTiles(startingTiles);
+		gameDispatch({ type: GAME_ACTION.restart_over });
 	}
 
 	/**

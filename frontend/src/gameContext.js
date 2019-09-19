@@ -12,7 +12,7 @@ const GameDispatchContext = React.createContext();
  * Handles actions concerning game state
  */
 const gameReducer = (state, action) => {
-	switch (action) {
+	switch (action.type) {
 		case GAME_ACTION.won:
 			return {...state, gameOver: true, gameWon: true};
 			break;
@@ -24,6 +24,10 @@ const gameReducer = (state, action) => {
 			break;
 		case GAME_ACTION.restart_over:
 			return {...state, restart: false};
+			break;
+		case GAME_ACTION.update_tiles:
+			break;
+		case GAME_ACTION.update_time: 
 			break;
 		default:
 			return { state };
