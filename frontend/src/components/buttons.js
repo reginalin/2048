@@ -1,7 +1,7 @@
 import React from "react";
 import { THEMES, GAME_ACTION} from '../constants.js'
 import { useThemeState, useThemeDispatch } from '../themeContext.js';
-import { useGameDispatch } from '../gameContext.js';
+import { useGameState, useGameDispatch } from '../gameContext.js';
 
 const ToggleLightDark = () => {
 	let theme = useThemeState().color;
@@ -25,12 +25,15 @@ const ToggleNormalUltra = () => {
 
 const StartButton = () => {
 	let dispatch = useGameDispatch();
+	let restartVal = useGameState();
 	return (
 		<button 
 			className="startButton"
 			onClick={() => {
+				dispatch(GAME_ACTION.restart);
+				console.log(restartVal);
 				console.log('restart');
-				dispatch(GAME_ACTION.restart)}} > Restart
+			}} > Restart
 		</button>
 	);
 };

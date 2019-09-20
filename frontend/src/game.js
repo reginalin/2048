@@ -34,7 +34,10 @@ const Game = props => {
 
 	// Game context
 	const gameDispatch = useGameDispatch();
-	const { gameOver, gameWon, restart, tiles, time } = useGameState();
+	const state = useGameState();
+	console.log(state);
+	//const { gameOver, gameWon, restart, tiles, time } = useGameState();
+	//console.log(`${restart}`);
 
 	// js class encapsulating board state
 	const [boardLogic, setBoardLogic] = 
@@ -73,15 +76,15 @@ const Game = props => {
 
 	// Handles restart
 	useEffect(() => {
-		if (restart) {
+		if (state.restart) {
 			console.log('restart effect');
 			restartGame();
 		}
-	}, [restart]);
+	}, [state.restart]);
 
 	// Handles board and game context updates upon key press
 	useEffect(() => {
-		if (!gameOver) {
+		if (!state.gameOver) {
 			boardLogic.update(pressed.direction);
 			setBoardLogic(boardLogic);
 
@@ -94,8 +97,8 @@ const Game = props => {
 	// won, lost, in session
 	const renderGameStatus = () => {
 		let gameDisplay = 
-			gameOver ? 
-				gameWon ? <GameWonDisplay /> : <GameLostDisplay /> : 
+			state.gameOver ? 
+				state.gameWon ? <GameWonDisplay /> : <GameLostDisplay /> : 
 			<GameSessionDisplay />;
 		return gameDisplay;
 	};

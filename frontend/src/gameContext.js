@@ -17,9 +17,11 @@ const gameReducer = (state, action) => {
 		case GAME_ACTION.lost:
 			return { ...state, gameOver: true, gameWon: false};
 		case GAME_ACTION.restart:
-			return { ...state, gameOver: false, gameWon: false, restart: true };
+			//return { ...state, restart: true, gameOver: false, gameWon: false };
+			return {gameOver: false, gameWon: false, restart: true, tiles: state.tiles, time: state.time}; 
 		case GAME_ACTION.restart_over:
-			return { ...state, restart: false};
+			return {gameOver: false, gameWon: false, restart: false, tiles: state.tiles, time: state.time}; 
+			//return { ...state, restart: false};
 		case GAME_ACTION.update_tiles:
 			return { ...state, tiles: action.value }
 		case GAME_ACTION.update_time: 
