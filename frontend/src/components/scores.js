@@ -12,11 +12,10 @@ const ScoreForm = props => {
 	}
 
 	const [username, setUsername] = useState('anonymous');
-	const [score, setScore] = useState(props.score);
 
 	// Submit form content (username and score) to backend
 	const handleSubmit = () => {
-		postScore(username, score);
+		postScore(username, props.score);
 	}
 
 	// Updates form username based on user input

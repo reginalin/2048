@@ -1,7 +1,12 @@
+/**
+ * Displays that depend on game status
+ * 1. user has won
+ * 2. user has lost
+ * 3. game is in session
+ */
 import React from 'react';
 import Stopwatch from './stopwatch.js';
 import { ScoreForm } from './scores.js';
-import { TimeContext } from '../game.js'
 import { useGameState } from '../gameContext.js';
 
 const GameWonDisplay = () => {

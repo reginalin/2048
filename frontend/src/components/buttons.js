@@ -28,7 +28,9 @@ const StartButton = () => {
 	return (
 		<button 
 			className="startButton"
-			onClick={() => dispatch(GAME_ACTION.restart)} > Restart
+			onClick={() => {
+				console.log('restart');
+				dispatch(GAME_ACTION.restart)}} > Restart
 		</button>
 	);
 };

@@ -27,10 +27,9 @@ const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
 
 const Game = props => {
 	Game.propTypes = {
+		//key press
 		pressed: PropTypes.object,	
 	}
-
-	//key press
 	const pressed = props.pressed;
 
 	// Game context
@@ -55,14 +54,18 @@ const Game = props => {
 	const updateTiles = newTiles => {
 		gameDispatch({ 
 			type: GAME_ACTION.update_tiles,
-			value: newTiles,
+			value: [...newTiles],
 		});
 	}
 
 	//Resets context and BoardLogic
   const restartGame = () => {
+		console.log('restarting');
 		boardLogic.restart();
+		console.log('restarted bl');
 		setBoardLogic(boardLogic);
+		console.log('set bl');
+		console.log(boardLogic.tiles)
 
 		updateTiles(startingTiles);
 		gameDispatch({ type: GAME_ACTION.restart_over });
@@ -71,6 +74,7 @@ const Game = props => {
 	// Handles restart
 	useEffect(() => {
 		if (restart) {
+			console.log('restart effect');
 			restartGame();
 		}
 	}, [restart]);
@@ -89,13 +93,11 @@ const Game = props => {
 	// Display varies depending on whether game is 
 	// won, lost, in session
 	const renderGameStatus = () => {
-		let gameDisplay =
+		let gameDisplay = 
 			gameOver ? 
-			(gameWon ? 
-				<GameWonDisplay /> : 
-				<GameLostDisplay />
-			) : 
+				gameWon ? <GameWonDisplay /> : <GameLostDisplay /> : 
 			<GameSessionDisplay />;
+		return gameDisplay;
 	};
 
   return (

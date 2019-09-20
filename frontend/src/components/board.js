@@ -2,7 +2,7 @@
  * display game Board made of Tile pieces 
  * number of Tiles in a Board = (dimension * dimension) 
  */
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { dimension } from '../constants.js';
 import { useGameState } from '../gameContext.js';

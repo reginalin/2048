@@ -31,6 +31,7 @@ const Stopwatch = () => {
 		if (restart) {
 			setTime(initialTime);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps	
 	}, [restart]);
 
 	// Updates time every second
@@ -41,6 +42,7 @@ const Stopwatch = () => {
     return () => {
       clearInterval(timerId);
     };
+		// eslint-disable-next-line react-hooks/exhaustive-deps	
   }, [time]);
 
 	// Change stopwatch state by 1 second 
