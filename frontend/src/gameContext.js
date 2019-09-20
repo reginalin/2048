@@ -7,6 +7,8 @@ import { GAME_ACTION } from './constants.js';
 const GameStateContext = React.createContext();
 const GameDispatchContext = React.createContext();
 
+const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+
 /**
  * Handles actions concerning game state
  */
@@ -17,11 +19,9 @@ const gameReducer = (state, action) => {
 		case GAME_ACTION.lost:
 			return { ...state, gameOver: true, gameWon: false};
 		case GAME_ACTION.restart:
-			//return { ...state, restart: true, gameOver: false, gameWon: false };
-			return {gameOver: false, gameWon: false, restart: true, tiles: state.tiles, time: state.time}; 
+			return { ...state, tiles: startingTiles, gameOver: false, gameWon: false, restart: true };
 		case GAME_ACTION.restart_over:
-			return {gameOver: false, gameWon: false, restart: false, tiles: state.tiles, time: state.time}; 
-			//return { ...state, restart: false};
+			return { ...state, restart: false};
 		case GAME_ACTION.update_tiles:
 			return { ...state, tiles: action.value }
 		case GAME_ACTION.update_time: 

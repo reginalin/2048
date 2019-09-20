@@ -23,8 +23,6 @@ import {
 } from './components/gameStatus.js';
 import './style/style.css';
 
-const startingTiles = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
-
 const Game = props => {
 	Game.propTypes = {
 		//key press
@@ -35,70 +33,52 @@ const Game = props => {
 	// Game context
 	const gameDispatch = useGameDispatch();
 	const state = useGameState();
-	console.log(state);
-	//const { gameOver, gameWon, restart, tiles, time } = useGameState();
-	//console.log(`${restart}`);
+	const { gameOver, gameWon, restart, tiles } = useGameState();
 
 	// js class encapsulating board state
 	const [boardLogic, setBoardLogic] = 
 		useState(new BoardLogic(initialTiles, dimension));
 
-	// Sets context appropriately if we have won or lost 
-	const checkGameOver = () =>  {
-		if (boardLogic.numEmptyTiles === 0) {
-			gameDispatch({ type: GAME_ACTION.lost });
-		}
-		if (boardLogic.biggestTile === winningTile) {
-			gameDispatch({ type: GAME_ACTION.won });
-		}
-	}
-
-	// Update game context with newTiles
-	const updateTiles = newTiles => {
-		gameDispatch({ 
-			type: GAME_ACTION.update_tiles,
-			value: [...newTiles],
-		});
-	}
-
-	//Resets context and BoardLogic
-  const restartGame = () => {
-		console.log('restarting');
-		boardLogic.restart();
-		console.log('restarted bl');
-		setBoardLogic(boardLogic);
-		console.log('set bl');
-		console.log(boardLogic.tiles)
-
-		updateTiles(startingTiles);
-		gameDispatch({ type: GAME_ACTION.restart_over });
-	}
 
 	// Handles restart
 	useEffect(() => {
-		if (state.restart) {
-			console.log('restart effect');
-			restartGame();
+		if (restart) {
+			boardLogic.restart();
+			gameDispatch({ type: GAME_ACTION.restart_over });
 		}
-	}, [state.restart]);
+	}, [restart]);
 
-	// Handles board and game context updates upon key press
+	// Handles game state changes upon key press
 	useEffect(() => {
-		if (!state.gameOver) {
+	
+		const updateTiles = () => {
 			boardLogic.update(pressed.direction);
-			setBoardLogic(boardLogic);
+			gameDispatch({ 
+				type: GAME_ACTION.update_tiles,
+				value: boardLogic.tiles,
+			});
+		}
 
-			updateTiles(boardLogic.tiles);
+		const checkGameOver = () =>  {
+			if (boardLogic.numEmptyTiles === 0) {
+				gameDispatch({ type: GAME_ACTION.lost });
+			}
+			if (boardLogic.biggestTile === winningTile) {
+				gameDispatch({ type: GAME_ACTION.won });
+			}
+		}
+
+		if (!gameOver) {
+			updateTiles();
 			checkGameOver();
 		}
 	}, [pressed]);
 
-	// Display varies depending on whether game is 
-	// won, lost, in session
+	// Display varies depending on whether game is: won, lost, in session
 	const renderGameStatus = () => {
 		let gameDisplay = 
-			state.gameOver ? 
-				state.gameWon ? <GameWonDisplay /> : <GameLostDisplay /> : 
+			gameOver ? 
+				gameWon ? <GameWonDisplay /> : <GameLostDisplay /> : 
 			<GameSessionDisplay />;
 		return gameDisplay;
 	};

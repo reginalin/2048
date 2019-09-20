@@ -2,11 +2,12 @@
  * Handles logic relating to board updates and tile movements
  */
 import { DIRECTION } from './constants.js';
+import { deepCopyNestedArray } from './utils.js';
 
 class BoardLogic {
 
 	constructor(startingTiles, dimension) {
-		this._tiles = [...startingTiles];
+		this._tiles = deepCopyNestedArray(startingTiles);
 		this._biggestTile = 0;
 		this._numEmptyTiles = dimension * dimension;
 
@@ -46,7 +47,7 @@ class BoardLogic {
 	 * Resets board to inital state upon game restart
 	 */
 	restart() {
-		this._tiles = [...this.startingTiles];
+		this._tiles = deepCopyNestedArray(this._startingTiles); 
 		this._biggestTile = 0;
 		this._numEmptyTiles = this.dimension * this.dimension;
 	}
