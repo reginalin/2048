@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: backend
+Version: 0.1.0
+Summary: backend logic for 2048
+Home-page: UNKNOWN
+Author: Regina
+Author-email: reginalin714@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.7,<4.0
