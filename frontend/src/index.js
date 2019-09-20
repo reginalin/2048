@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker'; 
-import { DIRECTION } from './utilities/constants.js'
-import { useBackendScores } from './middleware/scoresAPI.js';
-import { Game } from './components/game.js';
-import { TopScoresDisplay } from './components/scores.js';
-import { GameProvider } from './gameContext.js';
-import './style/style.css';
+import * as serviceWorker from 'serviceWorker'; 
+import { DIRECTION } from 'utilities/constants.js'
+import { useBackendScores } from 'middleware/scoresAPI.js';
+import { Game } from 'components/game.js';
+import { TopScoresDisplay } from 'components/scores.js';
+import { GameProvider } from 'context/gameContext.js';
+import 'style/style.css';
 
 const App = () => {
 	const topScores = useBackendScores();

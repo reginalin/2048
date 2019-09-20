@@ -1,5 +1,5 @@
-import { DIRECTION } from '../utilities/constants.js';
-import { deepCopyNestedArray } from '../utilities/utils.js';
+import { DIRECTION } from 'utilities/constants.js';
+import { deepCopyNestedArray } from 'utilities/utils.js';
 
 /**
  * Handles logic relating to board updates and tile movements

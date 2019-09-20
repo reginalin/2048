@@ -2,9 +2,9 @@
  * Button components
  */
 import React from "react";
-import { THEMES, GAME_ACTION} from '../utilities/constants.js'
-import { useThemeState, useThemeDispatch } from '../themeContext.js';
-import { useGameDispatch } from '../gameContext.js';
+import { THEMES, GAME_ACTION} from 'utilities/constants.js'
+import { useThemeState, useThemeDispatch } from 'context/themeContext.js';
+import { useGameDispatch } from 'context/gameContext.js';
 
 // Toggle between color themes
 const ToggleLightDark = () => {

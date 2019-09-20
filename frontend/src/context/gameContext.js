@@ -2,7 +2,7 @@
  * Handle game context
  */
 import React from 'react';
-import { GAME_ACTION, initialTiles } from './utilities/constants.js';
+import { GAME_ACTION, initialTiles } from 'utilities/constants.js';
 
 const GameStateContext = React.createContext();
 const GameDispatchContext = React.createContext();

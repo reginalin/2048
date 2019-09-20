@@ -2,9 +2,9 @@
  * Stopwatch component, increments by 1 sec
  */
 import React, { useState, useEffect } from "react";
-import { useGameState, useGameDispatch } from '../gameContext.js';
-import { GAME_ACTION } from '../utilities/constants.js';
-import '../style/style.css';
+import { useGameState, useGameDispatch } from 'context/gameContext.js';
+import { GAME_ACTION } from 'utilities/constants.js';
+import 'style/style.css';
 
 const Stopwatch = () => {
 	const gameDispatch = useGameDispatch();

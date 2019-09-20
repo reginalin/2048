@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider } from '../themeContext.js';
-import { BoardLogic } from '../models/BoardLogic.js';
-import { useGameState, useGameDispatch } from '../gameContext.js';
+import { ThemeProvider } from 'context/themeContext.js';
+import { BoardLogic } from 'models/BoardLogic.js';
+import { useGameState, useGameDispatch } from 'context/gameContext.js';
 import { 
 	dimension,
 	winningTile,
 	initialTiles, 
 	GAME_ACTION,
-} from '../utilities/constants.js';
-import { Board } from './board.js';
+} from 'utilities/constants.js';
+import { Board } from 'components/board.js';
 import {
 	StartButton,
 	ToggleLightDark,
 	ToggleNormalUltra,
-} from './buttons.js';
+} from 'components/buttons.js';
 import { 
 	GameWonDisplay, 
 	GameLostDisplay, 
 	GameSessionDisplay,
-} from './gameStatus.js';
-import '../style/style.css';
+} from 'components/gameStatus.js';
+import 'style/style.css';
 
 /**
  * Component handling game logic

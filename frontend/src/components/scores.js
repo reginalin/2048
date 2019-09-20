@@ -3,7 +3,7 @@
  */
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import { postScore } from '../middleware/scoresAPI.js'
+import { postScore } from 'middleware/scoresAPI.js'
 
 // Form to submit username and score to database
 const ScoreForm = props => {

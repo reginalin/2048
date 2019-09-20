@@ -5,9 +5,9 @@
  * 3. game not over (game is in session)
  */
 import React from 'react';
-import Stopwatch from './stopwatch.js';
-import { ScoreForm } from './scores.js';
-import { useGameState } from '../gameContext.js';
+import Stopwatch from 'components/stopwatch.js';
+import { ScoreForm } from 'components/scores.js';
+import { useGameState } from 'context/gameContext.js';
 
 // Game over and user won
 const GameWonDisplay = () => {

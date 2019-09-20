@@ -4,10 +4,10 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dimension } from '../utilities/constants.js';
-import { useGameState } from '../gameContext.js';
-import '../style/style.css';
-import '../style/tiles.css';
+import { dimension } from 'utilities/constants.js';
+import { useGameState } from 'context/gameContext.js';
+import 'style/style.css';
+import 'style/tiles.css';
 
 const Tile = props => {
 	Tile.propTypes = {
