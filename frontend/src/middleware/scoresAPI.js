@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getScoresRoute, postScoreRoute } from './constants.js';
+import { getScoresRoute, postScoreRoute } from '../utilities/constants.js';
 
 /**
  * Custom hook that gets scores from flask backend

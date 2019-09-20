@@ -1,13 +1,14 @@
+/**
+ * Display components relating to scores
+ */
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import { postScore } from '../scoresAPI.js'
+import { postScore } from '../middleware/scoresAPI.js'
 
-/**
- * Form to submit username and score to database
- */
+// Form to submit username and score to database
 const ScoreForm = props => {
-	// score will be passed in based on ending game time
 	ScoreForm.propTypes = {
+		// score is the ending game time
 		score: PropTypes.string, 
 	}
 
@@ -42,7 +43,7 @@ const ScoreForm = props => {
 	);
 };
 
-
+// Shows top 10 scores
 const TopScoresDisplay = props => {
 	let topScores = props.scores;
 	return (

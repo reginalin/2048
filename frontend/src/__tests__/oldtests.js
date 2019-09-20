@@ -1,4 +1,4 @@
-import { dimension, DIRECTION } from "../utilities/constants.js";
+import { dimension, DIRECTION } from "../constants.js";
 
 import {
   merge,

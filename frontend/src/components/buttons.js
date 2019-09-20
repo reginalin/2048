@@ -1,8 +1,12 @@
+/**
+ * Button components
+ */
 import React from "react";
-import { THEMES, GAME_ACTION} from '../constants.js'
+import { THEMES, GAME_ACTION} from '../utilities/constants.js'
 import { useThemeState, useThemeDispatch } from '../themeContext.js';
-import { useGameState, useGameDispatch } from '../gameContext.js';
+import { useGameDispatch } from '../gameContext.js';
 
+// Toggle between color themes
 const ToggleLightDark = () => {
 	let theme = useThemeState().color;
 	let dispatch = useThemeDispatch();
@@ -13,6 +17,7 @@ const ToggleLightDark = () => {
 	);
 }
 
+// Toggle between fun themes
 const ToggleNormalUltra = () => {
 	let theme = useThemeState().fun;
 	let dispatch = useThemeDispatch();
@@ -23,15 +28,15 @@ const ToggleNormalUltra = () => {
 	);
 }
 
+// Start game 
 const StartButton = () => {
 	let dispatch = useGameDispatch();
-	let restartVal = useGameState();
 	return (
 		<button 
 			className="startButton"
 			onClick={() => {
 				dispatch({type: GAME_ACTION.restart});
-			}} > Restart
+			}} > new game 
 		</button>
 	);
 };

@@ -1,11 +1,14 @@
+import { DIRECTION } from '../utilities/constants.js';
+import { deepCopyNestedArray } from '../utilities/utils.js';
+
 /**
  * Handles logic relating to board updates and tile movements
  */
-import { DIRECTION } from './constants.js';
-import { deepCopyNestedArray } from './utils.js';
-
 class BoardLogic {
-
+	/**
+	 * @param {!Array<!Array<number>>} startingTiles tiles to begin with
+	 * @param {number} dimension of the board
+	 */
 	constructor(startingTiles, dimension) {
 		this._tiles = deepCopyNestedArray(startingTiles);
 		this._biggestTile = 0;

@@ -1,4 +1,4 @@
-import { dimension, DIRECTION, initialTiles } from "../constants.js";
+import { dimension, DIRECTION, initialTiles } from "../../utilities/constants.js";
 import { BoardLogic } from "../BoardLogic.js";
 
 test("directions enum", () => {

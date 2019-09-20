@@ -1,44 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider } from './themeContext.js';
-import { BoardLogic } from './BoardLogic.js';
-import { useGameState, useGameDispatch } from './gameContext.js';
+import { ThemeProvider } from '../themeContext.js';
+import { BoardLogic } from '../models/BoardLogic.js';
+import { useGameState, useGameDispatch } from '../gameContext.js';
 import { 
 	dimension,
 	winningTile,
-	initialTime, 
 	initialTiles, 
 	GAME_ACTION,
-} from './constants.js';
-import { Board } from './components/board.js';
+} from '../utilities/constants.js';
+import { Board } from './board.js';
 import {
 	StartButton,
 	ToggleLightDark,
 	ToggleNormalUltra,
-} from './components/buttons.js';
+} from './buttons.js';
 import { 
 	GameWonDisplay, 
 	GameLostDisplay, 
 	GameSessionDisplay,
-} from './components/gameStatus.js';
-import './style/style.css';
+} from './gameStatus.js';
+import '../style/style.css';
 
+/**
+ * Component handling game logic
+ * Subcomponents of game depend on game context changes made here
+ */
 const Game = props => {
 	Game.propTypes = {
-		//key press
 		pressed: PropTypes.object,	
 	}
 	const pressed = props.pressed;
 
 	// Game context
 	const gameDispatch = useGameDispatch();
-	const state = useGameState();
-	const { gameOver, gameWon, restart, tiles } = useGameState();
+	const { gameOver, gameWon, restart } = useGameState();
 
-	// js class encapsulating board state
-	const [boardLogic, setBoardLogic] = 
-		useState(new BoardLogic(initialTiles, dimension));
-
+	// class encapsulating board state
+	const boardLogic = 
+		useState(new BoardLogic(initialTiles, dimension))[0];
 
 	// Handles restart
 	useEffect(() => {
@@ -46,11 +46,13 @@ const Game = props => {
 			boardLogic.restart();
 			gameDispatch({ type: GAME_ACTION.restart_over });
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps	
 	}, [restart]);
 
 	// Handles game state changes upon key press
 	useEffect(() => {
 	
+		// update board logic and game context
 		const updateTiles = () => {
 			boardLogic.update(pressed.direction);
 			gameDispatch({ 
@@ -59,6 +61,7 @@ const Game = props => {
 			});
 		}
 
+		// update context if game is over
 		const checkGameOver = () =>  {
 			if (boardLogic.numEmptyTiles === 0) {
 				gameDispatch({ type: GAME_ACTION.lost });
@@ -72,6 +75,7 @@ const Game = props => {
 			updateTiles();
 			checkGameOver();
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps	
 	}, [pressed]);
 
 	// Display varies depending on whether game is: won, lost, in session

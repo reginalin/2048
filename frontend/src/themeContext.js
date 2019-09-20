@@ -1,9 +1,8 @@
 /**
  * Handle global application themes using React Context
  */
-
 import React from 'react';
-import {THEMES} from './constants.js';
+import {THEMES} from './utilities/constants.js';
 
 const ThemeStateContext = React.createContext();
 const ThemeDispatchContext = React.createContext();

@@ -1,14 +1,15 @@
 /**
  * Displays that depend on game status
- * 1. user has won
- * 2. user has lost
- * 3. game is in session
+ * 1. game over and user has won
+ * 2. game over and user has lost
+ * 3. game not over (game is in session)
  */
 import React from 'react';
 import Stopwatch from './stopwatch.js';
 import { ScoreForm } from './scores.js';
 import { useGameState } from '../gameContext.js';
 
+// Game over and user won
 const GameWonDisplay = () => {
 	let gameTime = useGameState().time;
 	return (
@@ -20,6 +21,7 @@ const GameWonDisplay = () => {
 	);
 }
 
+// Game over and user lost 
 const GameLostDisplay = () => {
 	return (
 		<>
@@ -29,10 +31,15 @@ const GameLostDisplay = () => {
 	);
 }
 
+// Game not over 
 const GameSessionDisplay = () => {
 	return (
 		<Stopwatch/>
 	);
 }
 
-export { GameWonDisplay, GameLostDisplay, GameSessionDisplay };
+export {
+	GameWonDisplay,
+	GameLostDisplay,
+	GameSessionDisplay
+};
