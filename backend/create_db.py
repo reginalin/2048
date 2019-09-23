@@ -1,7 +1,7 @@
 """
 Initialize empty database
 """
-from app import db
+from app import DB 
 
-db.create_all()
+DB.create_all()
 print('new db created')
