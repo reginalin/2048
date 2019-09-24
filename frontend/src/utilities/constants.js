@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////
 export const dimension = 4;
 
-export const winningTile = 32;
+export const winningTile = 2048;
 
 export const initialTiles = [
 	[0, 0, 0, 0], 
