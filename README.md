@@ -15,7 +15,15 @@ docker-compose up
 
 ### Without using docker
 - `cd` into `/backend` 
-- Run `python backend.py`
+- Run 
+```
+poetry install
+python backend.py
+```
 - `cd` into `/frontend`
-- Run `npm start`
+- Run 
+```
+npm install
+npm start
+```
 - Go to localhost:3000
