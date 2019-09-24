@@ -2,7 +2,11 @@
  * Handle game context
  */
 import React from 'react';
-import { GAME_ACTION, initialTiles } from 'utilities/constants.js';
+import { 
+	GAME_ACTION, 
+	initialTiles,
+	initialTime,
+} from 'utilities/constants.js';
 
 const GameStateContext = React.createContext();
 const GameDispatchContext = React.createContext();
@@ -61,8 +65,8 @@ const GameProvider = ({children}) => {
 			gameOver: false, 
 			gameWon: false, 
 			restart: false,
-			tiles: [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]],
-			time: '00:00:00',
+			tiles: initialTiles,
+			time: initialTime,
 		});
 
 	return (

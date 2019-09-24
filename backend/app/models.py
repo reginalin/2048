@@ -8,6 +8,8 @@ from app import DB
 class Score(DB.Model):
     """ 
     Model for a user and corresponding score value.
+    
+    keyword 
     """
     id = DB.Column(DB.Integer, primary_key=True)
     name = DB.Column(DB.String(30), nullable=False)
@@ -26,10 +28,7 @@ def top_scores(num_scores: int) -> BaseQuery:
     """
     return Score.query.order_by(Score.scoreValue.asc()).limit(num_scores)
 
-def add_to_db(
-        username: str, 
-        score: str
-        ) -> None:
+def add_to_db(username: str, score: str) -> None:
     """
     Adds a Score item to database
 
@@ -37,8 +36,7 @@ def add_to_db(
     username -- the name to add   
     score -- the corresponding score to add 
     """
-    userscore = Score(name=username, scoreValue=score)
-    DB.session.add(userscore)
+    DB.session.add(Score(name=username, scoreValue=score))
     DB.session.commit()
 
 def query_as_json(scores: BaseQuery) -> List:

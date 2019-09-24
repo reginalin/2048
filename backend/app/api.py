@@ -21,6 +21,4 @@ def add_user() -> None:
     Add user to DB from http post request.
     """
     response = json.loads(request.data)
-    form_name = response["username"]
-    form_score = response["score"]
-    add_to_db(form_name, form_score)
+    add_to_db(response["username"], response["score"])

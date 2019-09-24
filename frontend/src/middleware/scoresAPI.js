@@ -18,7 +18,6 @@ const useBackendScores = () => {
 					throw new Error('cant access high scores', e)
 				});
 		};
-
 		getScores();
 	}, []);
 

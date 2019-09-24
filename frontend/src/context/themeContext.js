@@ -14,16 +14,16 @@ const themeReducer = (state, action) => {
 	switch (action) {
 		case THEMES.light:
 			document.documentElement.setAttribute("color-theme", 'dark');
-			return {color: THEMES.dark, fun: state.fun};
+			return {...state, color: THEMES.dark};
 		case THEMES.dark:
 			document.documentElement.setAttribute("color-theme", 'light');
-			return {color: THEMES.light, fun: state.fun};
+			return {...state, color: THEMES.light};
 		case THEMES.ultra:
 			document.documentElement.setAttribute("fun-theme", 'normal');
-			return {color: state.color, fun: THEMES.normal};
+			return {...state, fun: THEMES.normal};
 		case THEMES.normal:
 			document.documentElement.setAttribute("fun-theme", 'ultra');
-			return {color: state.color, fun: THEMES.ultra};
+			return {...state, fun: THEMES.ultra};
 		default: 
 			document.documentElement.setAttribute("color-theme", 'light');
 			document.documentElement.setAttribute("fun-theme", 'normal');
@@ -68,6 +68,5 @@ const ThemeProvider = ({children}) => {
 		</ThemeStateContext.Provider>
 	);
 }
-
 
 export { ThemeProvider, useThemeState, useThemeDispatch };

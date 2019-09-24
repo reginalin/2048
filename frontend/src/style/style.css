@@ -181,9 +181,6 @@ input {
 		border: none;
 		font-family: var(--primaryFont);
 	}
-	input[type=text]:focus {
-		background-color: var(--formInputFocus);
-	}
 	input[type=submit] {
 		background-color: var(--primaryButtonColor);
 		border: none;

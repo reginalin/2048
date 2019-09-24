@@ -46,12 +46,10 @@ const Game = props => {
 			boardLogic.restart();
 			gameDispatch({ type: GAME_ACTION.restart_over });
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps	
 	}, [restart]);
 
 	// Handles game state changes upon key press
 	useEffect(() => {
-	
 		// update board logic and game context
 		const updateTiles = () => {
 			boardLogic.update(pressed.direction);
@@ -75,7 +73,6 @@ const Game = props => {
 			updateTiles();
 			checkGameOver();
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps	
 	}, [pressed]);
 
 	// Display varies depending on whether game is: won, lost, in session

@@ -30,6 +30,7 @@ const ScoreForm = props => {
 				type="text" 
 				name="name" 
 				placeholder="Enter name"
+				autocomplete="off"
 				onChange={handleFormUsername}
 			/>
 			<input 

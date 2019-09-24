@@ -25,8 +25,7 @@ FROM base as test
 RUN npm install
 
 ## Run tests
-#ENTRYPOINT ./test.sh
-ENTRYPOINT npm start 
+ENTRYPOINT npm test 
 
 #######################################################################
 FROM base as development 

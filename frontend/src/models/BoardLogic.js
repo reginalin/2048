@@ -38,6 +38,7 @@ class BoardLogic {
 	get dimension() {
 		return this._dimension;
 	}
+
 	set startingTiles(tilesToSet) {
 		this._startingTiles = tilesToSet;
 	}
