@@ -15,7 +15,7 @@ const useBackendScores = () => {
 				.then(json => {
 						setTopScores(json.data.scores);
 				}).catch((e) => {
-					throw new Error('cant access high scores', e)
+					console.log('cant access high scores');
 				});
 		};
 		getScores();
@@ -43,7 +43,7 @@ const postScore = (username, score) => {
 	axios.post(postScoreRoute, formatScoreData(username, score))
 		.then( response => console.log(response.data) )
 		.catch((e) => {
-			throw new Error('cant access high scores', e)
+			console.log('cant post score');
 		});
 }
 
